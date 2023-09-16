@@ -93,3 +93,31 @@ These control variables align with those used in previous studies (Choi & Wang, 
 [^25^]: Barnett & Salomon, 2006
 [^26^]: Park et al., 2014
 [^27^]: J. L. Li et al., 2021
+
+## References
+
+- Akyildirim, E., Cepni, O., Pham, L., & Uddin, G. S. (2022). How connected is the agricultural commodity market to the news-based investor sentiment? _Energy Economics, 113_, 106174.
+- Al Amosh, H., & Khatib, S. F. A. (2023). ESG performance in the time of COVID-19 pandemic: Cross-country evidence. _Environmental Science and Pollution Research, 30(14)_, 39978–39993.
+- Ali, M. J., Bhuiyan, A. B., Zulkifli, N., & Hassan, M. K. (2022). The COVID-19 pandemic: Conceptual framework for the global economic impacts and recovery. _Towards a Post-Covid Global Financial System_, 225–242.
+- Aneja, R., & Ahuja, V. (2021). An assessment of socioeconomic impact of COVID‐19 pandemic in India. _Journal of Public Affairs, 21(2)_, e2266.
+- Anson, M., Spalding, D., Kwait, K., & Delano, J. (2020). The sustainability conundrum. _The Journal of Portfolio Management, 46(4)_, 124–138.
+- Ardia, D., Bluteau, K., Boudt, K., & Catania, L. (2018). Forecasting risk with Markov-switching GARCH models: A large-scale performance study. _International Journal of Forecasting, 34(4)_, 733–747.
+- Arrigo, E., Di Vaio, A., Hassan, R., & Palladino, R. (2022). Followership behavior and corporate social responsibility disclosure: Analysis and implications for sustainability research. _Journal of Cleaner Production, 360_, 132151.
+- Azizul Islam, M. (2017). CSR reporting and legitimacy theory: Some thoughts on future research agenda. _Springer_.
+- Balasubramanian, S. K., Fang, Y., & Yang, Z. (2021). Twitter presence and experience improve corporate social responsibility outcomes. _Journal of Business Ethics, 173_, 737–757.
+- Barnett, M. L., & Salomon, R. M. (2006). Beyond dichotomy: The curvilinear relationship between social responsibility and financial performance. _Strategic Management Journal, 27(11)_, 1101–1122.
+- Bazhair, A. H., Khatib, S. F. A., & Al Amosh, H. (2022). Taking stock of carbon disclosure research while looking to the future: A systematic literature review. _Sustainability, 14(20)_, 13475.
+- Bekaert, G., Ehrmann, M., Fratzscher, M., & Mehl, A. J. (2011). Global crises and equity market contagion (No. w17121). _National Bureau of Economic Research_.
+- Bollen, J., Mao, H., & Pepe, A. (2011). Modeling public mood and emotion: Twitter sentiment and socio-economic phenomena. _Proceedings of the International AAAI Conference on Web and Social Media, 5(1)_, 450–453.
+- Chebbi, K., Ammer, M. A., & Hameed, A. (2021). The COVID-19 pandemic and stock liquidity: Evidence from S&P 500. _The Quarterly Review of Economics and Finance, 81_, 134–142.
+- Chen, H., De, P., Hu, Y., & Hwang, B.-H. (2014). Wisdom of crowds: The value of stock opinions transmitted through social media. _The Review of Financial Studies, 27(5)_, 1367–1403.
+- Chen, M., & Mussalli, G. (2020). An integrated approach to quantitative ESG investing. _The Journal of Portfolio Management, 46(3)_, 65–74.
+- Chintrakarn, P., Jiraporn, P., & Treepongkaruna, S. (2021). How do independent directors view corporate social responsibility (CSR) during a stressful time? Evidence from the financial crisis. _International Review of Economics & Finance, 71_, 143–160.
+- Corbet, S., Goodell, J. W., & Günay, S. (2022). What drives DeFi prices? Investigating the effects of investor attention. _Finance Research Letters, 48_, 102883.
+- Crane, A., & Matten, D. (2021). COVID‐19 and the future of CSR research. _Journal of Management Studies, 58(1)_, 280.
+- Deng, G., Shi, J., Li, Y., & Liao, Y. (2021). Can CSR cushion the negative impact of earnings management on stock price? _Accounting Horizons, 35(1)_, 73–93.
+- Dukes, R. M., Wu, X., & Xue, H. (2021). The potential impacts of CSR communication strategy and fit on public attitudes. _Journal of Business Research, 129_, 391–401.
+- El Ghoul, S., Guedhami, O., & Zheng, X. (2021). Corporate social responsibility and earnings management around the world. _Journal of World Business, 56(6)_, 101293.
+
+*The list is truncated for brevity.*
+
