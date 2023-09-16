@@ -1,5 +1,108 @@
 # Beyond Profit: A Holistic View of Corporate Performance and Resilience during the COVID-19 Crisis through ESG Investing
 
+# Introduction
+
+## Background on ESGP and Financial Performance
+The adoption of non-financial disclosures, specifically Environmental, Social, and Corporate Governance Practices (ESGP), has surged dramatically in the business world. According to Rouen et al. (2022), it escalated from 35% in 2010 to 86% in 2021. While some studies argue that ESGP positively impacts a company's financial performance (Ardia et al., 2018; M. Chen & Mussalli, 2020; Kurtz, 2020), there exists a lack of consensus on this relationship (Anson et al., 2020; Friede et al., 2015). However, the importance of ESGP became more apparent during crises, such as the COVID-19 pandemic, suggesting it may serve as a resilience factor for businesses (World Economic Forum, 2020).
+
+## The Economic Impact of COVID-19
+The COVID-19 pandemic, declared on March 11, 2020, by the World Health Organization (World Health Organization, 2020), has had far-reaching economic consequences. These range from corporate bankruptcies and job losses to significant stock market disruptions (L. Liu et al., 2021; Phan & Narayan, 2020; Shen et al., 2020). The pandemic has also created uncertainty for stakeholders in terms of power, legitimacy, and urgency, making adaptability crucial for organizations (Crane & Matten, 2021; Miguel et al., 2022).
+
+## Economic Crises and Their Scale
+The detrimental effects of the COVID-19 pandemic on businesses have been more severe compared to previous crises like the Great Depression and the 2007/2008 financial crisis (Broadstock et al., 2021; Hoang et al., 2022). The U.S. stock market, in particular, experienced significant fluctuations tied to 'bad news' related to the pandemic or policy responses (Baker et al., 2020).
+
+## ESGP as a Research Focus
+Given the scale of these crises, researchers are keen to explore factors like ESGP that could mitigate negative impacts (Albuquerque et al., 2019; Jagannathan et al., 2018; Lueg et al., 2019). ESGP implementation may help companies shift from a short-term profit focus to a more sustainable approach that encompasses broader stakeholder interests.
+
+## Evaluating Financial Performance
+Financial performance (FINP) is often measured through various accounting-based or market-oriented metrics. When analyzing the relationship between ESGP and FINP, it is crucial to consider a time lag and perform causality analysis to ascertain the directionality of their relationship (Scholtens, 2008).
+
+## Financial Markets During COVID-19
+The pandemic has increased financial market risks globally, affecting markets in Malaysia, Australia, and the European Union (Deng et al., 2021; Khatib & Nour, 2021; Mirza et al., 2020). The S&P 500 Index, for example, dropped by over 30% in March 2020 (Zhang et al., 2020), revealing how significantly the U.S. markets influence other markets and regions (Bekaert et al., 2011; Syriopoulos et al., 2015).
+
+## Research Objectives
+This study aims to compare the impact of ESGP on FINP before and during the COVID-19 pandemic. By examining data from S&P 500 firms, we seek to provide valuable insights for policymakers and stakeholders. Moreover, we plan to use machine learning techniques to identify complex patterns and make more accurate predictions concerning the relationship between ESGP and FINP.
+
+## Contributions of This Study
+1. Investigating the resilience provided by high ESGP ratings during the COVID-19 crisis.
+2. Utilizing machine learning algorithms to deepen the understanding of the ESGP-FINP relationship.
+
+# Literature Review, Theoretical Framework, and Hypotheses
+
+## 2.1. From ESGP to FINP: Stakeholder Theory
+
+Friedman (1970) introduced the idea that corporations exist within a social construct, made up of individuals and the communities they form. Stakeholder theory extends this notion by arguing that corporations have obligations to a broad range of stakeholders (Phillips et al., 2003). Unlike the narrow objective of profit maximization, stakeholder theory emphasizes that the survival and success of a firm depend on catering to the diverse interests of its stakeholders (Donaldson & Preston, 1995; Sethi, 1979). Moreover, Porter and Kramer (2011) argue that this approach is beneficial for both firms and shareholders.
+
+Huang (2022) delineated three major themes in stakeholder theory related to corporate decision-making:
+
+1. **Scope of Stakeholder Consideration**: Stakeholder theory helps elucidate a company's responsibilities to its diverse interest groups (Lozano et al., 2015).
+2. **Integration of Normative Narratives**: Companies need to comply with legal and regulatory frameworks. Decisions that go beyond profit-making are considered normative (Huang, 2022).
+3. **Shared Value Creation**: Corporations can create value that benefits both shareholders and society at large (Porter & Kramer, 2011; Jones & Wright, 2018).
+
+Stakeholder theory is pivotal in understanding Environmental, Social, and Governance Performance (ESGP) literature (Frynas & Yamahaki, 2016; Mellahi et al., 2016). Pedrini and Ferri (2019) provide normative justifications for its integration into ESGP, including moral orientation and social justice among others. This theory also lays the groundwork for understanding the Financial Performance (FINP) of corporations (Dodd & Nelson, 2019).
+
+### Research Hypothesis 1
+
+**Hypothesis 1**: The components of ESGP have a positive impact on FINP.
+
+---
+
+## 2.2. Crises and ESGP: The COVID-19 Impact
+
+During economic downturns and crises like COVID-19, firms that invest in sustainability projects demonstrate resilience (Albuquerque et al., 2020; Gallego‐Álvarez et al., 2014). Research indicates that companies have continued to consider ESGP during financial crises (Bansal et al., 2015; Lins et al., 2017) and specifically during the COVID-19 pandemic (C.-D. Chen et al., 2022; Mousa et al., 2021).
+
+### Research Hypothesis 2
+
+**Hypothesis 2**:  
+- **H2a**: Higher performance in ESGP leads to improved FINP prior to the COVID-19 pandemic.
+- **H2b**: Higher performance in ESGP leads to improved FINP during the COVID-19 pandemic.
+
+---
+
+## 2.3. Twitter Sentiment as a Moderator
+
+The media, and social media platforms like Twitter in particular, play a significant role in influencing asset prices (Chen et al., 2014; Li et al., 2017). Twitter serves as a rapid source of news and public sentiment, often outpacing traditional news outlets (Sprenger et al., 2014). It has also become a vital tool during crises for disseminating information (Oh et al., 2013).
+
+Media attention and corporate presence on platforms like Twitter can affect ESGP and by extension, corporate financial performance (D. Liu & Jin, 2023; Yong et al., 2021). Previous studies have explored the emotional content in tweets as a predictor of market outcomes (Bollen et al., 2011; Smailović et al., 2014).
+
+### Research Hypothesis 3
+
+**Hypothesis 3**:  
+- **H3a**: Twitter sentiment has a negative moderating effect on the relationship between ESGP and FINP before the COVID-19 pandemic.
+- **H3b**: Twitter sentiment has a negative moderating effect on the relationship between ESGP and FINP after the COVID-19 pandemic.
+
+# 3. Research Methodology
+
+## 3.1 Measurements of Variables
+
+### 3.1.1 Dependent Variable: ESGP
+
+The Dependent Variable in this study is the ESG Performance (ESGP), measured using the ESG score sourced from the Bloomberg database. The ESG score is a composite of multiple ESG disclosure scores, which include four specific scores evaluating a company's transparency on environmental, social, and governance (ESG) aspects, along with an overall ESG disclosure score. Scores range from 0.1 to 100, where a lower score signifies minimal disclosure and a higher score signifies comprehensive disclosure (Giannarakis, 2013).
+
+### 3.1.2 Independent Variable: FINP
+
+The Financial Performance (FINP) serves as the Independent Variable. It is assessed using lagged variables of Return on Assets (ROA), Return on Equity (ROE), and Tobin's Q. We analyze the correlation between ESGP scores for a given year (t) and FINP variables for the following year (t + 1), spanning from 2014 to 2023. Similar to ESGP, the FINP variable also employs the ESG score from Bloomberg, which has been standardized between 0.1 and 100.
+
+### 3.1.3 Moderator Variable
+
+(TBD)
+
+### 3.1.4 Control Variables
+
+Several control variables are integrated into the study to ensure robustness, following the precedent set by earlier research (Choi & Wang, 2009; Fischer & Sawczyn, 2013; Dunham & Garcia, 2021).
+
+- **Systematic Risk (BETA)**: Assessed using the beta factor, which serves as a proxy for systematic risk (Chebbi et al., 2021). Including this variable aligns our study with prior research that considers firm risk (Waddock & Graves, 1997).
+  
+- **Firm Size (SIZE)**: Quantified by taking the natural logarithm of the company's total assets (Chebbi et al., 2021). This variable is included based on the premise that larger firms often benefit from economies of scale, making them less susceptible to competition.
+  
+- **Industry Classification (IND)**: Incorporated to account for variations in stakeholder management and performance across industries. It is represented by a four-digit standard industrial classification code, with a dummy variable indicating whether the firm is in the manufacturing or services sector.
+  
+Data for all control variables are sourced from the Bloomberg database.
+
+
+
+
+
 ## 1. Introduction
 
 The share of firms disclosing non-financial information has grown dramatically, rising from 35% in 2010 to 86% in 2021[^1^]. Research indicates that companies that implement Environmental, Social, and Corporate Governance Practices (ESGP) tend to outperform those that don't[^2^][^3^][^4^]. Despite mixed findings[^5^][^6^], ESGP has gained relevance during crises like the COVID-19 pandemic, serving as a key factor in investment decisions[^7^].
