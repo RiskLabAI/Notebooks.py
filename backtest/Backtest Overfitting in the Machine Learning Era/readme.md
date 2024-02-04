@@ -15,8 +15,8 @@ This repository contains the Jupyter Notebook associated with our research on th
 - **Implications for Financial Strategy Development**: The findings stress the need for specialized validation techniques in financial modeling and strategy development, especially critical given the increasing complexity of market dynamics and regulatory requirements.
 
 <p float="left">
-  <img src="https://github.com/RiskLabAI/Notebooks.py/blob/73253c1c854227c67941732174a4d098281a6164/backtest/Backtest%20Overfitting%20in%20the%20Machine%20Learning%20Era/figs/pbo_dsr_comparison.png" style="width: 50%;" />
-  <img src="https://github.com/RiskLabAI/Notebooks.py/blob/e0ba18b70c79e8c6f8fc5925fe5bfab147567cbc/backtest/Backtest%20Overfitting%20in%20the%20Machine%20Learning%20Era/figs/pbo_dsr_adf.png" style="width: 50%;" /> 
+  <img src="https://github.com/RiskLabAI/Notebooks.py/blob/73253c1c854227c67941732174a4d098281a6164/backtest/Backtest%20Overfitting%20in%20the%20Machine%20Learning%20Era/figs/pbo_dsr_comparison.png" style="width: 48%;" />
+  <img src="https://github.com/RiskLabAI/Notebooks.py/blob/e0ba18b70c79e8c6f8fc5925fe5bfab147567cbc/backtest/Backtest%20Overfitting%20in%20the%20Machine%20Learning%20Era/figs/pbo_dsr_adf.png" style="width: 48%;" /> 
 </p>
 
 ## Installation
