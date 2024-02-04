@@ -15,8 +15,8 @@ This repository contains the Jupyter Notebook associated with our research on th
 - **Implications for Financial Strategy Development**: The findings stress the need for specialized validation techniques in financial modeling and strategy development, especially critical given the increasing complexity of market dynamics and regulatory requirements.
 
 <p float="left">
-  <img src="/figs/pbo_dsr_comparison.png" style="width: 50%;" />
-  <img src="/figs/pbo_dsr_adf.png" style="width: 50%;" /> 
+  <img src="backtest/Backtest Overfitting in the Machine Learning Era/figs/pbo_dsr_comparison.png" style="width: 50%;" />
+  <img src="backtest/Backtest Overfitting in the Machine Learning Era/figs/pbo_dsr_adf.png" style="width: 50%;" /> 
 </p>
 
 ## Installation
