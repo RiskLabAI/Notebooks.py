@@ -129,8 +129,6 @@ all_prices, all_regimes = parallel_generate_prices(
 For model evaluation, we define a dictionary `models` that contains the setup for three different machine learning models: k-Nearest Neighbors (k-NN), Decision Tree, and XGBoost. Each model is accompanied by a set of parameters to be optimized.
 
 ```python
-# Define models and parameter grids
-
 models = {
     'k-NN' : {
         'Model': CustomPipeline.from_existing_pipeline(existing_pipeline=make_pipeline(StandardScaler(), KNeighborsClassifier())),
