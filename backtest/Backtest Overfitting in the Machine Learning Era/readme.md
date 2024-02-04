@@ -14,7 +14,7 @@ This repository contains the Jupyter Notebook associated with our research on th
 - **Nuanced Market Simulations**: By employing a Synthetic Controlled Environment with advanced models, our study offers detailed simulations of market conditions, providing deeper insights into the effectiveness of different cross-validation methods.
 - **Implications for Financial Strategy Development**: The findings stress the need for specialized validation techniques in financial modeling and strategy development, especially critical given the increasing complexity of market dynamics and regulatory requirements.
 
-<p float="center">
+<p float="float">
   <img src="https://github.com/RiskLabAI/Notebooks.py/blob/73253c1c854227c67941732174a4d098281a6164/backtest/Backtest%20Overfitting%20in%20the%20Machine%20Learning%20Era/figs/pbo_dsr_comparison.png" style="width: 50%;" />
   <img src="https://github.com/RiskLabAI/Notebooks.py/blob/e0ba18b70c79e8c6f8fc5925fe5bfab147567cbc/backtest/Backtest%20Overfitting%20in%20the%20Machine%20Learning%20Era/figs/pbo_dsr_adf.png" style="width: 50%;" /> 
 </p>
