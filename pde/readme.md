@@ -128,7 +128,7 @@ The main algorithm, Deep-Time Neural Network (DTNN), is implemented as follows:
 
      - Compute Loss at the end of each full iteration:
   
-        $Loss = \frac{1}{M} \sum_{i=0}^M |g(X_{t_N})  - Y_{t_N}|^2$
+        $Loss = \frac{1}{M} \Sigma_{i=0}^M |g(X_{t_N})  - Y_{t_N}|^2$
      - Update parameters:
   
         $\theta^k=\theta^{k-1}-\eta \nabla L o s s$
