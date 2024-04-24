@@ -85,8 +85,6 @@ We start by defining the continuous SDE as follows:
   \end{align}
 ```
 
-## Discretization Approach
-
 The discretization of the continuous model is achieved by the following approximation:
 
 ```math
@@ -96,7 +94,6 @@ The discretization of the continuous model is achieved by the following approxim
   \end{align}
 ```
 
-### Initial Approximation Strategy
 
 We approximate the initial state using a numerical approach as described by the equation:
 
@@ -108,30 +105,36 @@ We approximate the initial state using a numerical approach as described by the 
   \end{align}
 ```
 
-## Algorithm Implementation
 
 The main algorithm, Deep-Time Neural Network (DTNN), is implemented as follows:
 
-```latex
-\begin{algorithm}
-\caption{Deep-Time Neural Network}\label{alg:dtnn}
-\begin{algorithmic}
-\Require The Brownian motion \Delta W_{t_i}, x_0, initial value of Y_{t_0};
-\While{ $k < nIteration$}
-\While{$i < N$} 
-\State $Z_{t_i} = \text{DTNN}(t_i,X_{t_i};\theta)$
-\State $Y_{t_{i+1}} = (1 + r(t_i,X_{t_i},Y_{t_i})\Delta t )Y_{t_i}  +
- h(t_i , X_{t_i})^T Z_{t_i} \Delta t $
- \State \ \ \ \ \ \ \   $+ Z_{t_i}^T \Delta W_{t_i}$
-\State $ X_{t_{i+1}} = X_{t_{i}} + \mu((t_i , X_{t_i}))\Delta t + \sigma(t_i , X_{t_i})\Delta W_{t_i}$
-\EndWhile
-\State $Loss = \frac{1}{M} \sum_{i=0}^M |g(X_{t_N})  - Y_{t_N}|^2$
-\State $\theta^k=\theta^{k-1}-\eta \nabla Loss$
-\State calculate $Y_{t_0}$ from Eqn.~\eqref{eq:u0apporoximate}
-\EndWhile
-\end{algorithmic}
-\end{algorithm}
-```
+### Pseudocode
+
+1. **Initialization**
+   - Require: The Brownian motion increments $ΔW_{t_i}$, initial state $x_0$, initial value of $Y_{t_0}$.
+
+2. **Main Loop**
+   - While k < nIteration:
+     - For each time step i from 0 to N-1:
+       - $Z_{t_i} = DTNN(t_i, X_{t_i}; θ)$ - Compute the control variate using the DTNN model.
+       - Update $Y_{t_{i+1}}$ using:
+         ```math
+          Y_{t_{i+1}} = (1 + r(t_i, X_{t_i}, Y_{t_i})Δt)Y_{t_i} + h(t_i, X_{t_i})^T Z_{t_i} Δt + Z_{t_i}^T ΔW_{t_i}
+         ```
+       - Update X_{t_{i+1}} using:
+         ```math
+          X_{t_{i+1}} = X_{t_i} + μ(t_i, X_{t_i})Δt + σ(t_i, X_{t_i})ΔW_{t_i}
+         ```
+     - Compute Loss at the end of each full iteration:
+       ```math
+        Loss = 1/M * Σ_{i=0}^{M} |g(X_{t_N}) - Y_{t_N}|^2
+       ```
+     - Update parameters:
+       ```math
+        θ^k = θ^{k-1} - η ∇Loss
+       ```
+     - Calculate initial value $Y_{t_0}$ using the formula from the approximation equation for initial conditions.
+
 
 
 
