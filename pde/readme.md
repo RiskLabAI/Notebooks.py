@@ -97,15 +97,13 @@ The discretization of the continuous model is achieved by the following approxim
 
 We approximate the initial state using a numerical approach as described by the equation:
 
-```math
-  \begin{align}
-  u(0,x_0) & \approx \mathbb{E}  \left[ \left(\prod_{i=0}^{N-1}(1 + r_i \Delta t)^{-1} \right) u(T,X_T)  \\
-  & - \sum_{j = 0}^{N-1}\left( \prod_{i = 0}^{j}(1 + r_i \Delta t)^{-1}\right)  \\
-  & \left(h(t_j,X_{t_j},u_{t_j})^T Z_{t_j} \Delta t + Z_{t_j}^T \Delta W_j \right) \right].
-  \end{align}
-```
-
-
+$$ \begin{align}
+u(0,x_0) & \approx  \mathbb{E}  \Bigg[  \left(\prod_{i=0}^{N-1}(1 + r_i \Delta t)^{-1} \right) u(T,X_T) \nonumber \\
+& \ \ \ \ \ \ \ \ \  -   \sum_{j = 0}^{N-1}\left( \prod_{i = 0}^{j}(1 + r_i \Delta t)^{-1}\right) \nonumber \\
+ &\ \ \ \ \ \  \   \ \  \  \left(h(t_j,X_{t_j},u_{t_j})^T Z_{t_j} \Delta t  
+ + Z_{t_j}^T \Delta W_j \right) \Bigg]. \nonumber
+\end{align}
+$$
 The main algorithm, Deep-Time Neural Network (DTNN), is implemented as follows:
 
 ### Pseudocode
@@ -117,22 +115,23 @@ The main algorithm, Deep-Time Neural Network (DTNN), is implemented as follows:
    - While k < nIteration:
      - For each time step i from 0 to N-1:
        - $Z_{t_i} = DTNN(t_i, X_{t_i}; θ)$ - Compute the control variate using the DTNN model.
-       - Update $Y_{t_{i+1}}$ using:
-         ```math
-            Y_{t_{i+1}} = (1 + r(t_i, X_{t_i}, Y_{t_i})Δt)Y_{t_i} + h(t_i, X_{t_i})^T Z_{t_i} Δt + Z_{t_i}^T ΔW_{t_i}
-         ```
-       - Update X_{t_{i+1}} using:
-         ```math
+       - Update $Y_{t_{i+1}}$ using: 
+  
+         $
+            Y_{t_{i+1}} = (1 + r(t_i,X_{t_i},Y_{t_i})\Delta t )Y_{t_i}  +
+ h(t_i , X{t_i})^T Z_{t_i} \Delta t  + Z_{t_i}^T \Delta W_{t_i}
+         $
+       - Update $X_{t_{i+1}}$ using:
+  
+         $
             X_{t_{i+1}} = X_{t_i} + μ(t_i, X_{t_i})Δt + σ(t_i, X_{t_i})ΔW_{t_i}
-         ```
+         $
      - Compute Loss at the end of each full iteration:
-       ```math
-          Loss = 1/M * Σ_{i=0}^{M} |g(X_{t_N}) - Y_{t_N}|^2
-       ```
+  
+        $Loss = \frac{1}{M} \sum_{i=0}^M |g(X_{t_N})  - Y_{t_N}|^2$
      - Update parameters:
-       ```math
-          θ^k = θ^{k-1} - η ∇Loss
-       ```
+  
+        $\theta^k=\theta^{k-1}-\eta \nabla L o s s$
      - Calculate initial value $Y_{t_0}$ using the formula from the approximation equation for initial conditions.
 
 
