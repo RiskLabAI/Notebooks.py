@@ -119,19 +119,19 @@ The main algorithm, Deep-Time Neural Network (DTNN), is implemented as follows:
        - $Z_{t_i} = DTNN(t_i, X_{t_i}; θ)$ - Compute the control variate using the DTNN model.
        - Update $Y_{t_{i+1}}$ using:
          ```math
-          Y_{t_{i+1}} = (1 + r(t_i, X_{t_i}, Y_{t_i})Δt)Y_{t_i} + h(t_i, X_{t_i})^T Z_{t_i} Δt + Z_{t_i}^T ΔW_{t_i}
+            Y_{t_{i+1}} = (1 + r(t_i, X_{t_i}, Y_{t_i})Δt)Y_{t_i} + h(t_i, X_{t_i})^T Z_{t_i} Δt + Z_{t_i}^T ΔW_{t_i}
          ```
        - Update X_{t_{i+1}} using:
          ```math
-          X_{t_{i+1}} = X_{t_i} + μ(t_i, X_{t_i})Δt + σ(t_i, X_{t_i})ΔW_{t_i}
+            X_{t_{i+1}} = X_{t_i} + μ(t_i, X_{t_i})Δt + σ(t_i, X_{t_i})ΔW_{t_i}
          ```
      - Compute Loss at the end of each full iteration:
        ```math
-        Loss = 1/M * Σ_{i=0}^{M} |g(X_{t_N}) - Y_{t_N}|^2
+          Loss = 1/M * Σ_{i=0}^{M} |g(X_{t_N}) - Y_{t_N}|^2
        ```
      - Update parameters:
        ```math
-        θ^k = θ^{k-1} - η ∇Loss
+          θ^k = θ^{k-1} - η ∇Loss
        ```
      - Calculate initial value $Y_{t_0}$ using the formula from the approximation equation for initial conditions.
 
