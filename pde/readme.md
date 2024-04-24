@@ -67,6 +67,75 @@ loss , init = fastsolver.solve(iterations,128,(40 + torch.rand(1)*10).to(device)
 ```
 
 
+# Methodology
+
+## Overview
+
+This repository is dedicated to the exploration and implementation of a Deep-Time Neural Network (DTNN) for solving Stochastic Differential Equations (SDEs). Our focus is on formalizing SDEs and discretizing them effectively using advanced neural network architectures.
+
+## Formalization of SDEs
+
+We start by defining the continuous SDE as follows:
+
+```math
+  \begin{align}
+  u(t,X_t) & = u(0,x_0) + \int_0^t [r(s, x, u(s, X_s))u(s,X_s) \\
+  & + h(s,X_s,u_s)^T \sigma(t,x) \nabla u(s, X_s)] \, ds \\
+  & + \int_0^t\left[\nabla u\left(s, X_s\right)\right]^{\mathrm{T}} \sigma\left(s, X_s\right) d W_s.
+  \end{align}
+```
+
+## Discretization Approach
+
+The discretization of the continuous model is achieved by the following approximation:
+
+```math
+  \begin{align}
+  u(t_{n+1}, X_{t_{n+1}}) & \approx u(t_n, X_{t_n}) + [r(t_n, X_{t_n}, u(t_n, X_{t_n}))u(t_n,X_{t_n}) \\
+  & + h(t_n,X_{t_n},u_{t_n})^T Z_{t_n})] \Delta t + Z_{t_n}^{T} \Delta W_n,
+  \end{align}
+```
+
+### Initial Approximation Strategy
+
+We approximate the initial state using a numerical approach as described by the equation:
+
+```math
+  \begin{align}
+  u(0,x_0) & \approx \mathbb{E}  \left[ \left(\prod_{i=0}^{N-1}(1 + r_i \Delta t)^{-1} \right) u(T,X_T)  \\
+  & - \sum_{j = 0}^{N-1}\left( \prod_{i = 0}^{j}(1 + r_i \Delta t)^{-1}\right)  \\
+  & \left(h(t_j,X_{t_j},u_{t_j})^T Z_{t_j} \Delta t + Z_{t_j}^T \Delta W_j \right) \right].
+  \end{align}
+```
+
+## Algorithm Implementation
+
+The main algorithm, Deep-Time Neural Network (DTNN), is implemented as follows:
+
+```latex
+\begin{algorithm}
+\caption{Deep-Time Neural Network}\label{alg:dtnn}
+\begin{algorithmic}
+\Require The Brownian motion \Delta W_{t_i}, x_0, initial value of Y_{t_0};
+\While{ $k < nIteration$}
+\While{$i < N$} 
+\State $Z_{t_i} = \text{DTNN}(t_i,X_{t_i};\theta)$
+\State $Y_{t_{i+1}} = (1 + r(t_i,X_{t_i},Y_{t_i})\Delta t )Y_{t_i}  +
+ h(t_i , X_{t_i})^T Z_{t_i} \Delta t $
+ \State \ \ \ \ \ \ \   $+ Z_{t_i}^T \Delta W_{t_i}$
+\State $ X_{t_{i+1}} = X_{t_{i}} + \mu((t_i , X_{t_i}))\Delta t + \sigma(t_i , X_{t_i})\Delta W_{t_i}$
+\EndWhile
+\State $Loss = \frac{1}{M} \sum_{i=0}^M |g(X_{t_N})  - Y_{t_N}|^2$
+\State $\theta^k=\theta^{k-1}-\eta \nabla Loss$
+\State calculate $Y_{t_0}$ from Eqn.~\eqref{eq:u0apporoximate}
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+```
+
+
+
+
 # Results
 
 To visualize the results, refer to the `DTNN.ipynb` notebook or execute the code in your preferred environment.
