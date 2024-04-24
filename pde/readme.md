@@ -155,14 +155,14 @@ $$
 
 The Black-Scholes-Barenblatt (BSB) equation extends the classical Black-Scholes model to incorporate transaction costs and assess their impact on financial derivatives pricing. The system of stochastic differential equations for this model is as follows:
 
-$$
-\begin{align*}
-d X_t & = \bar{\sigma} \  diag(X_t) d W_t, \\
-X_0 & = \xi, \\
-d Y_t & = r\left(Y_t - \frac{1}{\bar{\sigma}} J^T Z_t\right) dt + Z_t^{\prime} d W_t, \\
-Y_T & = g(X_T).
-\end{align*}
-$$
+```math
+  \begin{align*}
+  d X_t & = \bar{\sigma} \  diag(X_t) d W_t, \\
+  X_0 & = \xi, \\
+  d Y_t & = r\left(Y_t - \frac{1}{\bar{\sigma}} J^T Z_t\right) dt + Z_t^{\prime} d W_t, \\
+  Y_T & = g(X_T).
+  \end{align*}
+```
 In this model, the drift component is omitted to emphasize the stochastic nature of stock price dynamics. The pricing equation for the derivative, denoted by $Y_t$, integrates the risk-free rate $r$, and a vector of ones $J$. The term $\frac{1}{\bar{\sigma}}Z_t$ introduces a correction for transaction costs into the dynamics of option pricing.
 
 ### Parameter 
