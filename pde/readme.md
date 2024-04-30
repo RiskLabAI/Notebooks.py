@@ -20,7 +20,7 @@ The repository is structured into four primary files/folders:
 - **`Equation.py`**: Contains definitions and functions related to PDEs.
 - **`Model.py`**: Includes the implementation of the Deep Time Neural Network architecture.
 - **`Solver.py`**: Features a solver class that accepts PDEs and offers methods to solve them.
-- **`Deep_Time_Neural_Network.ipynb`**: A Jupyter Notebook for executing the code and printing results.
+- **`DTNN.ipynb`**: A Jupyter Notebook for executing the code and printing results.
 
 ## Installation
 
@@ -43,6 +43,7 @@ import numpy as np
 Now, you can proceed to solve PDEs for option pricing with default risk. Here is an example code:
 
 ```python
+from RiskLabAI.pde.solver import FBSDESolver
 config = {
   "dim": 100,
   "total_time": 1,
@@ -52,20 +53,279 @@ config = {
 pde = RiskLabAI.pde.PricingDefaultRisk(config)
 device = torch.device('cuda')
 
-fastsolver = RiskLabAI.pde.FBSDESolver(pde,[150,400,500,400,150],0.001,'Basic')
+fastsolver = FBSDESolver(pde,[150,400,500,400,150],0.001,'DTNN')
 losses, inits = fastsolver.solve(500, 128, (40 + torch.rand(1)*10).to(device), device)
 ```
 
-The `'Basic'` method is used here; you can replace it with `'Monte-Carlo'` or `'Deep-Time-SetTransformer'` proposed in the paper.
+The `'DTNN'` method is used here; you can replace it with `'Monte-Carlo'` , `'Deep-Time-SetTransformer'`or  `'DeepBSDE'` proposed in the paper.
 
-## Results
-
-To visualize the results, refer to the `Deep_Time_Neural_Network.ipynb` notebook or execute the code in your preferred environment.
-
-### Sample Result
-
-![Results](fig.png)
-
+also you can use `'FBSNN'` model by calling :
+```python
+from RiskLabAI.pde.solver import FBSNNolver
+fastsolver = FBSNNolver(pde,[pde.dim + 1] + [256] * 4 + [1],0.001)
+loss , init = fastsolver.solve(iterations,128,(40 + torch.rand(1)*10).to(device),device)
+```
 
 
+# Methodology
 
+## Overview
+
+This repository is dedicated to the exploration and implementation of a Deep-Time Neural Network (DTNN) for solving Stochastic Differential Equations (SDEs). Our focus is on formalizing SDEs and discretizing them effectively using advanced neural network architectures.
+
+## Formalization of SDEs
+
+We start by defining the continuous SDE as follows:
+
+```math
+  \begin{align}
+  u(t,X_t) & = u(0,x_0) + \int_0^t [r(s, x, u(s, X_s))u(s,X_s) \\
+  & + h(s,X_s,u_s)^T \sigma(t,x) \nabla u(s, X_s)] \, ds \\
+  & + \int_0^t\left[\nabla u\left(s, X_s\right)\right]^{\mathrm{T}} \sigma\left(s, X_s\right) d W_s.
+  \end{align}
+```
+
+The discretization of the continuous model is achieved by the following approximation:
+
+```math
+  \begin{align}
+  u(t_{n+1}, X_{t_{n+1}}) & \approx u(t_n, X_{t_n}) + [r(t_n, X_{t_n}, u(t_n, X_{t_n}))u(t_n,X_{t_n}) \\
+  & + h(t_n,X_{t_n},u_{t_n})^T Z_{t_n})] \Delta t + Z_{t_n}^{T} \Delta W_n,
+  \end{align}
+```
+
+
+We approximate the initial state using a numerical approach as described by the equation:
+
+```math
+  \begin{align}
+  u(0,x_0) & \approx  \mathbb{E}  \Bigg[  \left(\prod_{i=0}^{N-1}(1 + r_i \Delta t)^{-1} \right) u(T,X_T) \nonumber \\
+  & \ \ \ \ \ \ \ \ \  -   \sum_{j = 0}^{N-1}\left( \prod_{i = 0}^{j}(1 + r_i \Delta t)^{-1}\right) \nonumber \\
+  &\ \ \ \ \ \  \   \ \  \  \left(h(t_j,X_{t_j},u_{t_j})^T Z_{t_j} \Delta t  
+  + Z_{t_j}^T \Delta W_j \right) \Bigg]. \nonumber
+  \end{align}
+```
+
+
+The main algorithm, Deep-Time Neural Network (DTNN), is implemented as follows:
+
+### Pseudocode
+
+1. **Initialization**
+   - Require: The Brownian motion increments $ΔW_{t_i}$, initial state $x_0$, initial value of $Y_{t_0}$.
+
+2. **Main Loop**
+   - While k < nIteration:
+     - For each time step i from 0 to N-1:
+       - $Z_{t_i} = DTNN(t_i, X_{t_i}; θ)$ - Compute the control variate using the DTNN model.
+       - Update $Y_{t_{i+1}}$ using: 
+  
+         $Y_{t_{i+1}} = (1 + r(t_i,X_{t_i},Y_{t_i})\Delta t )Y_{t_i}  +
+ h(t_i , X{t_i})^T Z_{t_i} \Delta t  + Z_{t_i}^T \Delta W_{t_i}$
+       - Update $X_{t_{i+1}}$ using:
+  
+         $X_{t_{i+1}} = X_{t_{i}} + \mu((t_i , X{t_i}))\Delta t + \sigma(t_i , X{t_i})\Delta W_{t_i} $
+
+     - Compute Loss at the end of each full iteration:
+  
+        $Loss = \frac{1}{M} \Sigma_{i=0}^M |g(X_{t_N})  - Y_{t_N}|^2$
+     - Update parameters:
+  
+        $\theta^k=\theta^{k-1}-\eta \nabla L o s s$
+     - Calculate initial value $Y_{t_0}$ using the formula from the approximation equation for initial conditions.
+
+
+
+
+
+# Results
+
+To visualize the results, refer to the `DTNN.ipynb` notebook or execute the code in your preferred environment.
+## Option Pricing with Default Risk
+The stock price $X_t$ evolves according to the following stochastic differential equation:
+
+$$
+\begin{align*}
+& dX_t = \bar{\mu} X_t dt + \bar{\sigma}\text{diag}(X_t) dW_t, \nonumber\\
+& X_0 = \xi ,  \nonumber\\
+& dY_t = ((1-\delta) Q(Y_t) + R)Y_t dt + Z_t^{T}dW_t , \nonumber \\
+& Y_T = g\left(X_T\right).
+\end{align*}
+$$
+
+### Option Price Equation
+
+The defualt rate is described by the function, which is defined as:
+
+$$ Q(y) = I_{\left(-\infty, v^h\right)}(y) \gamma^h+I_{\left[v^l, \infty\right)}(y) \gamma^l 
++I_{\left[v^h, v^l\right)}(y)\left[\frac{\left(\gamma^h-\gamma^l\right)}{\left(v^h-v^l\right)}\left(y-v^h\right)+\gamma^h\right].$$
+
+### Parameters
+
+- Time horizon, $T = 1$
+- Default intensity, $\delta = \frac{2}{3}$
+- Risk-free interest rate, $R = 0.02$
+- Drift coefficient, $\bar{\mu} = 0.02$
+- Volatility coefficient, $\bar{\sigma} = 0.2$
+- Upper bound of the option price, $v^h = 50$
+- Lower bound of the option price, $v^l = 70$
+- Default intensity for high price, $\gamma^h = 0.2$
+- Default intensity for low price, $\gamma^l = 0.02$
+- Terminal condition for the worst-of option with strike price $K = 0$
+<p align="center">
+  <img src="figs\default_main_init.png" alt="First Image" width="49%" height = "250"/>
+  <img src="figs\default_main_loss.png" alt="Second Image" width="49%" height = "250"/>
+</p>
+
+
+## Option Pricing with Different Borrowing and Lending Rates
+
+
+In this subsection, we explore option pricing under the assumption of different borrowing and lending rates. Incorporating these rates into the model allows us to investigate the potential impact of varying financing conditions on option prices:
+
+$$
+\begin{align*}
+& dX_t = \bar{\mu} X_t dt + \bar{\sigma} \text{diag}(X_t) dW_t,  \\
+& X_0 = \xi,  \\
+& dY_t = (R^l Y_t + \frac{(\bar{\mu} - R^l)}{\bar{\sigma}} \sum_{i=1}^d z_i \\
+& \quad + (R^l - R^b) \max \left\lbrace 0, \left[ \frac{1}{\bar{\sigma}} \sum_{i=1}^d z_i\right] - Y_t\right \rbrace) dt + Z_t^T dW_t,  \\
+& Y_T = g\left(X_T\right).
+\end{align*}
+$$
+
+The option price, $Y_t$, is governed by a different stochastic differential equation that includes lending rate $R^l$ and borrowing rate $R^b$. The lending rate is typically lower than the borrowing rate, as lending money is considered cheaper. The equation also includes a term representing the excess return scaled by volatility and the sum of the elements $z_i$ from 1 to $d$. The max operator ensures that the term inside the brackets remains non-negative, as it captures the potential payoff resulting from the difference between the lending and borrowing rates.
+
+###  Parameters
+
+For a comparative analysis, we use the parameters as follows:
+
+- Time horizon, $T = 0.5$
+- Lending rate, $R^l = 0.04$
+- Borrowing rate, $R^b = 0.04$
+- Drift coefficient, $\bar{\mu} = 0.06$
+- Volatility coefficient, $\bar{\sigma} = 0.2$
+- Initial values, $\xi = \left(100, \ldots, 100\right)$
+
+### Terminal Condition
+
+The terminal condition for the option is defined by the payoff function:
+
+$$
+\begin{align*}
+g(x) = \max & \left\lbrace \left[\max _{1 \leq i \leq 100} x_i\right] - 120, 0 \right \rbrace \nonumber \\
+& - 2 \max \left\lbrace \left[\max _{1 \leq i \leq 100} x_i\right] - 150, 0\right\rbrace.
+\end{align*}
+$$
+<p align="center">
+  <img src="figs\PricingDiffRate_init.png" alt="First Image" width="49%" height = "250"/>
+  <img src="figs\PricingDiffRate_loss.png" alt="Second Image" width="49%" height = "250"/>
+</p>
+
+## Black-Scholes-Barenblatt Equation
+
+
+The Black-Scholes-Barenblatt (BSB) equation extends the classical Black-Scholes model to incorporate transaction costs and assess their impact on financial derivatives pricing. The system of stochastic differential equations for this model is as follows:
+
+```math
+  \begin{align*}
+  d X_t & = \bar{\sigma} \  diag(X_t) d W_t, \\
+  X_0 & = \xi, \\
+  d Y_t & = r\left(Y_t - \frac{1}{\bar{\sigma}} J^T Z_t\right) dt + Z_t^{\prime} d W_t, \\
+  Y_T & = g(X_T).
+  \end{align*}
+```
+In this model, the drift component is omitted to emphasize the stochastic nature of stock price dynamics. The pricing equation for the derivative, denoted by $Y_t$, integrates the risk-free rate $r$, and a vector of ones $J$. The term $\frac{1}{\bar{\sigma}}Z_t$ introduces a correction for transaction costs into the dynamics of option pricing.
+
+### Parameter 
+
+Adopting parameter settings from the literature, we set:
+
+- Time horizon, $T = 1$
+- Risk-free rate, $r = 0.05$
+- Volatility coefficient, $\bar{\sigma} = 0.4$
+- Initial state vector, $\xi = (1, 0.5, \ldots, 1, 0.5)$
+
+The terminal payoff condition is defined as:
+$$g(x) = ||x||^2. $$
+<p align="center">
+  <img src="figs\BlackScholesBarenblatt_init.png" alt="First Image" width="49%" height = "250"/>
+  <img src="figs\BlackScholesBarenblatt_loss.png" alt="Second Image" width="49%" height = "250"/>
+</p>
+
+
+
+### Basket Option
+
+The payoff for a European call Basket Option is determined by the weighted sum of multiple underlying asset prices:
+
+$$
+\text{Payoff} = \max\left(\sum_{i=1}^n w_i S_i(T) - K, 0\right),
+$$
+
+where $S_i(T)$ represents the price of the $i$-th underlying asset at maturity, $w_i$ is the weighting factor for each asset, $n$ is the total number of underlying assets, and $K$ is the strike price. We set each $w_i$ to $\frac{1}{n}$ and $K = 0$.
+
+<p align="center">
+  <img src="figs\BlackScholesBarenblatt_basket_init.png" alt="First Image" width="49%" height = "250"/>
+  <img src="figs\BlackScholesBarenblatt_basket_loss.png" alt="Second Image" width="49%" height = "250"/>
+</p>
+### Max-Min Spread Option
+
+For a European call Max-Min Spread Option, the payoff is based on the difference between the maximum and minimum asset prices:
+
+$$
+\text{Payoff} = \max\left(\max_{i=1}^{n}(S_i(T)) - \min_{i=1}^{n}(S_i(T)) - K, 0\right).
+$$
+
+Here, $K$ is set to 0.
+
+<p align="center">
+  <img src="figs\BlackScholesBarenblatt_maxmin_init.png" alt="First Image" width="49%"  height = "250"/>
+  <img src="figs\BlackScholesBarenblatt_maxmin_loss.png" alt="Second Image" width="49%" height = "250"/>
+</p>
+
+### Best-of Option
+
+The payoff for a European call Best-of Option, which depends on the performance of the best-performing underlying asset, is expressed as:
+
+$$
+\text{Payoff} = \max\left(\max_{i=1}^{n}(S_i(T)) - K, 0\right).
+$$
+
+Again, $K$ is set to 0 for this analysis.
+
+<p align="center">
+  <img src="figs\BlackScholesBarenblatt_bestof_init.png" alt="First Image" width="49%" height = "250"/>
+  <img src="figs\BlackScholesBarenblatt_bestof_loss.png" alt="Second Image" width="49%" height = "250"/>
+</p>
+
+
+## Hamilton-Jacobi-Bellman Equation
+
+
+
+In the realm of optimal control, the Hamilton-Jacobi-Bellman (HJB) equation serves as a critical condition for the optimality of control strategies. It delineates the value function that minimizes or maximizes the expected cost over a system governed by differential equations. 
+
+
+For the experiment, we consider the following FBSDEs, which exemplify the application of the HJB equation in a stochastic setting:
+
+$$\begin{align*}
+    & dX_t = \sigma dW_t, \quad t \in[0, T], \\
+    & X_0 = \xi, \\
+    & dY_t =\frac{\|Z_t\|^2}{\sigma^2} dt +  Z_t^\prime dW_t, \quad t \in[0, T), \\
+    & Y_T = g(X_T),
+\end{align*}$$
+
+### Parameters
+
+- **T**: 1 - The time horizon for the model.
+- **σ**: √2 - The volatility coefficient, reflecting the intensity of the stochastic component.
+- **ξ**: (0, 0, ..., 0) ∈ $ℝ^{100}$ - The initial state vector, indicating the starting condition.
+
+also 
+$$g(x)=\ln \left(0.5\left(1+\|x\|^2\right)\right)$$
+
+with the terminal condition $u(T, x) = g(x)$.
+<p align="center">
+  <img src="figs\HJB_init.png" alt="First Image" width="49%" height = "250"/>
+  <img src="figs\HJB_loss.png" alt="Second Image" width="49%" height = "250"/>
+</p>
