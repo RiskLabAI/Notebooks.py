@@ -6,7 +6,7 @@ class TimeNet(Module):
     Neural network model for time dimension
     """
     def __init__(
-            self, 
+            self,
             output_dim: int
     ):
         """
@@ -27,9 +27,10 @@ class TimeNet(Module):
         self.tanh3 = Tanh()
         self.tanh4 = Tanh()
         self.tanh5 = Tanh()
+        self.tanh6 = Tanh()
 
     def forward(
-            self, 
+            self,
             x: torch.Tensor
     ) -> torch.Tensor:
         """
@@ -51,6 +52,7 @@ class TimeNet(Module):
         x = self.layer5(x)
         x = self.tanh5(x)
         x = self.layer6(x)
+        x = self.tanh6(x)
         return x
 
 
@@ -59,8 +61,8 @@ class Net1(Module):
     A class for defining a neural network with a single linear layer.
     """
     def __init__(
-            self, 
-            input_dim: int, 
+            self,
+            input_dim: int,
             output_dim: int
     ):
         """
@@ -76,7 +78,7 @@ class Net1(Module):
         self.bn = BatchNorm1d(output_dim)
 
     def forward(
-            self, 
+            self,
             x: torch.Tensor
     ) -> torch.Tensor:
         """
@@ -99,11 +101,11 @@ For implementing Deep-Time-SetTransformer we have used code written by authors o
 
 class MAB(nn.Module):
     def __init__(
-        self, 
-        dim_q: int, 
-        dim_k: int, 
-        dim_v: int, 
-        num_heads: int, 
+        self,
+        dim_q: int,
+        dim_k: int,
+        dim_v: int,
+        num_heads: int,
         ln: bool = False
     ):
         """
@@ -127,8 +129,8 @@ class MAB(nn.Module):
         self.fc_o = nn.Linear(dim_v, dim_v)
 
     def forward(
-        self, 
-        q: torch.Tensor, 
+        self,
+        q: torch.Tensor,
         k: torch.Tensor
     ) -> torch.Tensor:
         """
@@ -155,10 +157,10 @@ class MAB(nn.Module):
 
 class SAB(nn.Module):
     def __init__(
-        self, 
-        dim_in: int, 
-        dim_out: int, 
-        num_heads: int, 
+        self,
+        dim_in: int,
+        dim_out: int,
+        num_heads: int,
         ln: bool = False
     ):
         """
@@ -173,7 +175,7 @@ class SAB(nn.Module):
         self.mab = MAB(dim_in, dim_in, dim_out, num_heads, ln=ln)
 
     def forward(
-        self, 
+        self,
         x: torch.Tensor
     ) -> torch.Tensor:
         """
@@ -186,11 +188,11 @@ class SAB(nn.Module):
 
 class ISAB(nn.Module):
     def __init__(
-        self, 
-        dim_in: int, 
-        dim_out: int, 
-        num_heads: int, 
-        num_inds: int, 
+        self,
+        dim_in: int,
+        dim_out: int,
+        num_heads: int,
+        num_inds: int,
         ln: bool = False
     ):
         """
@@ -209,7 +211,7 @@ class ISAB(nn.Module):
         self.mab1 = MAB(dim_in, dim_out, dim_out, num_heads, ln=ln)
 
     def forward(
-        self, 
+        self,
         x: torch.Tensor
     ) -> torch.Tensor:
         """
@@ -223,10 +225,10 @@ class ISAB(nn.Module):
 
 class PMA(nn.Module):
     def __init__(
-        self, 
-        dim: int, 
-        num_heads: int, 
-        num_seeds: int, 
+        self,
+        dim: int,
+        num_heads: int,
+        num_seeds: int,
         ln: bool = False
     ):
         """
@@ -243,7 +245,7 @@ class PMA(nn.Module):
         self.mab = MAB(dim, dim, dim, num_heads, ln=ln)
 
     def forward(
-        self, 
+        self,
         x: torch.Tensor
     ) -> torch.Tensor:
         """
@@ -375,11 +377,127 @@ class DeepTimeSetTransformer(nn.Module):
         output = self.time_layer4(t, output)
         output = nn.ReLU()(output)
         output = self.time_layer5(t, output)
-        
+
 
         return output
 import torch
 import torch.nn as nn
+
+
+
+class FBSNNNetwork(nn.Module):
+    def __init__(
+            self,
+            layersize: list[int]
+            ):
+        """
+        Initializes a neural network with multiple blocks.
+
+        Args:
+        - indim (int): input dimension
+        - layersize (List[int]): list of sizes of hidden layers
+        - outdim (int): output dimension
+        """
+        super(FBSNNNetwork, self).__init__()
+
+        # initialize first set of layers
+
+        self.n_layer = len(layersize) - 1
+        # create input layer
+
+        self.layers = nn.ModuleList([])
+        # create hidden layers
+        for i in range(len(layersize) - 1):
+          self.layers.append(nn.Linear(layersize[i], layersize[i + 1]))
+
+    def forward(
+            self,
+            x: torch.Tensor) -> torch.Tensor:
+        """
+        Passes the input through the neural network.
+
+        Args:
+        - x (torch.Tensor): input tensor
+
+        Returns:
+        - torch.Tensor: output tensor
+        """
+
+        for i in range(self.n_layer):
+
+
+
+            # apply layer to tensor
+            x = self.layers[i](x)
+            if i < self.n_layer - 1 :
+              x =torch.sin(x)
+
+        # apply output layer to tensor
+
+
+        return x
+
+
+class DeepBSDE(nn.Module):
+    def __init__(
+            self,
+            layersize: list[int]
+            ):
+        """
+        Initializes a neural network with multiple blocks.
+
+        Args:
+        - indim (int): input dimension
+        - layersize (List[int]): list of sizes of hidden layers
+        - outdim (int): output dimension
+        """
+        super(DeepBSDE, self).__init__()
+
+        # initialize first set of layers
+
+        self.n_layer = len(layersize) - 1
+        # create input layer
+
+        self.layers = nn.ModuleList([])
+        self.batch_layer = nn.ModuleList([])
+        # create hidden layers
+        for i in range(len(layersize) - 1):
+          self.layers.append(nn.Linear(layersize[i], layersize[i + 1] , bias=False))
+          self.batch_layer.append(nn.BatchNorm1d(layersize[i] , eps=1e-06, momentum=0.01))
+
+
+        self.batch_layer.append(nn.BatchNorm1d(layersize[-1] , eps=1e-06, momentum=0.01))
+
+    def forward(
+            self,
+            x: torch.Tensor) -> torch.Tensor:
+        """
+        Passes the input through the neural network.
+
+        Args:
+        - x (torch.Tensor): input tensor
+
+        Returns:
+        - torch.Tensor: output tensor
+        """
+        #x = self.batch_layer[0](x)
+        for i in range(self.n_layer - 1):
+
+            # apply layer to tensor
+            x = self.layers[i](x)
+            #x = self.batch_layer[i+1](x)
+
+
+            x =nn.ReLU()(x)
+
+
+        # apply output layer to tensor
+        x = self.layers[-1](x)
+        #x = self.batch_layer[-1](x)
+
+
+        return x
+
 
 class TimeDependentNetwork(nn.Module):
     def __init__(
@@ -406,18 +524,20 @@ class TimeDependentNetwork(nn.Module):
         # create input layer
         self.layers.append(Net1(indim, layersize[0]))
         self.time_layer.append(TimeNet(indim))
-        self.batch_layer.append(nn.BatchNorm1d(indim))
-        self.batch_layer.append(nn.BatchNorm1d(layersize[0]))
+        self.batch_layer.append(nn.BatchNorm1d(indim , eps=1e-06, momentum=0.01))
+        self.batch_layer.append(nn.BatchNorm1d(layersize[0],eps=1e-06, momentum=0.01))
 
         # create hidden layers
         for i in range(len(layersize) - 1):
             self.layers.append(Net1(layersize[i], layersize[i + 1]))
             self.time_layer.append(TimeNet(layersize[i]))
-            self.batch_layer.append(nn.BatchNorm1d(layersize[i + 1]))
+            self.batch_layer.append(nn.BatchNorm1d(layersize[i + 1] , eps=1e-06, momentum=0.01))
 
         # create output layer
         self.time_layer.append(TimeNet(outdim))
         self.linear = nn.Linear(layersize[-1], outdim)
+        self.batch_layer.append(nn.BatchNorm1d(outdim , eps=1e-06, momentum=0.01))
+
 
     def forward(
             self,
@@ -433,21 +553,23 @@ class TimeDependentNetwork(nn.Module):
         Returns:
         - torch.Tensor: output tensor
         """
-
         for i in range(self.n_layer):
             # apply time-based weights to input tensor
             time = self.time_layer[i](torch.cat((t, t**2, t**3, torch.exp(t)), 1))
+            x = self.batch_layer[i](x)
+
 
             x = x * (1 + time)
-            # x = self.batch_layer[i](x)
 
             # apply layer to tensor
             x = self.layers[i](x)
-            x = nn.ReLU()(x)
+
+            x = torch.sin(x)
 
         # apply output layer to tensor
 
         x = self.linear(x)
+        #x = self.batch_layer[-1](x)
 
         return x
 

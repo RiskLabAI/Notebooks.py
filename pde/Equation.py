@@ -89,8 +89,8 @@ class Equation:
         Tensor: tensor of size [batch_size, 1] containing terminal values
         """
         raise NotImplementedError
-    
-    
+
+
 class PricingDefaultRisk(Equation):
   """
   Args:
@@ -127,7 +127,7 @@ class PricingDefaultRisk(Equation):
     x_sample[:, :, 0] = np.ones([num_sample, self.dim]) * self.x_init
     for i in range(self.num_time_interval):
         x_sample[:, :, i + 1] = (1 + self.mu_bar * self.delta_t) * x_sample[:, :, i] + (
-            self.sigma * x_sample[:, :, i] * dw_sample[:, :, i])
+            self.sigma_matrix(x_sample[:, :, i]) * dw_sample[:, :, i])
     return dw_sample, x_sample
 
   def r_u(self, t, x, y, z)-> torch.Tensor:
@@ -161,7 +161,10 @@ class PricingDefaultRisk(Equation):
       torch.Tensor: tensor of size [batch_size, 1] containing H(z)
       """
       return torch.zeros((x.size()[0],1))
-    
+
+  def sigma_matrix(self,x):
+    return self.sigma * x
+
 
   def terminal(self, t, x)-> torch.Tensor:
     """
@@ -187,7 +190,95 @@ class PricingDefaultRisk(Equation):
     """
     return nn.ReLU()(torch.min(x, 2 , keepdim= True)[0])
 
-  
+
+class HJBLQ(Equation):
+  """
+
+  Args:
+  eqn_config (dict): dictionary containing PDE configuration parameters
+  """
+
+  def __init__(self, eqn_config: dict):
+    super().__init__(eqn_config)
+
+    self.x_init = np.zeros(self.dim)
+    self.sigma = np.sqrt(2.0)
+    self.lambd = 1.0
+
+  def sample(self, num_sample: int) -> tuple:
+    """
+    Sample forward SDE.
+
+    Args:
+    num_sample (int): number of samples to generate
+
+    Returns:
+    tuple: tuple of two tensors: dw_sample of size [num_sample, dim, num_time_interval] and
+    x_sample of size [num_sample, dim, num_time_interval+1]
+    """
+    dw_sample = np.random.normal(size=[num_sample, self.dim, self.num_time_interval]) * self.sqrt_delta_t
+    x_sample = np.zeros([num_sample, self.dim, self.num_time_interval + 1])
+    x_sample[:, :, 0] = np.ones([num_sample, self.dim]) * self.x_init
+    for i in range(self.num_time_interval):
+        x_sample[:, :, i + 1] = x_sample[:, :, i] + self.sigma * dw_sample[:, :, i]
+    return dw_sample, x_sample
+
+  def r_u(self, t: float, x: torch.Tensor, y: torch.Tensor, z: torch.Tensor) -> torch.Tensor:
+    """
+    Interest rate in the PDE.
+
+    Args:
+    t (float): current time
+    x (torch.Tensor): tensor of size [batch_size, dim] containing space coordinates
+    y (torch.Tensor): tensor of size [batch_size, 1] containing function values
+    z (torch.Tensor): tensor of size [batch_size, dim] containing gradients
+
+    Returns:
+    torch.Tensor: tensor of size [batch_size, 1] containing generator values
+    """
+    return torch.ones((x.size()[0],)) * 0
+
+  def h_z(self, t: float, x: torch.Tensor,y: torch.Tensor, z: torch.Tensor) -> torch.Tensor:
+    """
+    Function to compute <h,z> in the PDE.
+
+    Args:
+    t (float): current time
+    x (torch.Tensor): tensor of size [batch_size, dim] containing space coordinates
+    y (torch.Tensor): tensor of size [batch_size, 1] containing function value
+    z (torch.Tensor): tensor of size [batch_size, dim] containing gradients
+
+    Returns:
+    torch.Tensor: tensor of size [batch_size, 1] containing H(z)
+    """
+    return torch.sum(torch.square(z), dim=1)/ (self.sigma**2)
+
+  def terminal(self, t: float, x: torch.Tensor) -> torch.Tensor:
+    """
+    Terminal condition of the PDE.
+
+    Args:
+    t (float): current time
+    x (torch.Tensor): tensor of size [batch_size, dim] containing space coordinates
+
+    Returns:
+    torch.Tensor: tensor of size [batch_size, 1] containing terminal values
+    """
+    return torch.log(0.5 * (1 + torch.norm(x, dim=1)**2))
+  def sigma_matrix(self,x):
+    return self.sigma
+def terminal_for_sample(self, x)-> torch.Tensor:
+    """
+    Terminal condition of the PDE.
+
+    Args:
+    x (torch.Tensor): tensor of size [num_sample,batch_size, dim] containing space coordinates
+
+    Returns:
+    torch.Tensor: tensor of size [num_sample ,batch_size, 1] containing terminal values
+    """
+    return torch.sum(x ** 2, dim=2 ,keepdim=True )
+
 class BlackScholesBarenblatt(Equation):
   """
 
@@ -218,7 +309,7 @@ class BlackScholesBarenblatt(Equation):
     x_sample[:, :, 0] = np.ones((num_sample, self.dim)) * self.x_init
     for i in range(self.num_time_interval):
         x_sample[:, :, i + 1] = (1 + self.mu_bar * self.delta_t) * x_sample[:, :, i] + (
-            self.sigma * x_sample[:, :, i] * dw_sample[:, :, i])
+            self.sigma_matrix(x_sample[:, :, i]) * dw_sample[:, :, i])
     return dw_sample, x_sample
 
   def r_u(self, t: float, x: torch.Tensor, y: torch.Tensor, z: torch.Tensor) -> torch.Tensor:
@@ -263,7 +354,9 @@ class BlackScholesBarenblatt(Equation):
     torch.Tensor: tensor of size [batch_size, 1] containing terminal values
     """
     return torch.sum(x ** 2, dim=1)
-def terminal_for_sample(self, x)-> torch.Tensor:
+  def sigma_matrix(self,x):
+    return self.sigma * x
+  def terminal_for_sample(self, x)-> torch.Tensor:
     """
     Terminal condition of the PDE.
 
@@ -274,6 +367,7 @@ def terminal_for_sample(self, x)-> torch.Tensor:
     torch.Tensor: tensor of size [num_sample ,batch_size, 1] containing terminal values
     """
     return torch.sum(x ** 2, dim=2 ,keepdim=True )
+
 class PricingDiffRate(Equation):
     """
     Nonlinear Black-Scholes equation with different interest rates for borrowing and lending
@@ -319,8 +413,9 @@ class PricingDiffRate(Equation):
 
     def terminal(self, t, x):
         temp = torch.max(x, 1)[0]
-        return torch.maximum(temp - 120, torch.tensor(0))
-
+        return nn.ReLU()(temp - 120) - 2*nn.ReLU()(temp - 150)
+    def sigma_matrix(self,x):
+      return self.sigma * x
     def terminal_for_sample(self, x)-> torch.Tensor:
         """
         Terminal condition of the PDE.
@@ -333,4 +428,3 @@ class PricingDiffRate(Equation):
         """
         temp = torch.max(x, 2 , keep_dim = True)[0]
         return torch.maximum(temp - 120, torch.tensor(0))
-        
