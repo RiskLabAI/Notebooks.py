@@ -137,7 +137,7 @@ The analysis uses daily data over the past twenty years, applying Generalized Ra
 
 <p align="center">
   <img src="figs/HFRXM.png" style="width:79%; margin:auto; display:block;" alt="hfrxm" />
-  <figcaption style="text-align:center; display:block;">Correlation trends between the S&P 500 and Macro Hedge Funds (HFRXM) under varying market conditions.</figcaption>
+  <figcaption align="center" style="text-align:center; display:block;">Correlation trends between the S&P 500 and Macro Hedge Funds (HFRXM) under varying market conditions.</figcaption>
 </p>
 
 <p align="center">
