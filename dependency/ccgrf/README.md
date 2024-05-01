@@ -135,11 +135,12 @@ The analysis uses daily data over the past twenty years, applying Generalized Ra
 
 **HFRXM and HFRXSDV:** These indices sometimes become uncorrelated or negatively correlated with the market during high volatility, suggesting their potential as protective investments during crises.
 
-<div align="center">
-  ![hfrxm](figs/HFRXM.png)
-  <br>
-  Correlation trends between the S&P 500 and Macro Hedge Funds (HFRXM) under varying market conditions.
-</div>
+<p align="center">
+  <img src="figs/HFRXM.png" style="width:79%; margin:auto; display:block;" alt="hfrxm" />
+  <figcaption style="text-align:center;">Correlation trends between the S&P 500 and Macro Hedge Funds (HFRXM) under varying market conditions.</figcaption>
+</p>
+
+
 
 <p align="center">
   <div style="display:block; text-align:center; margin:auto;">
