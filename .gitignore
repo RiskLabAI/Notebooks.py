@@ -1,3 +1,5 @@
 RiskLabAI.py/
+__pycache__/
 .idea/
 venv/
+*test*
