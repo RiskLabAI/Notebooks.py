@@ -1,0 +1,1 @@
+# An Analysis of Neural Network Architectures for Deep Quadratic Hedging
