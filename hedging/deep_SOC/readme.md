@@ -12,20 +12,20 @@ This project explores the deep stochastic optimal control (deepSOC) methodology 
 
 ### Quadratic Hedging
 
-Quadratic Hedging (QH) in an incomplete market involves finding the initial capital \( w \) and the hedging strategy \( \theta^* \) that minimizes the mean-square hedging error (MSHE) at maturity. The mathematical formulation for QH is given by:
+Quadratic Hedging (QH) in an incomplete market involves finding the initial capital $w$ and the hedging strategy $\theta^*$ that minimizes the mean-square hedging error (MSHE) at maturity. The mathematical formulation for QH is given by:
 ```math
     E\left[L_T^2\right] = E\left[\left(C_T - w + \int_0^T \theta_u dS_u\right)^2\right].
 ```
 
-The optimal strategy \( \theta^*_t \) is given by:
+The optimal strategy $\theta^*_t$ is given by:
 
-```
+```math
     \theta^*_t = \frac{d\langle S, C \rangle_t}{d\langle S, S \rangle_t}.
 ```
 
 Incorporating transaction costs, the option pricing equation becomes:
 
-```
+```math
     C_t = w + \int_0^t \theta_u dS_u + L_t - \int_0^t \tau(S_u, \dot{\theta}_u, u) du.
 ```
 
@@ -43,7 +43,7 @@ The pseudo-code for training the neural network computational graph is described
 
 ### Equation for DeepSOC Objective Gradient
 
-To understand the training dynamics of the deepSOC architecture, we analyze the gradients of the loss function with respect to the weight vector \( \theta_i \):
+To understand the training dynamics of the deepSOC architecture, we analyze the gradients of the loss function with respect to the weight vector $\theta_i$:
 ```math
     E \left[ \left( \sum_{t=0}^{T-1} c_t(s_t, u_t(s_t | \theta_t)) + c_T(s_T) \right) \nabla_{\theta_i} \left( \sum_{t=i}^{T-1} c_t(s_t, u_t(s_t | \theta_t)) + c_T(s_T) \right) \Bigg| F_0 \right].
 ```
