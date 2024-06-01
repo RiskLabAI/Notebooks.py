@@ -51,10 +51,13 @@ To understand the training dynamics of the deepSOC architecture, we analyze the 
 ### Observations
 
 1. **Gradient Variance**: The gradients of different actions exhibit varying variances, with higher standard deviations at initial time steps, decreasing as the time to maturity approaches. This heteroskedasticity in the gradients impacts the training process, particularly when using the ADAM optimizer.
+<p align="center">
+  <img src="figs\policy_gradient_variability.png" alt="First Image" width="89%" height = "250"/>
+</p>
 
-2. **Impact on ADAM Optimizer**: The ADAM optimizer adapts the learning rate to individual weights, performing larger updates for infrequent and smaller updates for frequent parameters. The heteroskedasticity in gradients means that some time steps may receive insufficient training, leading to suboptimal control policies.
+1. **Impact on ADAM Optimizer**: The ADAM optimizer adapts the learning rate to individual weights, performing larger updates for infrequent and smaller updates for frequent parameters. The heteroskedasticity in gradients means that some time steps may receive insufficient training, leading to suboptimal control policies.
 
-3. **Independent Neural Networks**: By parameterizing each hedge ratio policy at each time step with an independent neural network, the training process becomes more consistent with the dynamics of the gradients, resulting in better performance.
+2. **Independent Neural Networks**: By parameterizing each hedge ratio policy at each time step with an independent neural network, the training process becomes more consistent with the dynamics of the gradients, resulting in better performance.
 
 
 ## Implementation
@@ -68,4 +71,14 @@ The repository contains the following neural network architectures for implement
 ## Performance Analysis
 
 The performance of each neural network architecture is evaluated based on the mean-square hedging error at maturity for different option maturities. The results indicate that deepSOC with independently parameterized control policies outperforms the other architectures, especially for longer maturities.
+
+<p align="center">
+  <img src="figs\T30mat.png" alt="First Image" width="49%" height = "250"/>
+  <img src="figs\T60mat.png" alt="Second Image" width="49%" height = "250"/>
+</p>
+
+<p align="center">
+  <img src="figs\T90mat.png" alt="First Image" width="49%" height = "250"/>
+  <img src="figs\T360mat.png" alt="Second Image" width="49%" height = "250"/>
+</p>
 
