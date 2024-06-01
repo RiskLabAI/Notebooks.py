@@ -52,7 +52,7 @@ To understand the training dynamics of the deepSOC architecture, we analyze the 
 
 1. **Gradient Variance**: The gradients of different actions exhibit varying variances, with higher standard deviations at initial time steps, decreasing as the time to maturity approaches. This heteroskedasticity in the gradients impacts the training process, particularly when using the ADAM optimizer.
 <p align="center">
-  <img src="figs\policy_gradient_variability.png" alt="First Image" width="89%" height = "250"/>
+  <img src="figs\policy_gradient_variability.png" alt="First Image" width="89%" height = "300"/>
 </p>
 
 1. **Impact on ADAM Optimizer**: The ADAM optimizer adapts the learning rate to individual weights, performing larger updates for infrequent and smaller updates for frequent parameters. The heteroskedasticity in gradients means that some time steps may receive insufficient training, leading to suboptimal control policies.
