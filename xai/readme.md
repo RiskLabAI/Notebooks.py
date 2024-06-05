@@ -1,10 +1,6 @@
----
 # **Explainable AI in Finance**
 
----
-
 **Module 1: Introduction to Explainable AI**
-
 ---
 
 1. **Overview of AI and Machine Learning**
