@@ -1,6 +1,12 @@
-# Explainable AI in Finance
+---
+Explainable AI in Finance
 
-## Module 1: Introduction to Explainable AI
+---
+
+**Module 1: Introduction to Explainable AI**
+
+---
+
 1. **Overview of AI and Machine Learning**
    - Introduction to AI and ML
    - Importance of AI in various industries
@@ -20,7 +26,11 @@
    - Model-specific methods
    - Examples of popular XAI techniques
 
-## Module 2: Explainable AI Techniques
+
+**Module 2: Explainable AI Techniques**
+
+---
+
 1. **Local Interpretable Model-agnostic Explanations (LIME)**
    - Concept and application of LIME
    - Hands-on implementation with Python
@@ -37,7 +47,11 @@
    - Visualizing model explanations
    - Tools and libraries for visualization
 
-## Module 3: Applications of Explainable AI in Finance
+
+**Module 3: Applications of Explainable AI in Finance**
+
+---
+
 1. **Overview of AI in Finance**
    - Role of AI in financial services
    - Key use cases and applications
@@ -58,7 +72,10 @@
    - Explainability in customer behavior models
    - Case study and implementation
 
-## Module 4: Advanced Topics and Future Directions
+**Module 4: Advanced Topics and Future Directions**
+
+---
+
 1. **Integrating XAI with Advanced AI Models**
    - Explainability in deep learning models
    - Explainability in ensemble models
@@ -72,7 +89,9 @@
    - Impact of XAI on future AI development
 
 
-## Appendix: Next Steps, Python Programming, Project
+**Appendix: Next Steps, Python Programming, Project**
+
+---
 
 1. **Resources for Further Learning**
    - Recommended books, articles, and courses
