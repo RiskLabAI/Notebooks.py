@@ -110,6 +110,6 @@
         - Overview of XAI libraries (LIME, SHAP, ELI5, etc.)
         - Installation and setup
 
-    - **Capstone Project**
+    - **Project**
         - A real-world XAI application in finance
         - Present and discuss project findings
