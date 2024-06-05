@@ -79,22 +79,22 @@
    - Online communities and forums
 
 2. **Python for Explainable AI**
-    2.1. **Introduction to Python Programming**
-    - Basics of Python programming
-    - Key libraries for data science and AI (NumPy, Pandas, Scikit-learn)
+    - **Introduction to Python Programming**
+        - Basics of Python programming
+        - Key libraries for data science and AI (NumPy, Pandas, Scikit-learn)
 
-    2.2. **Data Preparation and Preprocessing**
-    - Data cleaning and preprocessing techniques
-    - Feature selection and engineering
+    - **Data Preparation and Preprocessing**
+        - Data cleaning and preprocessing techniques
+        - Feature selection and engineering
 
-    2.3. **Building Machine Learning Models in Python**
-    - Supervised and unsupervised learning
-    - Training and evaluating models
+    - **Building Machine Learning Models in Python**
+        - Supervised and unsupervised learning
+        - Training and evaluating models
 
-    2.4. **Introduction to XAI Libraries in Python**
-    - Overview of XAI libraries (LIME, SHAP, ELI5, etc.)
-    - Installation and setup
+    - **Introduction to XAI Libraries in Python**
+        - Overview of XAI libraries (LIME, SHAP, ELI5, etc.)
+        - Installation and setup
 
-    2.5. **Capstone Project**
-    - A real-world XAI application in finance
-    - Present and discuss project findings
+    - **Capstone Project**
+        - A real-world XAI application in finance
+        - Present and discuss project findings
