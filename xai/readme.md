@@ -59,7 +59,7 @@ In critical applications, such as autonomous driving or medical diagnostics, the
 
 ## Mathematical Formulations in XAI
 
-To illustrate the concepts of XAI mathematically, let's consider a machine learning model \( f \) that takes an input \( x \) and produces an output \( y \).
+To illustrate the concepts of XAI mathematically, let's consider a machine learning model \( f \) that takes an input \( x \) and produces an output \( y \). 
 
 ### Feature Importance
 
@@ -82,7 +82,6 @@ A surrogate model \( g \) is an interpretable approximation of a complex model \
 \]
 
 In this equation, \( g(x_i) = \beta_0 + \sum_{j=1}^{n} \beta_j x_{ij} \) represents the linear surrogate model, where \( \beta_0 \) is the intercept, \( \beta_j \) are the coefficients for each feature \( j \), and \( x_{ij} \) are the feature values for instance \( i \). The goal is to find the values of \( \beta \) that minimize the squared differences between the predictions of \( f \) and \( g \) across all instances \( m \).
-
 
 1. **Historical Context and Evolution of XAI**
    - Evolution of AI towards explainability
