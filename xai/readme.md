@@ -81,7 +81,13 @@ A surrogate model $g$ is an interpretable approximation of a complex model $f$. 
 \min_{g} \sum_{i=1}^{m} \left( f(x_i) - g(x_i) \right)^2
 ```
 
-In this equation, $g(x_i) = \beta_0 + \sum_{j=1}^{n} \beta_j x_{ij}$ represents the linear surrogate model, where $\beta_0$ is the intercept, $\beta_j$ are the coefficients for each feature $j$, and $x_{ij}$ are the feature values for instance $i$. The goal is to find the values of $\beta$ that minimize the squared differences between the predictions of $f$ and $g$ across all instances $m$.
+In this equation, 
+
+```math
+g(x_i) = \beta_0 + \sum_{j=1}^{n} \beta_j x_{ij}
+```
+
+represents the linear surrogate model, where $\beta_0$ is the intercept, $\beta_j$ are the coefficients for each feature $j$, and $x_{ij}$ are the feature values for instance $i$. The goal is to find the values of $\beta$ that minimize the squared differences between the predictions of $f$ and $g$ across all instances $m$.
 
 By integrating these mathematical formulations and key concepts, we can develop a deeper understanding of how XAI techniques work and their importance in making AI models more transparent and trustworthy.
 
