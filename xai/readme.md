@@ -66,11 +66,11 @@ To illustrate the concepts of XAI mathematically, let's consider a machine learn
 Feature importance can be quantified using various techniques. One common method is to use the SHapley Additive exPlanations (SHAP) values. SHAP values are derived from cooperative game theory and provide a unified measure of feature importance.
 
 The SHAP value for a feature \( i \) in instance \( x \) is given by:
-
-```math\[
+```math
+\[
 \phi_i = \sum_{S \subseteq \{1, \ldots, n\} \setminus \{i\}} \frac{|S|! \cdot (n - |S| - 1)!}{n!} \left[ f(S \cup \{i\}) - f(S) \right]
-\]```
-
+\]
+```
 Here, \( \phi_i \) represents the SHAP value for feature \( i \), \( S \) is a subset of all features excluding \( i \), \( n \) is the total number of features, and \( f(S) \) is the model's prediction given the feature subset \( S \).
 
 ### Surrogate Models
