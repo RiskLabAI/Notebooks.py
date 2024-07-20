@@ -8,11 +8,12 @@ This repository contains the Jupyter Notebook associated with our research on th
 
 ## Key Findings
 
-- **Enhancement of Model Evaluation**: Our research advances financial analytics by integrating machine learning with a novel cross-validation framework, specifically addressing the unique features of financial data such as non-stationarity and autocorrelation.
-- **Superiority of CPCV**: The Combinatorial Purged Cross-Validation (CPCV) method is established as superior in preventing overfitting, with better performance metrics such as lower Probability of Backtest Overfitting (PBO) and higher Deflated Sharpe Ratio (DSR) Test Statistic, compared to traditional methods.
-- **Cautions on Traditional Methods**: Traditional cross-validation methods, exhibit limitations, with Walk-Forward particularly falling short in terms of temporal stability and robustness.
-- **Nuanced Market Simulations**: By employing a Synthetic Controlled Environment with advanced models, our study offers detailed simulations of market conditions, providing deeper insights into the effectiveness of different cross-validation methods.
-- **Implications for Financial Strategy Development**: The findings stress the need for specialized validation techniques in financial modeling and strategy development, especially critical given the increasing complexity of market dynamics and regulatory requirements.
+- **Advanced Model Evaluation**: This research enhances financial analytics by integrating sophisticated statistical models and machine learning with a comprehensive cross-validation framework, specifically tailored to address non-stationarity, autocorrelation, and regime shifts in financial data.
+- **Superiority of CPCV**: The Combinatorial Purged Cross-Validation (CPCV) method demonstrates superior performance in mitigating overfitting, evidenced by lower Probability of Backtest Overfitting (PBO) and higher Deflated Sharpe Ratio (DSR) compared to traditional methods like K-Fold, Purged K-Fold, and Walk-Forward.
+- **Novel Variants of CPCV**: Introduction of Bagged CPCV and Adaptive CPCV variants enhances robustness through ensemble approaches and dynamic adjustments based on market conditions, further improving model performance stability.
+- **Real-World Validation**: Empirical validation using historical S\&P 500 data confirms the practical applicability and resilience of CPCV and its variants. Sensitivity analyses highlight CPCV's robustness against model specification errors and its consistent performance across various market scenarios.
+- **Limitations and Future Research**: Despite CPCV's computational intensity, advancements in parallelization show promise in improving efficiency. Future research should focus on optimizing these methods for real-time applications, investigating data leakage, and expanding the framework to diverse financial instruments and global markets.
+- **Practical Implications for Financial Strategy**: Findings emphasize the critical need for advanced cross-validation techniques in financial modeling, crucial for developing resilient trading strategies, enhancing risk management, and meeting regulatory requirements in complex market environments.
 
 <p align="center">
   <img src="https://github.com/RiskLabAI/Notebooks.py/blob/73253c1c854227c67941732174a4d098281a6164/backtest/Backtest%20Overfitting%20in%20the%20Machine%20Learning%20Era/figs/pbo_dsr_comparison.png" style="width: 40%;" />
