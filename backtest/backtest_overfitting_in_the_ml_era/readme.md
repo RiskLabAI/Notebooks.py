@@ -19,6 +19,10 @@ This repository contains the Jupyter Notebook associated with our research on th
   <img src="https://github.com/RiskLabAI/Notebooks.py/blob/73253c1c854227c67941732174a4d098281a6164/backtest/Backtest%20Overfitting%20in%20the%20Machine%20Learning%20Era/figs/pbo_dsr_comparison.png" style="width: 40%;" />
   <img src="https://github.com/RiskLabAI/Notebooks.py/blob/e0ba18b70c79e8c6f8fc5925fe5bfab147567cbc/backtest/Backtest%20Overfitting%20in%20the%20Machine%20Learning%20Era/figs/pbo_dsr_adf.png" style="width: 40%;" /> 
 </p>
+<p align="center">
+  <img src="https://github.com/RiskLabAI/Notebooks.py/blob/73253c1c854227c67941732174a4d098281a6164/backtest/Backtest%20Overfitting%20in%20the%20Machine%20Learning%20Era/figs/sp500_pbo_dsr_comparison.png" style="width: 40%;" />
+  <img src="https://github.com/RiskLabAI/Notebooks.py/blob/e0ba18b70c79e8c6f8fc5925fe5bfab147567cbc/backtest/Backtest%20Overfitting%20in%20the%20Machine%20Learning%20Era/figs/computational_requirements_comparison.png" style="width: 40%;" /> 
+</p>
 
 ## Installation
 
