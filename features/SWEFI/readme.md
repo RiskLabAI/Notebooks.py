@@ -94,8 +94,8 @@ The performance of SWEFI is compared against traditional methods such as MDI and
 </p>
 
 <p align="center">
-  <img src="figs/bar_plots/mda_deprado_dataset_vertical.png" alt="MDA Results (Base Learner Linear SVM(C=0.1))" width="49%" height="250"/>
-  <img src="figs/bar_plots/swefi_success_deprado_dataset_vertical.png" alt="SWEFI Results (k=0.5)" width="49%" height="250"/>
+  <img src="figs/mda_deprado_dataset_vertical.png" alt="MDA Results (Base Learner Linear SVM(C=0.1))" width="49%" height="250"/>
+  <img src="figs/swefi_success_deprado_dataset_vertical.png" alt="SWEFI Results (k=0.5)" width="49%" height="250"/>
 </p>
 
 ### Algorithm Stability Comparison
@@ -103,13 +103,13 @@ The performance of SWEFI is compared against traditional methods such as MDI and
 SWEFI demonstrates greater stability compared to previous methods.
 
 <p align="center">
-  <img src="figs/stability/swefi_iw_0.8106529403778192_pears_0.9332877466351484.png" alt="SWEFI Stability Measures" width="95%" height="300"/>
-  <img src="figs/stability/mda_SVC_iw_0.6395884280308605_pears_0.8766601336424852.png" alt="MDA Stability Measures" width="95%" height="300"/>
+  <img src="figs/swefi_iw_0.8106529403778192_pears_0.9332877466351484.png" alt="SWEFI Stability Measures" width="95%" height="300"/>
+  <img src="figs/mda_SVC_iw_0.6395884280308605_pears_0.8766601336424852.png" alt="MDA Stability Measures" width="95%" height="300"/>
 </p>
 
 <p align="center">
-  <img src="figs/stability/linear_Perceptron_iw_0.4420026941955977_pears_0.7278272656537913.png" alt="Perceptron Stability Measures" width="95%" height="300"/>
-  <img src="figs/stability/mdi_RandomForestClassifier_iw_0.12787413519166096_pears_0.22566399584442384.png" alt="MDI Stability Measures" width="95%" height="300"/>
+  <img src="figs/linear_Perceptron_iw_0.4420026941955977_pears_0.7278272656537913.png" alt="Perceptron Stability Measures" width="95%" height="300"/>
+  <img src="figs/mdi_RandomForestClassifier_iw_0.12787413519166096_pears_0.22566399584442384.png" alt="MDI Stability Measures" width="95%" height="300"/>
 </p>
 
 ### Weighting Strategies
@@ -117,6 +117,6 @@ SWEFI demonstrates greater stability compared to previous methods.
 Comparison between different weighting strategies applied to the dataset shows the Power weighting strategy (with \( \alpha > 1 \)) achieving a higher total sum of scores on the informative features.
 
 <p align="center">
-  <img src="figs/bar_plots/different_weight_category_total_fi.png" alt="Total Sum of Scores for Different Weighting Strategies" width="95%" height="300"/>
-  <img src="figs/bar_plots/weighting_strategies_swefis.png" alt="Scores for Each Feature on Different Weighting Strategies" width="95%" height="300"/>
+  <img src="figs/different_weight_category_total_fi.png" alt="Total Sum of Scores for Different Weighting Strategies" width="95%" height="300"/>
+  <img src="figs/weighting_strategies_swefis.png" alt="Scores for Each Feature on Different Weighting Strategies" width="95%" height="300"/>
 </p>
