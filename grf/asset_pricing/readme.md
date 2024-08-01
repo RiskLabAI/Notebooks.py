@@ -56,8 +56,8 @@ To visualize the results, refer to the `GRF.ipynb` notebook or execute the code 
 The improvement in fitting asset prices using the conditional CAPM model:
 
 <p align="center">
-  <img src="figs/CAPM_init.png" alt="Initial Conditional CAPM" width="49%" height="250"/>
-  <img src="figs/CAPM_loss.png" alt="Conditional CAPM Loss" width="49%" height="250"/>
+  <img src="figs/SMALL LoBM.capm.png" alt="Initial Conditional CAPM" width="49%" height="250"/>
+  <img src="figs/SMALL HiBM.capm.png" alt="Conditional CAPM Loss" width="49%" height="250"/>
 </p>
 
 ## Conditional Fama-French 3-Factor Model
@@ -65,6 +65,6 @@ The improvement in fitting asset prices using the conditional CAPM model:
 The improvement in fitting asset prices using the conditional Fama-French 3-factor model:
 
 <p align="center">
-  <img src="figs/3FF_init.png" alt="Initial Conditional 3FF" width="49%" height="250"/>
-  <img src="figs/3FF_loss.png" alt="Conditional 3FF Loss" width="49%" height="250"/>
+  <img src="figs/SMALL HiBM.3factorbeta.png" alt="Initial Conditional 3FF" width="49%" height="250"/>
+  <img src="figs/BIG LoBM.3factorbeta.png" alt="Conditional 3FF Loss" width="49%" height="250"/>
 </p>
