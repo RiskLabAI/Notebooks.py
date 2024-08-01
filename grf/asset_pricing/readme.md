@@ -69,8 +69,4 @@ The improvement in fitting asset prices using the conditional Fama-French 3-fact
   <img src="figs/BIG LoBM.3factorbeta.png" alt="Conditional 3FF Loss" width="49%" height="250"/>
 </p>
 
-Please view the following link for a list of other examples:
-
-[Additional Results and Analysis](https://ahmad-aghapour.github.io/conditional-asset-pricing/)
-
-For more details, additional results, and analysis, please visit [this page](https://ahmad-aghapour.github.io/conditional-asset-pricing/).
+For more details, additional results, and analysis, please visit [Additional Results and Analysis](https://ahmad-aghapour.github.io/conditional-asset-pricing/).
