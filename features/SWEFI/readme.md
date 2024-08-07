@@ -16,9 +16,9 @@ The SWEFI algorithm aims to provide a consistent and reliable measure of feature
 
 **Input:**
 - $` \mathcal{D} = (X, y) `$: Input Dataset, where $`X: \mathcal{F} = \{ f_i \}_{i=1}^m `$, $` \forall 1 \leq i \leq m: \; f_i \in \mathbb{R}^n `$ and $` y \in \mathbb{R}^n `$
-- $` \mathcal{FI}_{1 \leq i \leq k} \subset \{ \text{MDA, MDI, \ldots} \} `$: Feature Importance Methods
-- $` \mathcal{M}_{1 \leq i \leq k} \subset \{ \text{SVM, LDA, \ldots} \} `$ Learning Models
-- $`\text{resampling} \in \{ \text{cv}, \text{bootstrap}, \ldots \}`$: Resampling method
+- $` \mathcal{FI}_{1 \leq i \leq k} \subset \{ \text{MDA, MDI, ... } \} `$: Feature Importance Methods
+- $` \mathcal{M}_{1 \leq i \leq k} \subset \{ \text{SVM, LDA, ... } \} `$ Learning Models
+- $`\text{resampling} \in \{ \text{cv}, \text{bootstrap}, ... \}`$: Resampling method
 - $` k `$: The top $` k\% `$ of the features
 - $` \tau `$: Threshold for feature selection using cumulative sum
 
