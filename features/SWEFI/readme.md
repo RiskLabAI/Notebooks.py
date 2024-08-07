@@ -15,40 +15,40 @@ The SWEFI algorithm aims to provide a consistent and reliable measure of feature
 # Algorithm: Stability Weighted Ensemble Feature Importance (SWEFI)
 
 **Input:**
-- $` \mathcal{D} = (X, y) `$: Input Dataset, where $`X: \mathcal{F} = \{ f_i \}_{i=1}^m `$, `$ \forall 1 \leq i \leq m: \; f_i \in \mathbb{R}^n `$ and $` y \in \mathbb{R}^n `$
-- $ \mathcal{FI}_{1 \leq i \leq k} \subset \{ \text{MDA, MDI, \ldots} \} $: Feature Importance Methods
-- $ \mathcal{M}_{1 \leq i \leq k} \subset \{ \text{SVM, LDA, \ldots} $ Learning Models
-- $\text{resampling} \in \{ \text{cv}, \text{bootstrap}, \ldots \}$: Resampling method
-- $ k $: The top $ k\% $ of the features
-- $ \tau $: Threshold for feature selection using cumulative sum
+- $` \mathcal{D} = (X, y) `$: Input Dataset, where $`X: \mathcal{F} = \{ f_i \}_{i=1}^m `$, $` \forall 1 \leq i \leq m: \; f_i \in \mathbb{R}^n `$ and $` y \in \mathbb{R}^n `$
+- $` \mathcal{FI}_{1 \leq i \leq k} \subset \{ \text{MDA, MDI, \ldots} \} `$: Feature Importance Methods
+- $` \mathcal{M}_{1 \leq i \leq k} \subset \{ \text{SVM, LDA, \ldots} \} `$ Learning Models
+- $`\text{resampling} \in \{ \text{cv}, \text{bootstrap}, \ldots \}`$: Resampling method
+- $` k `$: The top $` k\% `$ of the features
+- $` \tau `$: Threshold for feature selection using cumulative sum
 
 **Output:**
-- $ \mathcal{F}_s \subset \mathcal{F}_{1 \leq i \leq m} $: Selected features
+- $` \mathcal{F}_s \subset \mathcal{F}_{1 \leq i \leq m} `$: Selected features
 
 ---
 
-1. $ X^* \gets \text{preprocess}(X) $
-2. $ \mathcal{M}_i^* \gets \text{hpo}(\mathcal{M}_i) $
-3. $\mathcal{S}_{1 \leq i \leq r} \gets \text{resampling}(\mathcal{D})$
+1. $` X^* \gets \text{preprocess}(X) `$
+2. $` \mathcal{M}_i^* \gets \text{hpo}(\mathcal{M}_i) `$
+3. $` \mathcal{S}_{1 \leq i \leq r} \gets \text{resampling}(\mathcal{D}) `$
 
-**For** $ S_i \in \mathcal{S}_{1 \leq i \leq r} $:
-   - **For** $ (\mathcal{M}_j, \mathcal{FI}_j) \in (\mathcal{M}, \mathcal{FI}) $:
-     - **For** $ f \in \mathcal{F} $:
-       - $ I_{i,j}(f) \gets \mathcal{FI}_j(S_i, M_j) $
+**For** $` S_i \in \mathcal{S}_{1 \leq i \leq r} `$:
+   - **For** $` (\mathcal{M}_j, \mathcal{FI}_j) \in (\mathcal{M}, \mathcal{FI}) `$:
+     - **For** $` f \in \mathcal{F} `$:
+       - $` I_{i,j}(f) \gets \mathcal{FI}_j(S_i, M_j) `$
 
-4. $ T \gets k \times |\mathcal{F}| / 100 $
+4. $` T \gets k \times |\mathcal{F}| / 100 `$
 
-**For** $ f \in \mathcal{F} $:
-   - $ SS(f) = \frac{1}{|\mathcal{M}||\mathcal{S}|} \sum \mathbb{I}\left( \text{rank}(f, I_{i,j}) \leq T \right) $
+**For** $` f \in \mathcal{F} `$:
+   - $` SS(f) = \frac{1}{|\mathcal{M}||\mathcal{S}|} \sum \mathbb{I}\left( \text{rank}(f, I_{i,j}) \leq T \right) `$
 
-5. Normalize $ SS $ to 1
+5. Normalize $` SS `$ to 1
 
-**For** $ f \in \mathcal{F} $:
-   - $ I: EI(f) \gets \frac{\sum_{i,j} SS(f) \cdot I_{i,j}(f)}{\sum_{i,j} SS(f)} $
+**For** $` f \in \mathcal{F} `$:
+   - $` I: EI(f) \gets \frac{\sum_{i,j} SS(f) \cdot I_{i,j}(f)}{\sum_{i,j} SS(f)} `$
 
-6. $ \mathcal{F}_s \gets \mathcal{F}[\text{select}(I, th)] $ (select Algorithm \ref{alg:feature_selection})
+6. $` \mathcal{F}_s \gets \mathcal{F}[\text{select}(I, th)] `$
 
-**Return** $ \mathcal{F}_s $
+**Return** $` \mathcal{F}_s `$
 
 ### Key Equations
 
