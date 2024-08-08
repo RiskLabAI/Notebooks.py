@@ -83,13 +83,13 @@ The ensemble importance $ EI(f) $ for each feature is computed as follows:
 The performance of SWEFI is compared against traditional methods such as MDI and MDA. The results demonstrate SWEFI's superior stability and interpretability.
 
 <p align="center">
-  <img src="figs/mda_de_prado_failed.png" alt="MDA Results (Base Learner SVC(C=1.0))" width="49%" />
-  <img src="figs/swefi_success.png" alt="SWEFI Results (k=0.4)" width="49%" />
+  <img src="figs/mda_deprado_time_series_vertical.png" alt="MDA results (Base Learner Linear SVM(C=0.1))" width="49%" />
+  <img src="figs/swefi_success_time_series_vertical.png" alt="SWEFI results ($k=0.5$)" width="49%" />
 </p>
 
 <p align="center">
-  <img src="figs/mda_deprado_dataset_vertical.png" alt="MDA Results (Base Learner Linear SVM(C=0.1))" width="49%" />
-  <img src="figs/swefi_success_deprado_dataset_vertical.png" alt="SWEFI Results (k=0.5)" width="49%" />
+  <img src="figs/mda_deprado_dataset_vertical.png" alt="MDA results (Base Learner Linear SVM(C=0.1))" width="49%" />
+  <img src="figs/swefi_success_deprado_dataset_vertical.png" alt="SWEFI results ($k=0.5$)" width="49%" />
 </p>
 
 ### Algorithm Stability Comparison
@@ -97,13 +97,13 @@ The performance of SWEFI is compared against traditional methods such as MDI and
 SWEFI demonstrates greater stability compared to previous methods.
 
 <p align="center">
-  <img src="figs/swefi_iw_0.8106529403778192_pears_0.9332877466351484.png" alt="SWEFI Stability Measures" width="95%"/>
-  <img src="figs/mda_SVC_iw_0.6395884280308605_pears_0.8766601336424852.png" alt="MDA Stability Measures" width="95%"/>
+  <img src="figs/swefi_iw_0.8106529403778192_pears_0.9332877466351484.png" alt="SWEFI Stability Measures" width="100%"/>
+  <img src="figs/mda_SVC_iw_0.6395884280308605_pears_0.8766601336424852.png" alt="MDA Stability Measures" width="100%"/>
 </p>
 
 <p align="center">
-  <img src="figs/linear_Perceptron_iw_0.4420026941955977_pears_0.7278272656537913.png" alt="Perceptron Stability Measures" width="95%"/>
-  <img src="figs/mdi_RandomForestClassifier_iw_0.12787413519166096_pears_0.22566399584442384.png" alt="MDI Stability Measures" width="95%"/>
+  <img src="figs/linear_Perceptron_iw_0.4420026941955977_pears_0.7278272656537913.png" alt="Perceptron Stability Measures" width="100%"/>
+  <img src="figs/mdi_RandomForestClassifier_iw_0.12787413519166096_pears_0.22566399584442384.png" alt="MDI Stability Measures" width="100%"/>
 </p>
 
 ### Weighting Strategies
