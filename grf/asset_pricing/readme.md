@@ -1,4 +1,4 @@
-# Improving Asset Pricing via Conditioning: Evidence and Examples
+# Conditional Non-linear Asset Pricing via Conditioning: Evidence and Examples
 
 ## Overview
 
