@@ -1,4 +1,4 @@
-# Conditional Non-linear Asset Pricing via Conditioning: Evidence and Examples
+# Conditional Non-linear Asset Pricing with Generalized Random Forests: Evidence and Examples
 
 ## Overview
 
