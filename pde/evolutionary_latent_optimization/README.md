@@ -3,6 +3,7 @@
 <p align="center">
   <img src="figs/adelo.png" />
 </p>
+
 ---
 
 ## Abstract
