@@ -1,7 +1,8 @@
 # Ill-Posedness Evolved in the Deep: Adaptive Evolutionary Latent Optimization: An Application to Recovering Volatility
 
-![AdELO Algorithm Pseudocode](figs/adelo.png)
-
+<p align="center">
+  <img src="figs/adelo.png" />
+</p>
 ---
 
 ## Abstract
