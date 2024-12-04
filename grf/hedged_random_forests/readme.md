@@ -2,9 +2,6 @@
 # **Hedged Random Forests**
 ---
 
-
-
-
 ```bibtex
 @article{beck2023hedging,
   title={Hedging Forecast Combinations With an Application to the Random Forest},
@@ -14,100 +11,297 @@
 }
 ```
 
-The goal is to forecast (or predict) a random variable \( y \in \mathbb{R} \) based on a set of variables (or attributes) \( x \in \mathbb{R}^d \). Denote a generic forecast by \( \hat{f} \). Then its mean-squared error (MSE) is given by:
+```markdown
+# Hedged Forecast Combinations: Code Design and Mathematical Foundations
+
+This document provides an overview of the **Hedged Forecast Combinations** and **Hedged Random Forest** implementations, along with the mathematical principles that govern their behavior. Each code snippet includes the corresponding mathematical formulation and is displayed in a GitHub-friendly format.
+
+---
+
+## Hedged Forecast Combination
+
+### Mathematical Formulation
+
+The hedged forecast combination minimizes the mean-squared error (MSE):
 
 $$
-\text{MSE}(\hat{f}) \coloneqq \mathbb{E} \left( y - \hat{f}(x) \right)^2.
+\text{MSE}(\hat{f}_w) = (w^\top \mu)^2 + w^\top \Sigma w
 $$
 
-Letting
+where:
+- \( w \) is the vector of weights.
+- \( \mu \) is the mean vector of forecast errors.
+- \( \Sigma \) is the covariance matrix of forecast errors.
 
-\[
-\text{Bias}(\hat{f}) \coloneqq \mathbb{E} \left( y - \hat{f}(x) \right)
-\quad \text{and} \quad
-\text{Var}(\hat{f}) \coloneqq \operatorname{Var} \left( y - \hat{f}(x) \right) = \mathbb{E} \left( \left( y - \hat{f}(x) \right)^2 \right) - \left( \mathbb{E} \left( y - \hat{f}(x) \right) \right)^2,
-\]
+The optimization problem is:
 
-there exists the well-known decomposition:
+$$
+\begin{aligned}
+& \min_w \quad (w^\top \mu)^2 + w^\top \Sigma w \\
+\text{subject to} \quad & w^\top \mathbf{1} = 1, \\
+& \|w\|_1 \leq \kappa
+\end{aligned}
+$$
 
-\[
-\text{MSE}(\hat{f}) = \text{Bias}^2(\hat{f}) + \text{Var}(\hat{f}).
-\]
+---
 
-The oracle that minimizes the MSE is given by the conditional expectation $ \hat{f}_{\text{or}}(x) \coloneqq \mathbb{E}(y \mid x) $ but is not available in practice.
+### Code Outline
 
-This paper considers combinations of a given set of \( p \) forecasting methods (or forecasting models), denoted by \( \{ \mathcal{M}_j \}_{j=1}^p \). The number of methods, \( p \), is assumed to be exogenous and fixed.
+```python
+class HedgedForecastCombination(BaseEstimator, RegressorMixin):
+    def __init__(self, base_models: List[BaseEstimator], kappa: float = 2.0, shrinkage: str = "ledoit_wolf"):
+        pass
 
-There exists an extensive literature on forecast combinations. The consensus seems to be that simple averaging (or equal weighting), given by
+    def fit(self, X: np.ndarray, y: np.ndarray) -> "HedgedForecastCombination":
+        pass
 
-\[
-\hat{f}_{\text{AV}}(x) \coloneqq \frac{1}{p} \sum_{j=1}^p \mathcal{M}_j(x),
-\]
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        pass
 
-is hard to beat by more general linear combinations of the kind
+    def _solve_optimization(self) -> np.ndarray:
+        pass
 
-\[
-\hat{f}_w(x) \coloneqq \sum_{j=1}^p w_j \mathcal{M}_j(x) \quad \text{with} \quad w \coloneqq (w_1, \ldots, w_p)' \quad \text{and} \quad \sum_{j=1}^p w_j = 1.
-\]
+    def _ledoit_wolf_shrinkage(self, residuals: np.ndarray) -> np.ndarray:
+        pass
+```
 
-Nevertheless, our aim is to find a method for selecting a set of weights \( w \) that does improve the (out-of-sample) MSE of simple averaging, at least "on balance".
+---
 
-Denote by \( e_j \coloneqq y - \mathcal{M}_j(x) \) the forecast error made by model \( \mathcal{M}_j \) and collect these errors into the vector \( e \coloneqq (e_1, \ldots, e_p)' \) with expectation vector and covariance matrix
+## Hedged Random Forest
 
-\[
-\mu \coloneqq \mathbb{E}(e) \quad \text{and} \quad \Sigma \coloneqq \operatorname{Var}(e).
-\]
+### Mathematical Formulation
 
-The MSE of the forecast \( \hat{f}_w \) is then given by
+In the context of random forests, the individual trees serve as forecasting models \( \mathcal{M}_j(x) \). The residual matrix \( R \) is constructed as:
 
-\[
-\text{MSE}(\hat{f}_w) = (w' \mu)^2 + w' \Sigma w.
-\]
+$$
+R[:, j] = y - \mathcal{M}_j(x)
+$$
 
-Therefore, the optimal (in terms of the MSE) forecast in the class \( \hat{f}_w \) is the solution of the following optimization problem:
+The weights \( w \) are optimized using the same convex optimization problem as the general case. The output prediction is a weighted combination of the individual trees:
 
-\[
-\begin{align}
-& \min_w \quad (w' \mu)^2 + w' \Sigma w, \label{eq:opt1} \\
-\text{subject to} \quad & w' \mathbf{1} = 1, \label{eq:opt2}
-\end{align}
-\]
+$$
+\hat{f}_{\text{HRF}}(x) = \sum_{j=1}^p w_j \mathcal{M}_j(x)
+$$
 
-where \( \mathbf{1} \) denotes a vector of ones of appropriate dimension.
+---
 
-In practice, the inputs \( \mu \) and \( \Sigma \) are unknown. A feasible solution is to replace them with sample-based estimates \( \hat{\mu} \) and \( \hat{\Sigma} \), which is an application of the general "plug-in method".
+### Code Outline
 
-Being agnostic, for the time being, about the nature of the estimators \( \hat{\mu} \) and \( \hat{\Sigma} \), we then solve the feasible optimization problem:
+```python
+class HedgedRandomForestRegressor(BaseEstimator, RegressorMixin):
+    def __init__(self, n_estimators: int = 100, max_depth: Optional[int] = None, 
+                 kappa: float = 2.0, shrinkage: str = "ledoit_wolf"):
+        pass
 
-\[
-\begin{align}
-& \min_w \quad (w' \hat{\mu})^2 + w' \hat{\Sigma} w, \label{eq:fopt1} \\
-\text{subject to} \quad & w' \mathbf{1} = 1, \label{eq:fopt2} \\
-& \| w \|_1 \leq \kappa, \label{eq:fopt3}
-\end{align}
-\]
+    def fit(self, X: np.ndarray, y: np.ndarray) -> "HedgedRandomForestRegressor":
+        pass
 
-where \( \| w \|_1 \coloneqq \sum_{j=1}^p |w_j| \) denotes the \( L_1 \) norm of \( w \), and \( \kappa \in [1, \infty] \) is a constant chosen by the user.
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        pass
 
-Assuming that the estimator \( \hat{\Sigma} \) is symmetric and positive semi-definite, the optimization problem \eqref{eq:fopt1}–\eqref{eq:fopt3} is still of convex nature and can be solved easily and quickly in practice, even for large dimensions \( p \). We shall denote the solution to this optimization problem by \( \hat{w} \).
+    def _bootstrap_sample(self, X: np.ndarray, y: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+        pass
 
-The addition of the constraint \eqref{eq:fopt3} is motivated by the related problem of **portfolio selection** in finance, in which context the constraint is called a "gross-exposure constraint". Adding this type of constraint to the infeasible problem \eqref{eq:opt1}–\eqref{eq:opt2} clearly would result in a (weakly) worse solution for any value \( \kappa \in [1, \infty) \). But in the feasible problem, which must use estimated instead of true inputs, the constraint typically helps. The intuition here is that replacing \( \mu \) and \( \Sigma \) with respective estimates \( \hat{\mu} \) and \( \hat{\Sigma} \) can lead to unstable and underdiversified solutions that look good in sample (or in the training set) but perform badly out of sample, especially when the number of models, \( p \), is not (exceedingly) small relative to the sample size relevant to the estimation of \( \mu \) and \( \Sigma \).
+    def _solve_optimization(self) -> np.ndarray:
+        pass
+```
 
-In the extreme case \( \kappa = 1 \), the weights are forced to be non-negative, that is, \( w_j \geq 0 \). Imposing this constraint is standard in the forecast-combination literature but it might well lead to sub-optimal performance because of not giving enough flexibility to the solution of the problem \eqref{eq:fopt1}–\eqref{eq:fopt3}. At the other end of the spectrum, the choice \( \kappa = \infty \) corresponds to removing the constraint \eqref{eq:fopt3}, which may also lead to sub-optimal performance for the reasons mentioned above. Staying away from either extreme, there is ample evidence in the finance literature that choosing \( \kappa \in [1.5, 2.5] \) typically results in improved forecasting performance, and that the exact choice in this interval is not overly critical.
+---
 
-Because the constraint \eqref{eq:fopt3} protects the user against extreme "positions", that is, against weights \( \hat{w}_j \) that are unduly large in absolute value, we call our approach **"hedging forecast combinations"**.
+## Optimization Problem Solver
 
-## Theory
+### Mathematical Formulation
 
-The solution to the convex optimization problem \eqref{eq:fopt1}–\eqref{eq:fopt3} is continuous in the inputs \( \hat{\mu} \) and \( \hat{\Sigma} \). Therefore, with the choice \( \kappa = \infty \), its solution, denoted by \( \hat{w} \), would lead to an asymptotically optimal forecast combination \( \hat{f}_{\hat{w}} \) based on consistent estimators \( \hat{\mu} \) and \( \hat{\Sigma} \). Stating this fact in a theorem is possible, but as this is a routine matter we find it outside the scope of the basic research content of this paper. First, this fact has been recognized before. Furthermore, in practical application, the relevant property is the finite-sample performance of the forecast \( \hat{f}_{\hat{w}} \) and, so far, the evidence based on simulation studies and empirical applications to real-life data sets indicates that such forecast combinations, on balance, do not outperform \( \hat{f}_{\text{AV}} \), that is, simple averaging.
+The optimization problem is solved using quadratic programming:
 
-Therefore, our goal is isolated to finding a forecast combination \( \hat{f}_{\hat{w}} \) that, on balance, outperforms \( \hat{f}_{\text{AV}} \) in empirical applications to commonly used benchmark data sets.
+$$
+\begin{aligned}
+\text{Objective:} \quad & \min_w \quad (w^\top \hat{\mu})^2 + w^\top \hat{\Sigma} w \\
+\text{Constraints:} \quad & w^\top \mathbf{1} = 1, \\
+& \|w\|_1 \leq \kappa
+\end{aligned}
+$$
 
-### Remark: Scale Invariance
+This ensures the weights are optimal given the estimated mean vector \( \hat{\mu} \) and covariance matrix \( \hat{\Sigma} \).
 
-The solution \( \hat{w} \) to the optimization problem \eqref{eq:fopt1}–\eqref{eq:fopt3} remains unchanged if \( \hat{\mu} \) and \( \hat{\Sigma} \) are replaced by \( c \hat{\mu} \) and \( c^2 \hat{\Sigma} \), respectively, for any constant \( c \in (0, \infty) \). Therefore, it is not important that the estimators \( \hat{\mu} \) and \( \hat{\Sigma} \) get the "levels" of the true quantities \( \mu \) and \( \Sigma \) right. In particular, the use of in-sample (or training-set) errors in the construction of \( \hat{\mu} \) and \( \hat{\Sigma} \) can still lead to favorable performance of the forecast combination \( \hat{f}_{\hat{w}} \) even if such errors are systematically smaller (in magnitude) compared to out-of-sample errors because of in-sample (or training-set) overfitting. Instead of approximating the actual entries of \( \mu \) and \( \Sigma \), the corresponding estimators \( \hat{\mu} \) and \( \hat{\Sigma} \) only need to approximate the entries relative to each other in order for \( \hat{f}_{\hat{w}} \) to outperform \( \hat{f}_{\text{AV}} \).
+---
 
-### Remark: Importance of Negative Weights
+### Code Outline
 
-Notably all previous proposals for weighting the random forest that we are aware of, not only in the context of regression but also in the context of classification, impose the "no-short-sales constraint" \( \kappa = 1 \), that is, \( w_j \geq 0 \; \forall j \). As shown in the robustness checks, allowing for negative weights generally improves performance and for certain data sets by a pronounced margin. In the context of finance, a "no-short-sales constraint" can be motivated by legislation (for example, mutual funds are not allowed to short stocks) or by practical considerations (for example, shorting certain assets may not be possible or prohibitively expensive). On the other hand, "short-selling" individual forecast methods \( \mathcal{M}_j \) by assigning them a negative weight is always possible and does not incur any monetary costs. We, therefore, hope that our paper will serve as motivation to the scientific community to allow for negative weights not only in the random forest but also in other forecast-combination applications.
+```python
+def _solve_optimization(self) -> np.ndarray:
+    pass
+```
 
+---
+
+## Covariance Matrix Estimation
+
+### Mathematical Formulation
+
+To improve stability, the covariance matrix \( \hat{\Sigma} \) is estimated using Ledoit-Wolf shrinkage:
+
+$$
+\hat{\Sigma} = (1 - \lambda) S + \lambda T
+$$
+
+where:
+- \( S \) is the sample covariance matrix.
+- \( T \) is the shrinkage target.
+- \( \lambda \) is the shrinkage intensity.
+
+---
+
+### Code Outline
+
+```python
+def _ledoit_wolf_shrinkage(self, residuals: np.ndarray) -> np.ndarray:
+    pass
+```
+
+---
+
+## Bootstrapping for Random Forest
+
+### Mathematical Formulation
+
+Bootstrap sampling is used to train individual trees. A bootstrap sample is drawn from the training data:
+
+$$
+\text{Sample size:} \quad n
+$$
+
+where \( n \) is the number of training observations.
+
+---
+
+### Code Outline
+
+```python
+def _bootstrap_sample(self, X: np.ndarray, y: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    pass
+```
+
+---
+
+## Prediction with Hedged Weights
+
+### Mathematical Formulation
+
+The final prediction is computed as a weighted combination of individual model predictions:
+
+$$
+\hat{f}_w(x) = \sum_{j=1}^p w_j \mathcal{M}_j(x)
+$$
+
+---
+
+### Code Outline
+
+```python
+def predict(self, X: np.ndarray) -> np.ndarray:
+    pass
+```
+
+Here’s the continuation of the markdown:
+
+---
+
+## Fitting the Models
+
+### Mathematical Formulation
+
+Each base model \( \mathcal{M}_j \) is trained on the training dataset \( (X, y) \). For random forests, this involves fitting individual decision trees on bootstrap samples of the data.
+
+The residual matrix \( R \) is computed as:
+
+$$
+R[:, j] = y - \mathcal{M}_j(X), \quad j = 1, \ldots, p
+$$
+
+These residuals are used to estimate \( \hat{\mu} \) (the mean vector of residuals) and \( \hat{\Sigma} \) (the covariance matrix of residuals).
+
+---
+
+### Code Outline
+
+```python
+def fit(self, X: np.ndarray, y: np.ndarray) -> Union["HedgedForecastCombination", "HedgedRandomForestRegressor"]:
+    pass
+```
+
+---
+
+## Cross-Validation and Reproducibility
+
+### Mathematical Formulation
+
+To ensure robust evaluation, the methodology includes cross-validation or repeated train-test splits. The final performance metric, the **root-mean-squared-error (RMSE) ratio**, is calculated as:
+
+$$
+\text{RMSE}_{\text{HRF}/\text{RF}} = \frac{\sqrt{\frac{1}{B} \sum_{b=1}^B \text{MSE}_{\text{HRF},b}}}{\sqrt{\frac{1}{B} \sum_{b=1}^B \text{MSE}_{\text{RF},b}}}
+$$
+
+where:
+- \( \text{MSE}_{\text{HRF},b} \) and \( \text{MSE}_{\text{RF},b} \) are the test set mean-squared errors for the \( b \)-th iteration of HRF and RF, respectively.
+- \( B \) is the number of repetitions.
+
+---
+
+### Code Outline
+
+```python
+def cross_validate(self, X: np.ndarray, y: np.ndarray, n_splits: int = 5, n_repeats: int = 10) -> float:
+    pass
+```
+
+---
+
+## Utility Functions
+
+### Covariance Matrix Estimation
+
+As discussed earlier, the Ledoit-Wolf shrinkage method is used to improve numerical stability. Alternatively, the sample covariance matrix can also be used, depending on the user’s choice.
+
+---
+
+### Code Outline
+
+```python
+def estimate_covariance(self, residuals: np.ndarray) -> np.ndarray:
+    pass
+```
+
+---
+
+### Bootstrap Sampling
+
+Random subsampling with replacement is used for constructing bootstrap samples during random forest training.
+
+---
+
+### Code Outline
+
+```python
+def _bootstrap_sample(self, X: np.ndarray, y: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    pass
+```
+
+---
+
+### Predicting with Weighted Models
+
+The weighted prediction is calculated using the hedged weights \( w_j \):
+
+$$
+\hat{f}_w(x) = \sum_{j=1}^p w_j \mathcal{M}_j(x)
+$$
+
+---
+
+### Code Outline
+
+```python
+def predict(self, X: np.ndarray) -> np.ndarray:
+    pass
+```
