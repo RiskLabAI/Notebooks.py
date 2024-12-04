@@ -16,9 +16,9 @@
 
 The goal is to forecast (or predict) a random variable \( y \in \mathbb{R} \) based on a set of variables (or attributes) \( x \in \mathbb{R}^d \). Denote a generic forecast by \( \hat{f} \). Then its mean-squared error (MSE) is given by:
 
-\[
+$$
 \text{MSE}(\hat{f}) \coloneqq \mathbb{E} \left( y - \hat{f}(x) \right)^2.
-\]
+$$
 
 Letting
 
@@ -34,7 +34,7 @@ there exists the well-known decomposition:
 \text{MSE}(\hat{f}) = \text{Bias}^2(\hat{f}) + \text{Var}(\hat{f}).
 \]
 
-The oracle that minimizes the MSE is given by the conditional expectation \( \hat{f}_{\text{or}}(x) \coloneqq \mathbb{E}(y \mid x) \) but is not available in practice.
+The oracle that minimizes the MSE is given by the conditional expectation $ \hat{f}_{\text{or}}(x) \coloneqq \mathbb{E}(y \mid x) $ but is not available in practice.
 
 This paper considers combinations of a given set of \( p \) forecasting methods (or forecasting models), denoted by \( \{ \mathcal{M}_j \}_{j=1}^p \). The number of methods, \( p \), is assumed to be exogenous and fixed.
 
