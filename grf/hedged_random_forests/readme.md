@@ -11,7 +11,6 @@
 }
 ```
 
-```markdown
 # Hedged Forecast Combinations: Code Design and Mathematical Foundations
 
 This document provides an overview of the **Hedged Forecast Combinations** and **Hedged Random Forest** implementations, along with the mathematical principles that govern their behavior. Each code snippet includes the corresponding mathematical formulation and is displayed in a GitHub-friendly format.
@@ -29,9 +28,9 @@ $$
 $$
 
 where:
-- \( w \) is the vector of weights.
-- \( \mu \) is the mean vector of forecast errors.
-- \( \Sigma \) is the covariance matrix of forecast errors.
+- $w$ is the vector of weights.
+- $\mu$ is the mean vector of forecast errors.
+- $\Sigma$ is the covariance matrix of forecast errors.
 
 The optimization problem is:
 
@@ -71,17 +70,17 @@ class HedgedForecastCombination(BaseEstimator, RegressorMixin):
 
 ### Mathematical Formulation
 
-In the context of random forests, the individual trees serve as forecasting models \( \mathcal{M}_j(x) \). The residual matrix \( R \) is constructed as:
+In the context of random forests, the individual trees serve as forecasting models $\mathcal{M}_j(x)$. The residual matrix $R$ is constructed as:
 
 $$
 R[:, j] = y - \mathcal{M}_j(x)
 $$
 
-The weights \( w \) are optimized using the same convex optimization problem as the general case. The output prediction is a weighted combination of the individual trees:
+The weights $w$ are optimized using the same convex optimization problem as the general case. The output prediction is a weighted combination of the individual trees:
 
-$$
+```math
 \hat{f}_{\text{HRF}}(x) = \sum_{j=1}^p w_j \mathcal{M}_j(x)
-$$
+```
 
 ---
 
@@ -122,7 +121,7 @@ $$
 \end{aligned}
 $$
 
-This ensures the weights are optimal given the estimated mean vector \( \hat{\mu} \) and covariance matrix \( \hat{\Sigma} \).
+This ensures the weights are optimal given the estimated mean vector $\hat{\mu}$ and covariance matrix $\hat{\Sigma}$.
 
 ---
 
@@ -139,16 +138,16 @@ def _solve_optimization(self) -> np.ndarray:
 
 ### Mathematical Formulation
 
-To improve stability, the covariance matrix \( \hat{\Sigma} \) is estimated using Ledoit-Wolf shrinkage:
+To improve stability, the covariance matrix $\hat{\Sigma}$ is estimated using Ledoit-Wolf shrinkage:
 
 $$
 \hat{\Sigma} = (1 - \lambda) S + \lambda T
 $$
 
 where:
-- \( S \) is the sample covariance matrix.
-- \( T \) is the shrinkage target.
-- \( \lambda \) is the shrinkage intensity.
+- $S$ is the sample covariance matrix.
+- $T$ is the shrinkage target.
+- $\lambda$ is the shrinkage intensity.
 
 ---
 
@@ -171,7 +170,7 @@ $$
 \text{Sample size:} \quad n
 $$
 
-where \( n \) is the number of training observations.
+where $n$ is the number of training observations.
 
 ---
 
@@ -190,9 +189,9 @@ def _bootstrap_sample(self, X: np.ndarray, y: np.ndarray) -> Tuple[np.ndarray, n
 
 The final prediction is computed as a weighted combination of individual model predictions:
 
-$$
+```math
 \hat{f}_w(x) = \sum_{j=1}^p w_j \mathcal{M}_j(x)
-$$
+```
 
 ---
 
@@ -211,15 +210,15 @@ Here’s the continuation of the markdown:
 
 ### Mathematical Formulation
 
-Each base model \( \mathcal{M}_j \) is trained on the training dataset \( (X, y) \). For random forests, this involves fitting individual decision trees on bootstrap samples of the data.
+Each base model $\mathcal{M}_j$ is trained on the training dataset $(X, y)$. For random forests, this involves fitting individual decision trees on bootstrap samples of the data.
 
-The residual matrix \( R \) is computed as:
+The residual matrix $R$ is computed as:
 
 $$
 R[:, j] = y - \mathcal{M}_j(X), \quad j = 1, \ldots, p
 $$
 
-These residuals are used to estimate \( \hat{\mu} \) (the mean vector of residuals) and \( \hat{\Sigma} \) (the covariance matrix of residuals).
+These residuals are used to estimate $\hat{\mu}$ (the mean vector of residuals) and $\hat{\Sigma}$ (the covariance matrix of residuals).
 
 ---
 
@@ -238,13 +237,13 @@ def fit(self, X: np.ndarray, y: np.ndarray) -> Union["HedgedForecastCombination"
 
 To ensure robust evaluation, the methodology includes cross-validation or repeated train-test splits. The final performance metric, the **root-mean-squared-error (RMSE) ratio**, is calculated as:
 
-$$
+```math
 \text{RMSE}_{\text{HRF}/\text{RF}} = \frac{\sqrt{\frac{1}{B} \sum_{b=1}^B \text{MSE}_{\text{HRF},b}}}{\sqrt{\frac{1}{B} \sum_{b=1}^B \text{MSE}_{\text{RF},b}}}
-$$
+```
 
 where:
-- \( \text{MSE}_{\text{HRF},b} \) and \( \text{MSE}_{\text{RF},b} \) are the test set mean-squared errors for the \( b \)-th iteration of HRF and RF, respectively.
-- \( B \) is the number of repetitions.
+- $\text{MSE}_{\text{HRF},b}$ and $\text{MSE}_{\text{RF},b}$ are the test set mean-squared errors for the $b$-th iteration of HRF and RF, respectively.
+- $B$ is the number of repetitions.
 
 ---
 
@@ -291,11 +290,11 @@ def _bootstrap_sample(self, X: np.ndarray, y: np.ndarray) -> Tuple[np.ndarray, n
 
 ### Predicting with Weighted Models
 
-The weighted prediction is calculated using the hedged weights \( w_j \):
+The weighted prediction is calculated using the hedged weights $w_j$:
 
-$$
+```math
 \hat{f}_w(x) = \sum_{j=1}^p w_j \mathcal{M}_j(x)
-$$
+```
 
 ---
 
