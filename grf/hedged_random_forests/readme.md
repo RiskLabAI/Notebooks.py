@@ -1,306 +1,243 @@
----
-# **Hedged Random Forests**
----
+# Heterogeneous Hedged Random Forest Regressor
 
-```bibtex
-@article{beck2023hedging,
-  title={Hedging Forecast Combinations With an Application to the Random Forest},
-  author={Beck, Elliot and Kozbur, Damian and Wolf, Michael},
-  journal={arXiv preprint arXiv:2308.15384},
-  year={2023}
+## Overview
+
+The **Heterogeneous Hedged Random Forest Regressor** (HH-RF) is an advanced ensemble learning method designed to handle heterogeneous data with distinct regimes. By incorporating conditional weighting and partitioning of the conditioning variable space, HH-RF enhances predictive accuracy and adaptability in complex datasets where traditional models may falter.
+
+## Mathematical Methodology
+
+### Conditional Weighting for Heterogeneous Data
+
+Traditional ensemble methods often utilize fixed weights for combining individual forecasts, which may not account for underlying heterogeneity in the data. To address this limitation, we propose an extension where the weights are functions of a conditioning variable $z$ (or a set of them), inspired by the Generalized Random Forest (GRF) methodology.
+
+#### Partitioning the Conditioning Space
+
+To ensure scalability and computational efficiency, we partition the conditioning variable space using clustering techniques and compute optimal weights for each partition. During inference, a new prediction point is assigned to its corresponding partition, and the precomputed weights for that partition are utilized. This approach reduces the computational burden by avoiding the need to calculate weights for arbitrary $z$ values.
+
+#### Optimal Weighting per Partition
+
+For each partition $\mathcal{P}_k$, we aim to determine weights $w^{(k)} = (w_1^{(k)}, \dots, w_p^{(k)})'$ that minimize the conditional mean squared error (MSE) within the partition. Formally, the optimization problem for each $k$ is:
+
+```math
+\begin{aligned}
+& \min_{w^{(k)}} \; \frac{1}{|\mathcal{P}_k|} \sum_{i \in \mathcal{P}_k} \left( y_i - \sum_{j=1}^p w_j^{(k)} \mathcal{M}_j(x_i) \right)^2 \\
+\text{s.t.} \quad & \sum_{j=1}^p w_j^{(k)} = 1, \quad \|w^{(k)}\|_1 \leq \kappa.
+\end{aligned}
+```
+
+This can be reformulated using the estimated conditional moments within each partition. Let $e_k(z) = \left( e_1^k(z), \dots, e_p^k(z) \right)'$ be the forecast error vector within cluster $\mathcal{P}_k$. We estimate the conditional mean vector $\mu_k$ and covariance matrix $\Sigma_k$ within each cluster:
+
+```math
+\mu_k = \mathbb{E}[e_k(z) \mid z \in \mathcal{P}_k], \quad \Sigma_k = \mathbb{Var}[e_k(z) \mid z \in \mathcal{P}_k].
+```
+
+These can be estimated using the sample $\{(y_i, x_i, z_i)\}_{i=1}^n$. For each partition $\mathcal{P}_k$, we identify a neighborhood $\mathcal{N}(\mathcal{P}_k)$ of similar conditioning variable values within $\mathcal{P}_k$ and compute:
+
+```math
+\begin{aligned}
+\hat{\mu}_k &= \frac{1}{|\mathcal{N}(\mathcal{P}_k)|} \sum_{i \in \mathcal{N}(\mathcal{P}_k)} e_i(z_i), \\
+\hat{\Sigma}_k &= \frac{1}{|\mathcal{N}(\mathcal{P}_k)| - 1} \sum_{i \in \mathcal{N}(\mathcal{P}_k)} \left( e_i(z_i) - \hat{\mu}_k \right) \left( e_i(z_i) - \hat{\mu}_k \right)'.
+\end{aligned}
+```
+
+The optimization problem becomes:
+
+```math
+\begin{aligned}
+& \min_{w^{(k)}} \; \left( w^{(k)\top} \mu_k \right)^2 + w^{(k)\top} \Sigma_k w^{(k)} \\
+\text{s.t.} \quad & w^{(k)\top} \mathbf{1} = 1, \quad \|w^{(k)}\|_1 \leq \kappa.
+\end{aligned}
+```
+
+This is a convex quadratic programming problem for each partition $k$, solvable via standard numerical optimization techniques.
+
+### Weight Assignment During Inference
+
+Given a new prediction point with conditioning variable $z^*$, we assign it to the nearest partition $\mathcal{P}_k$ based on the clustering algorithm. The corresponding precomputed weights $w^{(k)}$ are then used to combine the individual forecasts:
+
+```math
+\hat{f}_{w^{(k)}}(x^*) = \sum_{j=1}^p w_j^{(k)} \mathcal{M}_j(x^*).
+```
+
+## Experimental Setup
+
+To demonstrate the capabilities of the HH-RF methodology, we designed a synthetic dataset that exhibits clear regime shifts and heterogeneous noise structures. This setup allows us to effectively compare the performance of three models: **Standard Random Forest (RF)**, **Hedged Random Forest (H-RF)**, and the proposed **Heterogeneous Hedged Random Forest (HH-RF)**.
+
+### Data Generation
+
+We generate a dataset comprising $n = 1000$ samples with $d = 5$ predictor variables $\mathbf{X} = [X_1, X_2, \dots, X_5]$ and a conditioning variable $z$. The target variable $y$ is defined as a piecewise function of $\mathbf{X}$ and $z$, incorporating three distinct regimes:
+
+```math
+y = f(\mathbf{X}, z) + \epsilon(z),
+```
+
+where $f(\mathbf{X}, z)$ is defined as:
+
+```math
+f(\mathbf{X}, z) =
+\begin{cases}
+    2X_1 - X_2 + 3, & \text{if } z < 0.3 \quad \text{(Regime 1: Linear)} \\
+    \sin(2\pi X_1) + X_2^2 - 1, & \text{if } 0.3 \leq z < 0.6 \quad \text{(Regime 2: Non-linear)} \\
+    0.5X_1 - 2X_3 + \eta, & \text{if } z \geq 0.6 \quad \text{(Regime 3: Noisy)}
+\end{cases}
+```
+
+Here, $\eta \sim \mathcal{N}(0, 2^2)$ introduces high noise in Regime 3. The noise term $\epsilon(z)$ varies with $z$ to reflect heterogeneous noise levels:
+
+```math
+\epsilon(z) =
+\begin{cases}
+    \mathcal{N}(0, 0.5^2), & \text{if } z < 0.3 \quad \text{(Low Noise)} \\
+    \mathcal{N}(0, 1^2), & \text{if } 0.3 \leq z < 0.6 \quad \text{(Medium Noise)} \\
+    \mathcal{N}(0, 2^2), & \text{if } z \geq 0.6 \quad \text{(High Noise)}
+\end{cases}
+```
+
+This formulation ensures that each regime not only has distinct functional relationships between predictors and the target but also varying levels of unpredictability, thereby challenging models to adapt to conditional heterogeneity.
+
+### Visualizing the Synthetic Data
+
+We visualize the synthetic data to illustrate the distinct regimes based on the conditioning variable $z$. Each cluster corresponds to a specific regime with unique relationships and noise levels.
+
+![Synthetic Data with Heterogeneous Regimes](synthetic_data.png)
+
+*Figure 1: Synthetic Dataset with Heterogeneous Regimes*
+
+## Usage
+
+### Training and Evaluating Models
+
+The following code demonstrates how to train and evaluate the three models: Standard RF, H-RF, and HH-RF, using the synthetic dataset.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Set random seed for reproducibility
+np.random.seed(42)
+
+# Number of samples and dimensions
+n_samples = 1000
+n_features = 5
+
+# Generate random features (X)
+X = np.random.uniform(-1, 1, size=(n_samples, n_features))
+
+# Generate conditioning variable (z)
+z = np.random.uniform(0, 1, size=n_samples)
+
+# Define piecewise function f(X, z)
+def f(X, z):
+    # Regime 1: z < 0.3 -> Linear relationship
+    linear = X[:, 0] * 2 + X[:, 1] * (-1) + 3
+    # Regime 2: 0.3 <= z < 0.6 -> Non-linear relationship
+    nonlinear = np.sin(2 * np.pi * X[:, 0]) + X[:, 1]**2 - 1
+    # Regime 3: z >= 0.6 -> Mixed relationship with high noise
+    noisy = X[:, 0] * 0.5 + X[:, 2] * (-2) + np.random.normal(0, 2, size=X.shape[0])
+
+    # Combine regimes based on z
+    y = np.where(z < 0.3, linear,
+                 np.where(z < 0.6, nonlinear, noisy))
+    return y
+
+# Generate target variable y
+y = f(X, z)
+
+# Add heterogeneous noise
+noise = np.where(z < 0.3, np.random.normal(0, 0.5, size=n_samples),  # Low noise
+                 np.where(z < 0.6, np.random.normal(0, 1, size=n_samples),  # Medium noise
+                          np.random.normal(0, 2, size=n_samples)))  # High noise
+y += noise
+
+# Visualize data
+# Define clusters based on z values
+cluster_1 = z < 0.3  # Cluster 1: z < 0.3
+cluster_2 = (z >= 0.3) & (z < 0.6)  # Cluster 2: 0.3 <= z < 0.6
+cluster_3 = z >= 0.6  # Cluster 3: z >= 0.6
+
+# Assign colors to the clusters
+colors = np.zeros_like(z, dtype=int)
+colors[cluster_1] = 0  # Cluster 1: Color 0 (e.g., red)
+colors[cluster_2] = 1  # Cluster 2: Color 1 (e.g., blue)
+colors[cluster_3] = 2  # Cluster 3: Color 2 (e.g., green)
+
+# Define the color map
+cmap = plt.get_cmap('RdYlBu')  # Or any other color map
+
+# Plot the data with colors representing the clusters
+plt.scatter(z, y, c=colors, cmap=cmap, alpha=0.7, edgecolors='k', label="Target Variable (y)")
+plt.xlabel("Conditioning Variable (z)")
+plt.ylabel("Target (y)")
+plt.title("Synthetic Data: Heterogeneous Regimes with Clusters")
+plt.show()
+
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from hedged_random_forests import HedgedRandomForestRegressor
+from heterogeneous_hedged_random_forests import HeterogeneousHedgedRandomForestRegressor
+
+# Split data into training and testing
+X_train, X_test, y_train, y_test, z_train, z_test = train_test_split(X, y, z, test_size=0.3, random_state=42)
+
+# Fit and evaluate Vanilla RF
+vanilla_rf = RandomForestRegressor(n_estimators=100, random_state=42)
+vanilla_rf.fit(X_train, y_train)
+rf_preds = vanilla_rf.predict(X_test)
+rf_mse = np.mean((y_test - rf_preds) ** 2)
+
+# Fit and evaluate H-RF
+h_rf = HedgedRandomForestRegressor(n_estimators=100, random_state=42)
+h_rf.fit(X_train, y_train)
+h_rf_preds = h_rf.predict(X_test)
+h_rf_mse = np.mean((y_test - h_rf_preds) ** 2)
+
+# Fit and evaluate HH-RF
+hh_rf = HeterogeneousHedgedRandomForestRegressor(n_estimators=100, n_partition=3, random_state=42)
+hh_rf.fit(X_train, y_train, z_train.reshape(-1, 1))
+hh_rf_preds = hh_rf.predict(X_test, z_test.reshape(-1, 1))
+hh_rf_mse = np.mean((y_test - hh_rf_preds) ** 2)
+
+# Print results
+print(f"Vanilla RF MSE: {rf_mse}")
+print(f"H-RF MSE: {h_rf_mse}")
+print(f"HH-RF MSE: {hh_rf_mse}")
+
+# Optional: Analyze regime-specific performance
+for regime, regime_name in [(z_test < 0.3, "Regime 1 (Linear)"),
+                            ((z_test >= 0.3) & (z_test < 0.6), "Regime 2 (Non-Linear)"),
+                            (z_test >= 0.6, "Regime 3 (Noisy)")]:
+    regime_mse = np.mean((y_test[regime] - hh_rf_preds[regime]) ** 2)
+    print(f"{regime_name} MSE (HH-RF): {regime_mse}")
+
+import pandas as pd
+from sklearn.metrics import mean_absolute_error, r2_score
+
+# Compute additional metrics (MAE, R²)
+metrics = {
+    'Model': ['Standard RF', 'Hedged RF', 'Heterogeneous Hedged RF'],
+    'MSE': [rf_mse, h_rf_mse, hh_rf_mse],
+    'MAE': [
+        mean_absolute_error(y_test, rf_preds),
+        mean_absolute_error(y_test, h_rf_preds),
+        mean_absolute_error(y_test, hh_rf_preds)
+    ],
+    'R²': [
+        r2_score(y_test, rf_preds),
+        r2_score(y_test, h_rf_preds),
+        r2_score(y_test, hh_rf_preds)
+    ]
 }
+
+metrics_df = pd.DataFrame(metrics)
+print(metrics_df)
 ```
 
-# Hedged Forecast Combinations: Code Design and Mathematical Foundations
-
-This document provides an overview of the **Hedged Forecast Combinations** and **Hedged Random Forest** implementations, along with the mathematical principles that govern their behavior. Each code snippet includes the corresponding mathematical formulation and is displayed in a GitHub-friendly format.
-
----
-
-## Hedged Forecast Combination
-
-### Mathematical Formulation
-
-The hedged forecast combination minimizes the mean-squared error (MSE):
-
-$$
-\text{MSE}(\hat{f}_w) = (w^\top \mu)^2 + w^\top \Sigma w
-$$
-
-where:
-- $w$ is the vector of weights.
-- $\mu$ is the mean vector of forecast errors.
-- $\Sigma$ is the covariance matrix of forecast errors.
-
-The optimization problem is:
-
-$$
-\begin{aligned}
-& \min_w \quad (w^\top \mu)^2 + w^\top \Sigma w \\
-\text{subject to} \quad & w^\top \mathbf{1} = 1, \\
-& \|w\|_1 \leq \kappa
-\end{aligned}
-$$
-
----
-
-### Code Outline
-
-```python
-class HedgedForecastCombination(BaseEstimator, RegressorMixin):
-    def __init__(self, base_models: List[BaseEstimator], kappa: float = 2.0, shrinkage: str = "ledoit_wolf"):
-        pass
-
-    def fit(self, X: np.ndarray, y: np.ndarray) -> "HedgedForecastCombination":
-        pass
-
-    def predict(self, X: np.ndarray) -> np.ndarray:
-        pass
-
-    def _solve_optimization(self) -> np.ndarray:
-        pass
-
-    def _ledoit_wolf_shrinkage(self, residuals: np.ndarray) -> np.ndarray:
-        pass
-```
-
----
-
-## Hedged Random Forest
-
-### Mathematical Formulation
-
-In the context of random forests, the individual trees serve as forecasting models $\mathcal{M}_j(x)$. The residual matrix $R$ is constructed as:
-
-$$
-R[:, j] = y - \mathcal{M}_j(x)
-$$
-
-The weights $w$ are optimized using the same convex optimization problem as the general case. The output prediction is a weighted combination of the individual trees:
-
-```math
-\hat{f}_{\text{HRF}}(x) = \sum_{j=1}^p w_j \mathcal{M}_j(x)
-```
-
----
-
-### Code Outline
-
-```python
-class HedgedRandomForestRegressor(BaseEstimator, RegressorMixin):
-    def __init__(self, n_estimators: int = 100, max_depth: Optional[int] = None, 
-                 kappa: float = 2.0, shrinkage: str = "ledoit_wolf"):
-        pass
-
-    def fit(self, X: np.ndarray, y: np.ndarray) -> "HedgedRandomForestRegressor":
-        pass
-
-    def predict(self, X: np.ndarray) -> np.ndarray:
-        pass
-
-    def _bootstrap_sample(self, X: np.ndarray, y: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-        pass
-
-    def _solve_optimization(self) -> np.ndarray:
-        pass
-```
-
----
-
-## Optimization Problem Solver
-
-### Mathematical Formulation
-
-The optimization problem is solved using quadratic programming:
-
-$$
-\begin{aligned}
-\text{Objective:} \quad & \min_w \quad (w^\top \hat{\mu})^2 + w^\top \hat{\Sigma} w \\
-\text{Constraints:} \quad & w^\top \mathbf{1} = 1, \\
-& \|w\|_1 \leq \kappa
-\end{aligned}
-$$
-
-This ensures the weights are optimal given the estimated mean vector $\hat{\mu}$ and covariance matrix $\hat{\Sigma}$.
-
----
-
-### Code Outline
-
-```python
-def _solve_optimization(self) -> np.ndarray:
-    pass
-```
-
----
-
-## Covariance Matrix Estimation
-
-### Mathematical Formulation
-
-To improve stability, the covariance matrix $\hat{\Sigma}$ is estimated using Ledoit-Wolf shrinkage:
-
-$$
-\hat{\Sigma} = (1 - \lambda) S + \lambda T
-$$
-
-where:
-- $S$ is the sample covariance matrix.
-- $T$ is the shrinkage target.
-- $\lambda$ is the shrinkage intensity.
-
----
-
-### Code Outline
-
-```python
-def _ledoit_wolf_shrinkage(self, residuals: np.ndarray) -> np.ndarray:
-    pass
-```
-
----
-
-## Bootstrapping for Random Forest
-
-### Mathematical Formulation
-
-Bootstrap sampling is used to train individual trees. A bootstrap sample is drawn from the training data:
-
-$$
-\text{Sample size:} \quad n
-$$
-
-where $n$ is the number of training observations.
-
----
-
-### Code Outline
-
-```python
-def _bootstrap_sample(self, X: np.ndarray, y: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-    pass
-```
-
----
-
-## Prediction with Hedged Weights
-
-### Mathematical Formulation
-
-The final prediction is computed as a weighted combination of individual model predictions:
-
-```math
-\hat{f}_w(x) = \sum_{j=1}^p w_j \mathcal{M}_j(x)
-```
-
----
-
-### Code Outline
-
-```python
-def predict(self, X: np.ndarray) -> np.ndarray:
-    pass
-```
-
-Here’s the continuation of the markdown:
-
----
-
-## Fitting the Models
-
-### Mathematical Formulation
-
-Each base model $\mathcal{M}_j$ is trained on the training dataset $(X, y)$. For random forests, this involves fitting individual decision trees on bootstrap samples of the data.
-
-The residual matrix $R$ is computed as:
-
-$$
-R[:, j] = y - \mathcal{M}_j(X), \quad j = 1, \ldots, p
-$$
-
-These residuals are used to estimate $\hat{\mu}$ (the mean vector of residuals) and $\hat{\Sigma}$ (the covariance matrix of residuals).
-
----
-
-### Code Outline
-
-```python
-def fit(self, X: np.ndarray, y: np.ndarray) -> Union["HedgedForecastCombination", "HedgedRandomForestRegressor"]:
-    pass
-```
-
----
-
-## Cross-Validation and Reproducibility
-
-### Mathematical Formulation
-
-To ensure robust evaluation, the methodology includes cross-validation or repeated train-test splits. The final performance metric, the **root-mean-squared-error (RMSE) ratio**, is calculated as:
-
-```math
-\text{RMSE}_{\text{HRF}/\text{RF}} = \frac{\sqrt{\frac{1}{B} \sum_{b=1}^B \text{MSE}_{\text{HRF},b}}}{\sqrt{\frac{1}{B} \sum_{b=1}^B \text{MSE}_{\text{RF},b}}}
-```
-
-where:
-- $\text{MSE}_{\text{HRF},b}$ and $\text{MSE}_{\text{RF},b}$ are the test set mean-squared errors for the $b$-th iteration of HRF and RF, respectively.
-- $B$ is the number of repetitions.
-
----
-
-### Code Outline
-
-```python
-def cross_validate(self, X: np.ndarray, y: np.ndarray, n_splits: int = 5, n_repeats: int = 10) -> float:
-    pass
-```
-
----
-
-## Utility Functions
-
-### Covariance Matrix Estimation
-
-As discussed earlier, the Ledoit-Wolf shrinkage method is used to improve numerical stability. Alternatively, the sample covariance matrix can also be used, depending on the user’s choice.
-
----
-
-### Code Outline
-
-```python
-def estimate_covariance(self, residuals: np.ndarray) -> np.ndarray:
-    pass
-```
-
----
-
-### Bootstrap Sampling
-
-Random subsampling with replacement is used for constructing bootstrap samples during random forest training.
-
----
-
-### Code Outline
-
-```python
-def _bootstrap_sample(self, X: np.ndarray, y: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-    pass
-```
-
----
-
-### Predicting with Weighted Models
-
-The weighted prediction is calculated using the hedged weights $w_j$:
-
-```math
-\hat{f}_w(x) = \sum_{j=1}^p w_j \mathcal{M}_j(x)
-```
-
----
-
-### Code Outline
-
-```python
-def predict(self, X: np.ndarray) -> np.ndarray:
-    pass
-```
+### Expected Output
+
+The following table summarizes the performance of each model:
+
+| Model                      | MSE    | MAE    | $R^2$  |
+|----------------------------|--------|--------|------------|
+| **Standard RF**            | 7.0339 | 2.1511 | 0.0041     |
+| **Hedged RF**              | 6.9409 | 2.1070 | 0.0172     |
+| **Heterogeneous Hedged RF**| 6.8365 | 2.0866 | 0.0320     |
