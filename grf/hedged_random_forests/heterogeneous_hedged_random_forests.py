@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
@@ -7,6 +8,8 @@ from sklearn.cluster import KMeans
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 import cvxpy as cp
+
+from quadratic_inverse_shrinkage import QIS
 
 class HeterogeneousHedgedRandomForestRegressor(BaseEstimator, RegressorMixin):
     """
@@ -65,7 +68,7 @@ class HeterogeneousHedgedRandomForestRegressor(BaseEstimator, RegressorMixin):
         When set to True, reuse the solution of the previous call to fit and add more estimators to the ensemble.
 
     shrinkage : str, default='ledoit_wolf'
-        Method for covariance estimation. Options are 'ledoit_wolf' or 'empirical'.
+        Method for covariance estimation. Options are 'ledoit_wolf' or 'empirical' or 'quadratic_inverse'.
 
     kappa : float, default=2.0
         Gross-exposure constraint parameter.
@@ -98,25 +101,27 @@ class HeterogeneousHedgedRandomForestRegressor(BaseEstimator, RegressorMixin):
     >>> predictions = model.predict(X_test, z_test)
     """
 
-    def __init__(self,
-                 n_estimators=100,
-                 criterion='squared_error',
-                 max_depth=None,
-                 min_samples_split=2,
-                 min_samples_leaf=1,
-                 min_weight_fraction_leaf=0.0,
-                 max_features=1.0,
-                 max_leaf_nodes=None,
-                 min_impurity_decrease=0.0,
-                 bootstrap=True,
-                 oob_score=False,
-                 n_jobs=None,
-                 random_state=None,
-                 verbose=0,
-                 warm_start=False,
-                 shrinkage='ledoit_wolf',
-                 kappa=2.0,
-                 n_partition=10):
+    def __init__(
+        self,
+        n_estimators=100,
+        criterion='squared_error',
+        max_depth=None,
+        min_samples_split=2,
+        min_samples_leaf=1,
+        min_weight_fraction_leaf=0.0,
+        max_features=1.0,
+        max_leaf_nodes=None,
+        min_impurity_decrease=0.0,
+        bootstrap=True,
+        oob_score=False,
+        n_jobs=None,
+        random_state=None,
+        verbose=0,
+        warm_start=False,
+        shrinkage='ledoit_wolf',
+        kappa=2.0,
+        n_partition=10
+    ):
         self.n_estimators = n_estimators
         self.criterion = criterion
         self.max_depth = max_depth
@@ -218,8 +223,10 @@ class HeterogeneousHedgedRandomForestRegressor(BaseEstimator, RegressorMixin):
                 Sigma_k, _ = ledoit_wolf(residuals)
             elif self.shrinkage == 'empirical':
                 Sigma_k = np.cov(residuals, rowvar=False)
+            elif self.shrinkage == 'quadratic_inverse':
+                Sigma_k = QIS(pd.DataFrame(residuals)).values
             else:
-                raise ValueError("Invalid shrinkage method. Choose 'ledoit_wolf' or 'empirical'.")
+                raise ValueError("Invalid shrinkage method. Choose 'ledoit_wolf' or 'empirical' or 'quadratic_inverse'.")
 
             self.mu_[k] = mu_k
             self.Sigma_[k] = Sigma_k

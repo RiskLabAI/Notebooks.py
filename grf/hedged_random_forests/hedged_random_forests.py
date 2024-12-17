@@ -1,9 +1,12 @@
 import numpy as np
+import pandas as pd
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
 from sklearn.covariance import ledoit_wolf
 import cvxpy as cp
+
+from quadratic_inverse_shrinkage import QIS
 
 class HedgedRandomForestRegressor(BaseEstimator, RegressorMixin):
     """
@@ -62,7 +65,7 @@ class HedgedRandomForestRegressor(BaseEstimator, RegressorMixin):
         When set to True, reuse the solution of the previous call to fit and add more estimators to the ensemble.
 
     shrinkage : str, default='ledoit_wolf'
-        Method for covariance estimation. Options are 'ledoit_wolf' or 'empirical'.
+        Method for covariance estimation. Options are 'ledoit_wolf' or 'empirical' or 'quadratic_inverse'.
 
     kappa : float, default=2.0
         Gross-exposure constraint parameter.
@@ -89,24 +92,26 @@ class HedgedRandomForestRegressor(BaseEstimator, RegressorMixin):
     >>> predictions = model.predict(X_test)
     """
 
-    def __init__(self,
-                 n_estimators=100,
-                 criterion='squared_error',
-                 max_depth=None,
-                 min_samples_split=2,
-                 min_samples_leaf=1,
-                 min_weight_fraction_leaf=0.0,
-                 max_features=1.0,
-                 max_leaf_nodes=None,
-                 min_impurity_decrease=0.0,
-                 bootstrap=True,
-                 oob_score=False,
-                 n_jobs=None,
-                 random_state=None,
-                 verbose=0,
-                 warm_start=False,
-                 shrinkage='ledoit_wolf',
-                 kappa=2.0):
+    def __init__(
+        self,
+        n_estimators=100,
+        criterion='squared_error',
+        max_depth=None,
+        min_samples_split=2,
+        min_samples_leaf=1,
+        min_weight_fraction_leaf=0.0,
+        max_features=1.0,
+        max_leaf_nodes=None,
+        min_impurity_decrease=0.0,
+        bootstrap=True,
+        oob_score=False,
+        n_jobs=None,
+        random_state=None,
+        verbose=0,
+        warm_start=False,
+        shrinkage='ledoit_wolf',
+        kappa=2.0
+    ):
         self.n_estimators = n_estimators
         self.criterion = criterion
         self.max_depth = max_depth
@@ -183,8 +188,10 @@ class HedgedRandomForestRegressor(BaseEstimator, RegressorMixin):
             self.Sigma_, _ = ledoit_wolf(residuals)
         elif self.shrinkage == 'empirical':
             self.Sigma_ = np.cov(residuals, rowvar=False)
+        elif self.shrinkage == 'quadratic_inverse':
+            self.Sigma_ = QIS(pd.DataFrame(residuals)).values
         else:
-            raise ValueError("Invalid shrinkage method. Choose 'ledoit_wolf' or 'empirical'.")
+            raise ValueError("Invalid shrinkage method. Choose 'ledoit_wolf' or 'empirical' or 'quadratic_inverse'.")
 
         # Solve the optimization problem to find weights
         self.weights_ = self._solve_optimization()
@@ -255,39 +262,3 @@ class HedgedRandomForestRegressor(BaseEstimator, RegressorMixin):
         weights = w.value
 
         return weights
-
-from sklearn.datasets import make_regression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
-
-# Generate synthetic regression data
-X, y = make_regression(n_samples=1000, n_features=20, noise=0.1, random_state=42)
-
-# Split into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Initialize the Hedged Random Forest Regressor
-hrf = HedgedRandomForestRegressor(
-    n_estimators=200,
-    max_depth=15,
-    shrinkage='ledoit_wolf',
-    kappa=2.5,
-    random_state=42
-)
-
-# Fit the model
-hrf.fit(X_train, y_train)
-
-# Make predictions
-y_pred = hrf.predict(X_test)
-
-# Evaluate performance
-mse = mean_squared_error(y_test, y_pred)
-print(f"Hedged Random Forest MSE: {mse:.4f}")
-
-# Compare with standard Random Forest
-rf = RandomForestRegressor(n_estimators=200, max_depth=15, random_state=42)
-rf.fit(X_train, y_train)
-y_pred_rf = rf.predict(X_test)
-mse_rf = mean_squared_error(y_test, y_pred_rf)
-print(f"Standard Random Forest MSE: {mse_rf:.4f}")
