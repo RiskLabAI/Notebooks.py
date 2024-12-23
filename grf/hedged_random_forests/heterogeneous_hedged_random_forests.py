@@ -4,7 +4,7 @@ from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
 from sklearn.covariance import ledoit_wolf
-from sklearn.cluster import KMeans
+from sklearn.mixture import GaussianMixture
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 import cvxpy as cp
@@ -22,7 +22,7 @@ class HeterogeneousHedgedRandomForestRegressor(BaseEstimator, RegressorMixin):
 
     Parameters
     ----------
-    n_estimators : int, default=100
+    n_estimators : int, default=500
         The number of trees in the forest.
 
     criterion : str, default='squared_error'
@@ -96,14 +96,14 @@ class HeterogeneousHedgedRandomForestRegressor(BaseEstimator, RegressorMixin):
     Examples
     --------
     >>> from heterogeneous_hedged_random_forests import HeterogeneousHedgedRandomForestRegressor
-    >>> model = HeterogeneousHedgedRandomForestRegressor(n_estimators=100, max_depth=10, n_partition=5, kappa=2.0)
+    >>> model = HeterogeneousHedgedRandomForestRegressor(n_estimators=500, max_depth=10, n_partition=5, kappa=2.0)
     >>> model.fit(X_train, y_train, z_train)
     >>> predictions = model.predict(X_test, z_test)
     """
 
     def __init__(
         self,
-        n_estimators=100,
+        n_estimators=500,
         criterion='squared_error',
         max_depth=None,
         min_samples_split=2,
@@ -185,12 +185,12 @@ class HeterogeneousHedgedRandomForestRegressor(BaseEstimator, RegressorMixin):
         )
         self.random_forest_.fit(X, y)
 
-        # Fit KMeans clustering on z
-        self.kmeans_ = Pipeline([
-            ('scaler', StandardScaler()), 
-            ('kmeans', KMeans(n_clusters=self.n_partition, random_state=self.random_state))
+        # Fit Gaussian Mixture Model clustering on z
+        self.gmm_ = Pipeline([
+            ('scaler', StandardScaler()),
+            ('gmm', GaussianMixture(n_components=self.n_partition, random_state=self.random_state))
         ])
-        cluster_labels = self.kmeans_.fit_predict(z)
+        cluster_labels = self.gmm_.fit_predict(z)
 
         # Extract individual tree predictions on the training data
         n_samples = X.shape[0]
@@ -253,28 +253,23 @@ class HeterogeneousHedgedRandomForestRegressor(BaseEstimator, RegressorMixin):
         y_pred : ndarray of shape (n_samples,)
             The predicted values.
         """
-        check_is_fitted(self, ['weights_', 'random_forest_', 'kmeans_'])
+        check_is_fitted(self, ['weights_', 'random_forest_', 'gmm_'])
         X = check_array(X, accept_sparse=True)
         # z = check_array(z, accept_sparse=True)
 
-        # Assign each z* to the nearest cluster
-        cluster_labels = self.kmeans_.predict(z)
+        # Get posterior probabilities for each mixture component
+        cluster_probabilities = self.gmm_.predict_proba(z)  # Shape (n_samples, n_partition)
 
         # Collect predictions from base trees
         predictions = np.column_stack([
             tree.predict(X) for tree in self.random_forest_.estimators_
         ])  # Shape (n_samples, n_estimators)
 
-        # Compute weighted combination based on cluster weights
-        y_pred = np.zeros(X.shape[0])
-        for k in range(self.n_partition):
-            # Get indices for samples in cluster k
-            cluster_indices = np.where(cluster_labels == k)[0]
-            if len(cluster_indices) == 0:
-                continue  # No samples in this cluster
+        # Compute w_sample for all samples
+        w_sample = cluster_probabilities.dot(self.weights_)  # Shape (n_samples, n_estimators)
 
-            # Compute weighted sum for these samples
-            y_pred[cluster_indices] = predictions[cluster_indices, :].dot(self.weights_[k])
+        # Compute the final predictions
+        y_pred = np.sum(predictions * w_sample, axis=1)  # Shape (n_samples,)
 
         return y_pred
 
