@@ -176,14 +176,20 @@ with joblib_progress("Overfitting...", total=all_prices.shape[1]):
 This research explores the integration of advanced statistical models and machine learning in financial analytics, representing a shift from traditional to advanced, data-driven methods. We address a critical gap in quantitative finance: the need for robust model evaluation and out-of-sample testing methodologies, particularly tailored cross-validation techniques for financial markets. We present a comprehensive framework to assess these methods, considering the unique characteristics of financial data like non-stationarity, autocorrelation, and regime shifts. Through our analysis, we unveil the marked superiority of the Combinatorial Purged (CPCV) method in mitigating overfitting risks, outperforming traditional methods like K-Fold, Purged K-Fold, and especially Walk-Forward, as evidenced by its lower Probability of Backtest Overfitting (PBO) and superior Deflated Sharpe Ratio (DSR) test statistic. Walk-Forward, by contrast, exhibits notable shortcomings in false discovery prevention, characterized by increased temporal variability and weaker stationarity. This contrasts starkly with CPCV's demonstrable stability and efficiency, confirming its reliability for financial strategy development. We introduce novel variants of CPCV, including Bagged CPCV and Adaptive CPCV, which enhance robustness through ensemble approaches and dynamic adjustments based on market conditions. Our empirical validation using historical SP 500 data confirms the practical applicability and resilience of these advanced cross-validation methods. The analysis also suggests that choosing between Purged K-Fold and K-Fold necessitates caution due to their comparable performance and potential impact on the robustness of training data in out-of-sample testing. Our investigation utilizes a Synthetic Controlled Environment incorporating advanced models like the Heston Stochastic Volatility, Merton Jump Diffusion, and Drift-Burst Hypothesis, alongside regime-switching models. This approach provides a nuanced simulation of market conditions, offering new insights into evaluating cross-validation techniques. We also address the computational aspects of these methods, demonstrating that parallelization significantly improves efficiency, making them feasible for large-scale financial datasets. Our study underscores the necessity of specialized validation methods in financial modeling, especially in the face of growing regulatory demands and complex market dynamics. It bridges theoretical and practical finance, offering a fresh outlook on financial model validation. Highlighting the significance of advanced cross-validation techniques like CPCV, our research enhances the reliability and applicability of financial models in decision-making.
 
 ## Citing Our Work
+
+Please refer to the [paper](https://www.sciencedirect.com/science/article/abs/pii/S0950705124011110) for detailed explanations and additional results.
+
 If you find our research useful in your work, please consider citing it as follows:
 
 ```bibtex
-@article{arian_norouzi_seco2024backtest,
-  title={Backtest Overfitting in the Machine Learning Era: A Comparison of Out-of-Sample Testing Methods in a Synthetic Controlled Environment},
-  author={Arian, Hamid R and Norouzi M, Daniel and Seco, Luis A},
-  journal={Available at SSRN},
-  year={2024}
+@article{ariannorouziseco2024backtest,
+  title={Backtest overfitting in the machine learning era: A comparison of out-of-sample testing methods in a synthetic controlled environment},
+  author={Arian, Hamid and Mobarekeh, Daniel Norouzi and Seco, Luis},
+  journal={Knowledge-Based Systems},
+  volume={305},
+  pages={112477},
+  year={2024},
+  publisher={Elsevier}
 }
 ```
 
