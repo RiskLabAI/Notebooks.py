@@ -1,0 +1,270 @@
+2025-04-04 23:33:14,249:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-04-04 23:33:14,249:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-04-04 23:33:14,249:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-04-04 23:33:14,249:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-04-04 23:40:41,917:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-04-04 23:40:41,918:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-04-04 23:40:41,918:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-04-04 23:40:41,918:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-04-04 23:41:03,740:INFO:PyCaret ClassificationExperiment
+2025-04-04 23:41:03,740:INFO:Logging name: clf-default-name
+2025-04-04 23:41:03,740:INFO:ML Usecase: MLUsecase.CLASSIFICATION
+2025-04-04 23:41:03,740:INFO:version 3.3.2
+2025-04-04 23:41:03,740:INFO:Initializing setup()
+2025-04-04 23:41:03,740:INFO:self.USI: 5753
+2025-04-04 23:41:03,740:INFO:self._variable_keys: {'y_test', 'data', 'logging_param', 'exp_name_log', 'fold_groups_param', 'idx', 'gpu_param', 'X_train', 'fix_imbalance', 'is_multiclass', 'pipeline', 'fold_shuffle_param', 'memory', 'target_param', 'seed', 'exp_id', 'y', '_ml_usecase', 'n_jobs_param', '_available_plots', 'html_param', 'X_test', 'y_train', 'USI', 'fold_generator', 'X', 'gpu_n_jobs_param', 'log_plots_param'}
+2025-04-04 23:41:03,740:INFO:Checking environment
+2025-04-04 23:41:03,740:INFO:python_version: 3.9.21
+2025-04-04 23:41:03,740:INFO:python_build: ('main', 'Dec 11 2024 16:35:24')
+2025-04-04 23:41:03,740:INFO:machine: AMD64
+2025-04-04 23:41:03,740:INFO:platform: Windows-10-10.0.19045-SP0
+2025-04-04 23:41:03,747:INFO:Memory: svmem(total=137112563712, available=108604780544, percent=20.8, used=28507783168, free=108604780544)
+2025-04-04 23:41:03,747:INFO:Physical Core: 24
+2025-04-04 23:41:03,747:INFO:Logical Core: 32
+2025-04-04 23:41:03,747:INFO:Checking libraries
+2025-04-04 23:41:03,747:INFO:System:
+2025-04-04 23:41:03,747:INFO:    python: 3.9.21 (main, Dec 11 2024, 16:35:24) [MSC v.1929 64 bit (AMD64)]
+2025-04-04 23:41:03,747:INFO:executable: c:\Users\harian\.conda\envs\risklab\python.exe
+2025-04-04 23:41:03,747:INFO:   machine: Windows-10-10.0.19045-SP0
+2025-04-04 23:41:03,747:INFO:PyCaret required dependencies:
+2025-04-04 23:41:03,790:INFO:                 pip: 25.0
+2025-04-04 23:41:03,791:INFO:          setuptools: 72.1.0
+2025-04-04 23:41:03,791:INFO:             pycaret: 3.3.2
+2025-04-04 23:41:03,791:INFO:             IPython: 8.18.1
+2025-04-04 23:41:03,791:INFO:          ipywidgets: 8.1.5
+2025-04-04 23:41:03,791:INFO:                tqdm: 4.67.1
+2025-04-04 23:41:03,791:INFO:               numpy: 1.26.4
+2025-04-04 23:41:03,791:INFO:              pandas: 2.1.4
+2025-04-04 23:41:03,791:INFO:              jinja2: 3.1.6
+2025-04-04 23:41:03,791:INFO:               scipy: 1.11.4
+2025-04-04 23:41:03,791:INFO:              joblib: 1.3.2
+2025-04-04 23:41:03,791:INFO:             sklearn: 1.4.2
+2025-04-04 23:41:03,791:INFO:                pyod: 2.0.4
+2025-04-04 23:41:03,791:INFO:            imblearn: 0.12.4
+2025-04-04 23:41:03,791:INFO:   category_encoders: 2.6.4
+2025-04-04 23:41:03,791:INFO:            lightgbm: 4.6.0
+2025-04-04 23:41:03,791:INFO:               numba: 0.60.0
+2025-04-04 23:41:03,791:INFO:            requests: 2.32.3
+2025-04-04 23:41:03,791:INFO:          matplotlib: 3.7.5
+2025-04-04 23:41:03,791:INFO:          scikitplot: 0.3.7
+2025-04-04 23:41:03,791:INFO:         yellowbrick: 1.5
+2025-04-04 23:41:03,791:INFO:              plotly: 5.24.1
+2025-04-04 23:41:03,791:INFO:    plotly-resampler: Not installed
+2025-04-04 23:41:03,791:INFO:             kaleido: 0.2.1
+2025-04-04 23:41:03,791:INFO:           schemdraw: 0.15
+2025-04-04 23:41:03,791:INFO:         statsmodels: 0.14.4
+2025-04-04 23:41:03,791:INFO:              sktime: 0.26.0
+2025-04-04 23:41:03,791:INFO:               tbats: 1.1.3
+2025-04-04 23:41:03,791:INFO:            pmdarima: 2.0.4
+2025-04-04 23:41:03,791:INFO:              psutil: 7.0.0
+2025-04-04 23:41:03,791:INFO:          markupsafe: 3.0.2
+2025-04-04 23:41:03,791:INFO:             pickle5: Not installed
+2025-04-04 23:41:03,791:INFO:         cloudpickle: 3.1.1
+2025-04-04 23:41:03,791:INFO:         deprecation: 2.1.0
+2025-04-04 23:41:03,791:INFO:              xxhash: 3.5.0
+2025-04-04 23:41:03,791:INFO:           wurlitzer: Not installed
+2025-04-04 23:41:03,791:INFO:PyCaret optional dependencies:
+2025-04-04 23:41:03,797:INFO:                shap: Not installed
+2025-04-04 23:41:03,797:INFO:           interpret: Not installed
+2025-04-04 23:41:03,797:INFO:                umap: Not installed
+2025-04-04 23:41:03,797:INFO:     ydata_profiling: Not installed
+2025-04-04 23:41:03,797:INFO:  explainerdashboard: Not installed
+2025-04-04 23:41:03,797:INFO:             autoviz: Not installed
+2025-04-04 23:41:03,797:INFO:           fairlearn: Not installed
+2025-04-04 23:41:03,797:INFO:          deepchecks: Not installed
+2025-04-04 23:41:03,797:INFO:             xgboost: Not installed
+2025-04-04 23:41:03,797:INFO:            catboost: Not installed
+2025-04-04 23:41:03,797:INFO:              kmodes: Not installed
+2025-04-04 23:41:03,797:INFO:             mlxtend: Not installed
+2025-04-04 23:41:03,797:INFO:       statsforecast: Not installed
+2025-04-04 23:41:03,797:INFO:        tune_sklearn: Not installed
+2025-04-04 23:41:03,797:INFO:                 ray: Not installed
+2025-04-04 23:41:03,797:INFO:            hyperopt: Not installed
+2025-04-04 23:41:03,797:INFO:              optuna: Not installed
+2025-04-04 23:41:03,797:INFO:               skopt: Not installed
+2025-04-04 23:41:03,797:INFO:              mlflow: Not installed
+2025-04-04 23:41:03,797:INFO:              gradio: Not installed
+2025-04-04 23:41:03,797:INFO:             fastapi: Not installed
+2025-04-04 23:41:03,797:INFO:             uvicorn: Not installed
+2025-04-04 23:41:03,797:INFO:              m2cgen: Not installed
+2025-04-04 23:41:03,797:INFO:           evidently: Not installed
+2025-04-04 23:41:03,797:INFO:               fugue: Not installed
+2025-04-04 23:41:03,797:INFO:           streamlit: Not installed
+2025-04-04 23:41:03,797:INFO:             prophet: Not installed
+2025-04-04 23:41:03,797:INFO:None
+2025-04-04 23:41:03,797:INFO:Set up data.
+2025-04-04 23:41:03,803:INFO:Set up folding strategy.
+2025-04-04 23:41:03,803:INFO:Set up train/test split.
+2025-04-04 23:41:03,807:INFO:Set up index.
+2025-04-04 23:41:03,807:INFO:Assigning column types.
+2025-04-04 23:41:03,811:INFO:Engine successfully changes for model 'lr' to 'sklearn'.
+2025-04-04 23:41:03,832:INFO:Engine for model 'knn' has not been set explicitly, hence returning None.
+2025-04-04 23:41:03,834:INFO:Engine for model 'rbfsvm' has not been set explicitly, hence returning None.
+2025-04-04 23:41:03,903:WARNING:
+'xgboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install xgboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:03,903:WARNING:
+'catboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install catboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:03,923:INFO:Engine for model 'knn' has not been set explicitly, hence returning None.
+2025-04-04 23:41:03,923:INFO:Engine for model 'rbfsvm' has not been set explicitly, hence returning None.
+2025-04-04 23:41:03,935:WARNING:
+'xgboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install xgboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:03,935:WARNING:
+'catboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install catboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:03,935:INFO:Engine successfully changes for model 'knn' to 'sklearn'.
+2025-04-04 23:41:03,956:INFO:Engine for model 'rbfsvm' has not been set explicitly, hence returning None.
+2025-04-04 23:41:03,968:WARNING:
+'xgboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install xgboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:03,968:WARNING:
+'catboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install catboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:03,989:INFO:Engine for model 'rbfsvm' has not been set explicitly, hence returning None.
+2025-04-04 23:41:04,001:WARNING:
+'xgboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install xgboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,002:WARNING:
+'catboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install catboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,002:INFO:Engine successfully changes for model 'rbfsvm' to 'sklearn'.
+2025-04-04 23:41:04,034:WARNING:
+'xgboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install xgboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,034:WARNING:
+'catboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install catboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,066:WARNING:
+'xgboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install xgboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,066:WARNING:
+'catboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install catboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,068:INFO:Preparing preprocessing pipeline...
+2025-04-04 23:41:04,069:INFO:Set up simple imputation.
+2025-04-04 23:41:04,069:INFO:Set up feature normalization.
+2025-04-04 23:41:04,070:INFO:Set up column name cleaning.
+2025-04-04 23:41:04,093:INFO:Finished creating preprocessing pipeline.
+2025-04-04 23:41:04,096:INFO:Pipeline: Pipeline(memory=FastMemory(location=C:\Users\harian\AppData\Local\Temp\joblib),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(exclude=None,
+                                    include=['I0 lag0', 'I0 lag1', 'I1 lag0',
+                                             'I1 lag1', 'I2 lag0', 'I2 lag1',
+                                             'I3 lag0', 'I3 lag1', 'I4 lag0',
+                                             'I4 lag1', 'R0 from I0 lag0',
+                                             'R0 from I0 lag1',
+                                             'R1 from I3 lag0',
+                                             'R1 from I3 lag1',
+                                             'R2 from I4 lag0',
+                                             'R2 from I4 lag1',
+                                             'R3 from I2 lag0',
+                                             'R3 from...
+                                                              fill_value=None,
+                                                              keep_empty_features=False,
+                                                              missing_values=nan,
+                                                              strategy='most_frequent'))),
+                ('normalize',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=StandardScaler(copy=True,
+                                                               with_mean=True,
+                                                               with_std=True))),
+                ('clean_column_names',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=CleanColumnNames(match='[\\]\\[\\,\\{\\}\\"\\:]+')))],
+         verbose=False)
+2025-04-04 23:41:04,096:INFO:Creating final display dataframe.
+2025-04-04 23:41:04,170:INFO:Setup _display_container:                     Description             Value
+0                    Session id               123
+1                        Target                 0
+2                   Target type            Binary
+3           Original data shape        (1000, 61)
+4        Transformed data shape        (1000, 61)
+5   Transformed train set shape         (990, 61)
+6    Transformed test set shape          (10, 61)
+7              Numeric features                60
+8                    Preprocess              True
+9               Imputation type            simple
+10           Numeric imputation              mean
+11       Categorical imputation              mode
+12                    Normalize              True
+13             Normalize method            zscore
+14               Fold Generator   StratifiedKFold
+15                  Fold Number                10
+16                     CPU Jobs                -1
+17                      Use GPU             False
+18               Log Experiment             False
+19              Experiment Name  clf-default-name
+20                          USI              5753
+2025-04-04 23:41:04,206:WARNING:
+'xgboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install xgboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,206:WARNING:
+'catboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install catboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,237:WARNING:
+'xgboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install xgboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,237:WARNING:
+'catboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install catboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,238:INFO:setup() successfully completed in 0.5s...............
+2025-04-04 23:41:04,253:INFO:gpu_param set to False
+2025-04-04 23:41:04,286:WARNING:
+'xgboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install xgboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,286:WARNING:
+'catboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install catboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,319:WARNING:
+'xgboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install xgboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,319:WARNING:
+'catboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install catboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,320:INFO:gpu_param set to False
+2025-04-04 23:41:04,352:WARNING:
+'xgboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install xgboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,352:WARNING:
+'catboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install catboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,383:WARNING:
+'xgboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install xgboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,383:WARNING:
+'catboost' is a soft dependency and not included in the pycaret installation. Please run: `pip install catboost` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-04-04 23:41:04,384:INFO:Initializing compare_models()
+2025-04-04 23:41:04,384:INFO:compare_models(self=<pycaret.classification.oop.ClassificationExperiment object at 0x0000017AE1B6BF40>, include=['dt', 'rf', 'mlp', 'lr', 'et', 'lda', 'ridge', 'gbc', 'qda', SVC(C=1.0, break_ties=False, cache_size=200, class_weight=None, coef0=0.0,
+    decision_function_shape='ovr', degree=3, gamma='scale', kernel='linear',
+    max_iter=-1, probability=True, random_state=None, shrinking=True, tol=0.001,
+    verbose=False)], fold=None, round=4, cross_validation=True, sort=Accuracy, n_select=100, budget_time=None, turbo=True, errors=ignore, fit_kwargs=None, groups=None, experiment_custom_tags=None, probability_threshold=None, verbose=True, parallel=None, caller_params={'self': <pycaret.classification.oop.ClassificationExperiment object at 0x0000017AE1B6BF40>, 'include': ['dt', 'rf', 'mlp', 'lr', 'et', 'lda', 'ridge', 'gbc', 'qda', SVC(C=1.0, break_ties=False, cache_size=200, class_weight=None, coef0=0.0,
+    decision_function_shape='ovr', degree=3, gamma='scale', kernel='linear',
+    max_iter=-1, probability=True, random_state=None, shrinking=True, tol=0.001,
+    verbose=False)], 'exclude': None, 'fold': None, 'round': 4, 'cross_validation': True, 'sort': 'Accuracy', 'n_select': 100, 'budget_time': None, 'turbo': True, 'errors': 'ignore', 'fit_kwargs': None, 'groups': None, 'experiment_custom_tags': None, 'probability_threshold': None, 'engine': None, 'verbose': True, 'parallel': None, '__class__': <class 'pycaret.classification.oop.ClassificationExperiment'>}, exclude=None)
+2025-04-04 23:41:04,384:INFO:Checking exceptions
+2025-04-04 23:41:04,387:INFO:Preparing display monitor
+2025-04-04 23:41:04,398:INFO:Initializing Decision Tree Classifier
+2025-04-04 23:41:04,398:INFO:Total runtime is 0.0 minutes
+2025-04-04 23:41:04,400:INFO:SubProcess create_model() called ==================================
+2025-04-04 23:41:04,400:INFO:Initializing create_model()
+2025-04-04 23:41:04,400:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x0000017AE1B6BF40>, estimator=dt, fold=StratifiedKFold(n_splits=10, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=False, probability_threshold=None, experiment_custom_tags=None, verbose=False, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x0000017ADC284610>, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-04-04 23:41:04,400:INFO:Checking exceptions
+2025-04-04 23:41:04,400:INFO:Importing libraries
+2025-04-04 23:41:04,400:INFO:Copying training dataset
+2025-04-04 23:41:04,404:INFO:Defining folds
+2025-04-04 23:41:04,404:INFO:Declaring metric variables
+2025-04-04 23:41:04,406:INFO:Importing untrained model
+2025-04-04 23:41:04,408:INFO:Decision Tree Classifier Imported successfully
+2025-04-04 23:41:04,411:INFO:Starting cross validation
+2025-04-04 23:41:04,411:INFO:Cross validating with StratifiedKFold(n_splits=10, random_state=None, shuffle=False), n_jobs=-1
