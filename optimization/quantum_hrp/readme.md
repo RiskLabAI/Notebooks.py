@@ -8,7 +8,7 @@
 <br>
 <sup>3</sup> Sharif University of Technology \& RiskLab Toronto, [norouzi@risklab.ai](mailto:norouzi@risklab.ai)
 
-* disclaimer: authors are listed in alphabetical order
+* authors are listed in alphabetical order
 
 ## Abstract
 
