@@ -57,9 +57,11 @@ The QHRP methodology integrates quantum machine learning techniques with the Hie
 The core equations governing the QHRP process are as follows:
 
   - **Quantum Feature Map:** A feature vector $\\mathbf{x}$ is mapped to a density matrix $\\varphi(\\mathbf{x})$.
+
     ```math
     \varphi(\mathbf{x}) := U(\mathbf{x}) | \mathbf{0} \rangle \langle \mathbf{0} | U(\mathbf{x})^\dagger \equiv | \mathbf{x} \rangle \langle \mathbf{x} |
     ```
+  
   - **Average Density Matrix:** For each asset $i$, an average density matrix $\\rho\_i$ is constructed.
     ```math
     \rho_i = \frac{1}{T} \sum_{k=1}^{T} |\mathbf{x}_i^k\rangle \langle \mathbf{x}_i^k|
