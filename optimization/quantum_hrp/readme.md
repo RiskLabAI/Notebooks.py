@@ -124,15 +124,29 @@ The out-of-sample performance was evaluated using a walk-forward analysis. The t
 The results show that **Quantum HRP (QHRP)** consistently achieves the highest risk-adjusted returns (Sharpe Ratio) in rigorous out-of-sample tests, outperforming both traditional methods and its advanced classical counterpart, KHRP.
 
 \<p align="center"\>
+<<<<<<< HEAD
+\<img src="figs/correlation_original.png" alt="Unordered Correlation Matrix" width="49%" height="250"/\>
+\<img src="figs/quantum_distance_unordered.png" alt="Unordered Quantum Distance Matrix" width="49%" height="250"/\>
+=======
 \<img src="figs/correlation\_original.png" alt="Unordered Correlation Matrix" width="49%" height="250"/\>
 \<img src="figs/quantum\_distance\_unordered.png" alt="Unordered Quantum Distance Matrix" width="49%" height="250"/\>
+>>>>>>> 0e362bba69f8ff85caf706d4b3b303681d3362df
 \</p\>
 \<p align="center"\>
+<<<<<<< HEAD
+\<img src="figs/correlation_hrp_ordering.png" alt="Classical HRP Ordered Correlation" width="49%" height="250"/\>
+\<img src="figs/correlation_quantum_hrp_ordering.png" alt="Quantum HRP Ordered Correlation" width="49%" height="250"/\>
+=======
 \<img src="figs/correlation\_hrp\_ordering.png" alt="Classical HRP Ordered Correlation" width="49%" height="250"/\>
 \<img src="figs/correlation\_quantum\_hrp\_ordering.png" alt="Quantum HRP Ordered Correlation" width="49%" height="250"/\>
+>>>>>>> 0e362bba69f8ff85caf706d4b3b303681d3362df
 \</p\>
 \<p align="center"\>
+<<<<<<< HEAD
+\<img src="figs/quantum_distance_ordered.png" alt="Ordered Quantum Distance Matrix" width="49%" height="250"/\>
+=======
 \<img src="figs/quantum\_distance\_ordered.png" alt="Ordered Quantum Distance Matrix" width="49%" height="250"/\>
+>>>>>>> 0e362bba69f8ff85caf706d4b3b303681d3362df
 \</p\>
 
 The figures visualize how hierarchical clustering reveals structure in the asset relationships. Both classical and quantum HRP reorder the covariance matrix to be quasi-diagonal, grouping similar assets. The quantum distance matrix shows that QHRP successfully partitions assets into coherent clusters based on their quantum representations.
