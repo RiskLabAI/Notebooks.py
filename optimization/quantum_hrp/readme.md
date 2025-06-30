@@ -2,7 +2,7 @@
 
 ## Abstract
 
-Traditional portfolio optimization methods are often unstable, especially in crises. While Hierarchical Risk Parity (HRP) offers an improvement, its reliance on simple correlation is a limitation. This paper introduces two advanced alternatives: Quantum Hierarchical Risk Parity (QHRP) and its classical counterpart, Kernel-based HRP (KHRP). QHRP integrates HRP with quantum machine learning, using quantum density matrices and Frobenius distance to model deeper asset relationships. KHRP employs kernel methods to achieve a similar goal classically. In empirical tests, both new methods deliver superior risk-adjusted performance over traditional approaches, demonstrating their potential for more robust portfolio management.
+This paper introduces two advanced alternatives: Quantum Hierarchical Risk Parity (QHRP) and its classical counterpart, Kernel-based HRP (KHRP). QHRP integrates HRP with quantum machine learning, using quantum density matrices and Frobenius distance to model deeper asset relationships. KHRP employs kernel methods to achieve a similar goal classically. In empirical tests, both new methods deliver superior risk-adjusted performance over traditional approaches, demonstrating their potential for more robust portfolio management.
 
 ```bibtex
 @article{quantum_hrp_2025,
