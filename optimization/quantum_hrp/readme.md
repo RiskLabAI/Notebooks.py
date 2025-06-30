@@ -1,8 +1,4 @@
----
 # Quantum Hierarchical Risk Parity and Its Classical Counterpart
-
----
-
 
 ## Abstract
 
@@ -31,7 +27,7 @@ The QHRP methodology integrates quantum machine learning techniques with the Hie
       * Encode each observation $\\mathbf{x}\_i^k$ into quantum feature maps $\\varphi(\\mathbf{x}\_i^k)$ using unitary transformations $U(\\mathbf{x}\_i^k)$.
       * Construct average density matrices $\\rho\_i = \\frac{1}{T} \\sum\_{k=1}^{T} |\\mathbf{x}\_i^k\\rangle \\langle \\mathbf{x}\_i^k|$ for each asset $i$.
 2.  **Frobenius Distance & Distance Matrix Calculation:**
-      * Compute Frobenius distances $D\_{i,j} = d\_F(\\rho\_i, \\rho\_j) = \\frac{1}{2} \\sqrt{\\operatorname{Tr}\\left[(\\rho\_i - \\rho\_j)^2\\right]}$ for all asset pairs $(i, j)$ to form distance matrix $D$.
+      * Compute Frobenius distances $D\_{i,j} = d\_F(\\rho\_i, \\rho\_j) = \\frac{1}{2} \\sqrt{\\mathrm{Tr}\\left[(\\rho\_i - \\rho\_j)^2\\right]}$ for all asset pairs $(i, j)$ to form distance matrix $D$.
 3.  **Tree Clustering:**
       * Apply hierarchical clustering on $D$ to build dendrogram $\\mathcal{T}$ using minimum distance linkage.
 4.  **Quasi-Diagonalization:**
@@ -42,13 +38,17 @@ The QHRP methodology integrates quantum machine learning techniques with the Hie
 The core equations governing the QHRP process are as follows:
 
   - **Quantum Feature Map:** A feature vector $\\mathbf{x}$ is mapped to a density matrix $\\varphi(\\mathbf{x})$.
-    $$\varphi(\mathbf{x}) := U(\mathbf{x}) | \mathbf{0} \rangle \langle \mathbf{0} | U(\mathbf{x})^\dagger \equiv | \mathbf{x} \rangle \langle \mathbf{x} |$$
-
+    ```math
+    \varphi(\mathbf{x}) := U(\mathbf{x}) | \mathbf{0} \rangle \langle \mathbf{0} | U(\mathbf{x})^\dagger \equiv | \mathbf{x} \rangle \langle \mathbf{x} |
+    ```
   - **Average Density Matrix:** For each asset $i$, an average density matrix $\\rho\_i$ is constructed.
-    $$\rho_i = \frac{1}{T} \sum_{k=1}^{T} |\mathbf{x}_i^k\rangle \langle \mathbf{x}_i^k|$$
-
+    ```math
+    \rho_i = \frac{1}{T} \sum_{k=1}^{T} |\mathbf{x}_i^k\rangle \langle \mathbf{x}_i^k|
+    ```
   - **Frobenius Distance:** The similarity between assets is quantified using the Frobenius distance between their density matrices.
-    $$d_F(\rho_i, \rho_j) = \frac{1}{2}\|\rho_i - \rho_j\| = \frac{1}{2} \sqrt{\operatorname{Tr}\left[(\rho_i - \rho_j)^2\right]}$$
+    ```math
+    d_F(\rho_i, \rho_j) = \frac{1}{2}\|\rho_i - \rho_j\| = \frac{1}{2} \sqrt{\mathrm{Tr}\left[(\rho_i - \rho_j)^2\right]}
+    ```
 
 The resulting distance matrix $D$ is then used in the standard HRP stages of Tree Clustering, Quasi-Diagonalization, and Recursive Bisection to determine the final asset weights.
 
@@ -66,10 +66,13 @@ KHRP serves as a classical counterpart to QHRP. It uses a Gaussian kernel and th
 The key equations for KHRP are:
 
   - **Gaussian Kernel:** Measures similarity between two feature vectors $\\mathbf{x}$ and $\\mathbf{y}$.
-    $$k(\mathbf{x},\mathbf{y}) \;=\; \exp\!\Bigl(-\frac{\|\mathbf{x}-\mathbf{y}\|^2}{2\sigma^2}\Bigr)$$
-
+    ```math
+    k(\mathbf{x},\mathbf{y}) \;=\; \exp\!\Bigl(-\frac{\|\mathbf{x}-\mathbf{y}\|^2}{2\sigma^2}\Bigr)
+    ```
   - **Maximum Mean Discrepancy (MMD):** The distance between two assets $i$ and $j$ is calculated based on their feature matrices $\\mathbf{X}\_i$ and $\\mathbf{X}\_j$.
-    $$\mathrm{MMD}(\mathbf{X}_i,\mathbf{X}_j)^2 \;=\; {\frac{1}{T_i^2}\sum_{t=1}^{T_i}\sum_{s=1}^{T_i} k(\mathbf{x}_{i,t},\mathbf{x}_{i,s}) + \frac{1}{T_j^2}\sum_{t=1}^{T_j}\sum_{s=1}^{T_j} k(\mathbf{x}_{j,t},\mathbf{x}_{j,s}) - \frac{2}{T_iT_j}\sum_{t=1}^{T_i}\sum_{s=1}^{T_j} k(\mathbf{x}_{i,t},\mathbf{x}_{j,s})}$$
+    ```math
+    \mathrm{MMD}(\mathbf{X}_i,\mathbf{X}_j)^2 \;=\; {\frac{1}{T_i^2}\sum_{t=1}^{T_i}\sum_{s=1}^{T_i} k(\mathbf{x}_{i,t},\mathbf{x}_{i,s}) + \frac{1}{T_j^2}\sum_{t=1}^{T_j}\sum_{s=1}^{T_j} k(\mathbf{x}_{j,t},\mathbf{x}_{j,s}) - \frac{2}{T_iT_j}\sum_{t=1}^{T_i}\sum_{s=1}^{T_j} k(\mathbf{x}_{i,t},\mathbf{x}_{j,s})}
+    ```
 
 ## Numerical Experiments
 
@@ -92,13 +95,6 @@ The analysis was conducted on a diversified portfolio of 170 assets from January
 
 Classical financial data is embedded into a quantum Hilbert space using a quantum feature map, implemented by a parameterized unitary operator $U(\\mathbf{x})$. For our $P=6$ features, we use a 6-qubit circuit. The classical vector is embedded using amplitude encoding, where the feature vector is normalized and mapped to the amplitudes of the quantum state $\\ket{\\psi(\\mathbf{x})}$.
 
-\<p align="center"\>
-\<img src="figs/feature\_map.png" alt="Quantum Feature Map" width="80%"/\>
-\</p\>
-\<p align="center"\>
-\<img src="figs/circuit.png" alt="Quantum Circuit" width="80%"/\>
-\</p\>
-
 ### Results
 
 The out-of-sample performance was evaluated using a walk-forward analysis. The tables below show the key performance metrics.
@@ -110,7 +106,6 @@ The out-of-sample performance was evaluated using a walk-forward analysis. The t
 | Kernel-based HRP   | 1.2944      | **3.6671** | 0.6055   |
 | Markowitz          | 1.3474      | 3.7785        | 0.6093   |
 | Equal Weights      | 1.3565      | 3.9065        | 0.6043   |
-
 *Walk-Forward Out-of-Sample Performance Metrics*
 
 \<br\>
@@ -122,7 +117,6 @@ The out-of-sample performance was evaluated using a walk-forward analysis. The t
 | Kernel-based HRP   | 1.2186                          |
 | Markowitz          | 1.2557                          |
 | Equal Weights      | 1.1983                          |
-
 *Overall Out-of-Sample Sharpe Ratios from Aggregated Test Returns*
 
 \<br\>
@@ -130,15 +124,15 @@ The out-of-sample performance was evaluated using a walk-forward analysis. The t
 The results show that **Quantum HRP (QHRP)** consistently achieves the highest risk-adjusted returns (Sharpe Ratio) in rigorous out-of-sample tests, outperforming both traditional methods and its advanced classical counterpart, KHRP.
 
 \<p align="center"\>
-\<img src="figs/correlation\_original.png" alt="Unordered Correlation Matrix" width="49%" height="300"/\>
-\<img src="figs/quantum\_distance\_unordered.png" alt="Unordered Quantum Distance Matrix" width="49%" height="300"/\>
+\<img src="figs/correlation\_original.png" alt="Unordered Correlation Matrix" width="49%" height="250"/\>
+\<img src="figs/quantum\_distance\_unordered.png" alt="Unordered Quantum Distance Matrix" width="49%" height="250"/\>
 \</p\>
 \<p align="center"\>
-\<img src="figs/correlation\_hrp\_ordering.png" alt="Classical HRP Ordered Correlation" width="49%" height="300"/\>
-\<img src="figs/correlation\_quantum\_hrp\_ordering.png" alt="Quantum HRP Ordered Correlation" width="49%" height="300"/\>
+\<img src="figs/correlation\_hrp\_ordering.png" alt="Classical HRP Ordered Correlation" width="49%" height="250"/\>
+\<img src="figs/correlation\_quantum\_hrp\_ordering.png" alt="Quantum HRP Ordered Correlation" width="49%" height="250"/\>
 \</p\>
 \<p align="center"\>
-\<img src="figs/quantum\_distance\_ordered.png" alt="Ordered Quantum Distance Matrix" width="49%" height="300"/\>
+\<img src="figs/quantum\_distance\_ordered.png" alt="Ordered Quantum Distance Matrix" width="49%" height="250"/\>
 \</p\>
 
 The figures visualize how hierarchical clustering reveals structure in the asset relationships. Both classical and quantum HRP reorder the covariance matrix to be quasi-diagonal, grouping similar assets. The quantum distance matrix shows that QHRP successfully partitions assets into coherent clusters based on their quantum representations.
