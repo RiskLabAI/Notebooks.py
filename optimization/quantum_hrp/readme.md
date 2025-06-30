@@ -99,6 +99,7 @@ Classical financial data is embedded into a quantum Hilbert space using a quantu
 
 The out-of-sample performance was evaluated using a walk-forward analysis. The tables below show the key performance metrics.
 
+<div align="center">
 | Method             | Mean Sharpe | Std of Sharpe | Mean PSR |
 | ------------------ | ----------- | ------------- | -------- |
 | **Quantum HRP** | **1.4658** | 3.7234        | **0.6172** |
@@ -106,11 +107,13 @@ The out-of-sample performance was evaluated using a walk-forward analysis. The t
 | Kernel-based HRP   | 1.2944      | **3.6671** | 0.6055   |
 | Markowitz          | 1.3474      | 3.7785        | 0.6093   |
 | Equal Weights      | 1.3565      | 3.9065        | 0.6043   |
+</div>
 
 *Walk-Forward Out-of-Sample Performance Metrics*
 
 <br>
 
+<div align="center">
 | Method             | Aggregated Out-of-Sample Sharpe |
 | ------------------ | ------------------------------- |
 | **Quantum HRP** | **1.3975** |
@@ -118,6 +121,7 @@ The out-of-sample performance was evaluated using a walk-forward analysis. The t
 | Kernel-based HRP   | 1.2186                          |
 | Markowitz          | 1.2557                          |
 | Equal Weights      | 1.1983                          |
+</div>
 
 *Overall Out-of-Sample Sharpe Ratios from Aggregated Test Returns*
 
