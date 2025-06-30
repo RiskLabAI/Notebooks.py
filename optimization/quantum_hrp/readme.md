@@ -24,10 +24,10 @@ The QHRP methodology integrates quantum machine learning techniques with the Hie
 #### QHRP Algorithm Pseudocode:
 
 1.  **Quantum Feature Mapping:**
-      - Encode each observation $x\_i^k$ into quantum feature maps $\\varphi(x\_i^k)$ using unitary transformations $U(x\_i^k)$.
-      - Construct average density matrices $\\rho\_i = \\frac{1}{T} \\sum\_{k=1}^{T} |x\_i^k\\rangle \\langle x\_i^k|$ for each asset $i$.
+      - Encode each observation $x_i^k$ into quantum feature maps $\\varphi(x_i^k)$ using unitary transformations $U(x_i^k)$.
+      - Construct average density matrices $\\rho_i = \\frac{1}{T} \\sum_{k=1}^{T} |x_i^k\\rangle \\langle x_i^k|$ for each asset $i$.
 2.  **Frobenius Distance & Distance Matrix Calculation:**
-      - Compute Frobenius distances $D\_{i,j} = d\_F(\\rho\_i, \\rho\_j) = \\frac{1}{2} \\sqrt{\\mathrm{Tr}\\left[(\\rho\_i - \\rho\_j)^2\\right]}$ for all asset pairs $(i, j)$ to form distance matrix $D$.
+      - Compute Frobenius distances $D_{i,j} = d_F(\\rho_i, \\rho_j) = \\frac{1}{2} \\sqrt{\\mathrm{Tr}\\left[(\\rho_i - \\rho_j)^2\\right]}$ for all asset pairs $(i, j)$ to form distance matrix $D$.
 3.  **Tree Clustering:**
       - Apply hierarchical clustering on $D$ to build dendrogram $\\mathcal{T}$ using minimum distance linkage.
 4.  **Quasi-Diagonalization:**
@@ -41,7 +41,7 @@ The core equations governing the QHRP process are as follows:
     ```math
     \varphi(\mathbf{x}) := U(\mathbf{x}) | \mathbf{0} \rangle \langle \mathbf{0} | U(\mathbf{x})^\dagger \equiv | \mathbf{x} \rangle \langle \mathbf{x} |
     ```
-  - **Average Density Matrix:** For each asset $i$, an average density matrix $\\rho\_i$ is constructed.
+  - **Average Density Matrix:** For each asset $i$, an average density matrix $\\rho_i$ is constructed.
     ```math
     \rho_i = \frac{1}{T} \sum_{k=1}^{T} |\mathbf{x}_i^k\rangle \langle \mathbf{x}_i^k|
     ```
@@ -69,7 +69,7 @@ The key equations for KHRP are:
   ```math
   k(\mathbf{x},\mathbf{y}) \;=\; \exp\!\Bigl(-\frac{\|\mathbf{x}-\mathbf{y}\|^2}{2\sigma^2}\Bigr)
   ```
-2. **Maximum Mean Discrepancy (MMD):** The distance between two assets $i$ and $j$ is calculated based on their feature matrices $\\mathbf{X}\_i$ and $\\mathbf{X}\_j$.
+2. **Maximum Mean Discrepancy (MMD):** The distance between two assets $i$ and $j$ is calculated based on their feature matrices $\\mathbf{X}_i$ and $\\mathbf{X}_j$.
   ```math
   \mathrm{MMD}(\mathbf{X}_i,\mathbf{X}_j)^2 \;=\; {\frac{1}{T_i^2}\sum_{t=1}^{T_i}\sum_{s=1}^{T_i} k(\mathbf{x}_{i,t},\mathbf{x}_{i,s}) + \frac{1}{T_j^2}\sum_{t=1}^{T_j}\sum_{s=1}^{T_j} k(\mathbf{x}_{j,t},\mathbf{x}_{j,s}) - \frac{2}{T_iT_j}\sum_{t=1}^{T_i}\sum_{s=1}^{T_j} k(\mathbf{x}_{i,t},\mathbf{x}_{j,s})}
   ```
@@ -131,15 +131,15 @@ The results show that **Quantum HRP (QHRP)** consistently achieves the highest r
 </p>
 
 <p align="center">
-<img src="figs/correlation\_original.png" alt="Unordered Correlation Matrix" width="49%" height="250"/>
-<img src="figs/quantum\_distance\_unordered.png" alt="Unordered Quantum Distance Matrix" width="49%" height="250"/>
+<img src="figs/correlation_original.png" alt="Unordered Correlation Matrix" width="49%" height="250"/>
+<img src="figs/quantum_distance_unordered.png" alt="Unordered Quantum Distance Matrix" width="49%" height="250"/>
 </p>
 <p align="center">
-<img src="figs/correlation\_hrp\_ordering.png" alt="Classical HRP Ordered Correlation" width="49%" height="250"/>
-<img src="figs/correlation\_quantum\_hrp\_ordering.png" alt="Quantum HRP Ordered Correlation" width="49%" height="250"/>
+<img src="figs/correlation_hrp_ordering.png" alt="Classical HRP Ordered Correlation" width="49%" height="250"/>
+<img src="figs/correlation_quantum_hrp_ordering.png" alt="Quantum HRP Ordered Correlation" width="49%" height="250"/>
 </p>
 <p align="center">
-<img src="figs/quantum\_distance\_ordered.png" alt="Ordered Quantum Distance Matrix" width="49%" height="250"/>
+<img src="figs/quantum_distance_ordered.png" alt="Ordered Quantum Distance Matrix" width="49%" height="250"/>
 </p>
 
 The figures visualize how hierarchical clustering reveals structure in the asset relationships. Both classical and quantum HRP reorder the covariance matrix to be quasi-diagonal, grouping similar assets. The quantum distance matrix shows that QHRP successfully partitions assets into coherent clusters based on their quantum representations.
