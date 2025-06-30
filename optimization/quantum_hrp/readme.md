@@ -6,7 +6,7 @@
 <br>
 <sup>2</sup> Imperial College London, [a.kondratyev@imperial.ac.uk](mailto:a.kondratyev@imperial.ac.uk)
 <br>
-<sup>3</sup> Sharif University of Technology, [norouzi@risklab.ai](mailto:norouzi@risklab.ai)
+<sup>3</sup> Sharif University of Technology \& RiskLab Toronto, [norouzi@risklab.ai](mailto:norouzi@risklab.ai)
 
 * disclaimer: authors are listed in alphabetical order
 
