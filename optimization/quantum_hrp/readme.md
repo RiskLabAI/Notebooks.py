@@ -13,8 +13,6 @@ This paper introduces two advanced alternatives: Quantum Hierarchical Risk Parit
 }
 ```
 
-**Keywords**: Portfolio Optimization, Hierarchical Risk Parity, Quantum Machine Learning, Quantum Feature Maps, Density Matrices, Frobenius Distance.
-
 ## Methodology
 
 ### Quantum Hierarchical Risk Parity (QHRP)
