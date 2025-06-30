@@ -37,18 +37,18 @@ The QHRP methodology integrates quantum machine learning techniques with the Hie
 
 The core equations governing the QHRP process are as follows:
 
-  - **Quantum Feature Map:** A feature vector $\\mathbf{x}$ is mapped to a density matrix $\\varphi(\\mathbf{x})$.
-    ```math
-    \varphi(\mathbf{x}) := U(\mathbf{x}) | \mathbf{0} \rangle \langle \mathbf{0} | U(\mathbf{x})^\dagger \equiv | \mathbf{x} \rangle \langle \mathbf{x} |
-    ```
-  - **Average Density Matrix:** For each asset $i$, an average density matrix $\\rho_i$ is constructed.
-    ```math
-    \rho_i = \frac{1}{T} \sum_{k=1}^{T} |\mathbf{x}_i^k\rangle \langle \mathbf{x}_i^k|
-    ```
-  - **Frobenius Distance:** The similarity between assets is quantified using the Frobenius distance between their density matrices.
-    ```math
-    d_F(\rho_i, \rho_j) = \frac{1}{2}\|\rho_i - \rho_j\| = \frac{1}{2} \sqrt{\mathrm{Tr}\left[(\rho_i - \rho_j)^2\right]}
-    ```
+1. **Quantum Feature Map:** A feature vector $\\mathbf{x}$ is mapped to a density matrix $\\varphi(\\mathbf{x})$.
+  ```math
+  \varphi(\mathbf{x}) := U(\mathbf{x}) | \mathbf{0} \rangle \langle \mathbf{0} | U(\mathbf{x})^\dagger \equiv | \mathbf{x} \rangle \langle \mathbf{x} |
+  ```
+2. **Average Density Matrix:** For each asset $i$, an average density matrix $\\rho_i$ is constructed.
+  ```math
+  \rho_i = \frac{1}{T} \sum_{k=1}^{T} |\mathbf{x}_i^k\rangle \langle \mathbf{x}_i^k|
+  ```
+3. **Frobenius Distance:** The similarity between assets is quantified using the Frobenius distance between their density matrices.
+  ```math
+  d_F(\rho_i, \rho_j) = \frac{1}{2}\|\rho_i - \rho_j\| = \frac{1}{2} \sqrt{\mathrm{Tr}\left[(\rho_i - \rho_j)^2\right]}
+  ```
 
 The resulting distance matrix $D$ is then used in the standard HRP stages of Tree Clustering, Quasi-Diagonalization, and Recursive Bisection to determine the final asset weights.
 
