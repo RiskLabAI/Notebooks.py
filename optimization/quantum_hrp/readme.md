@@ -127,19 +127,15 @@ The results show that **Quantum HRP (QHRP)** consistently achieves the highest r
 
 
 <p align="center">
-  <img src="figs\policy_gradient_variability.png" alt="First Image" width="89%" height = "300"/>
-</p>
-
-<p align="center">
-<img src="figs/correlation_original.png" alt="Unordered Correlation Matrix" width="49%" height="250"/>
-<img src="figs/quantum_distance_unordered.png" alt="Unordered Quantum Distance Matrix" width="49%" height="250"/>
+<img src="figs/correlation_original.png" alt="Unordered Correlation Matrix" width="49%">
+<img src="figs/quantum_distance_unordered.png" alt="Unordered Quantum Distance Matrix" width="49%">
 </p>
 <p align="center">
-<img src="figs/correlation_hrp_ordering.png" alt="Classical HRP Ordered Correlation" width="49%" height="250"/>
-<img src="figs/correlation_quantum_hrp_ordering.png" alt="Quantum HRP Ordered Correlation" width="49%" height="250"/>
+<img src="figs/correlation_hrp_ordering.png" alt="Classical HRP Ordered Correlation" width="49%">
+<img src="figs/correlation_quantum_hrp_ordering.png" alt="Quantum HRP Ordered Correlation" width="49%">
 </p>
 <p align="center">
-<img src="figs/quantum_distance_ordered.png" alt="Ordered Quantum Distance Matrix" width="49%" height="250"/>
+<img src="figs/quantum_distance_ordered.png" alt="Ordered Quantum Distance Matrix" width="49%">
 </p>
 
 The figures visualize how hierarchical clustering reveals structure in the asset relationships. Both classical and quantum HRP reorder the covariance matrix to be quasi-diagonal, grouping similar assets. The quantum distance matrix shows that QHRP successfully partitions assets into coherent clusters based on their quantum representations.
