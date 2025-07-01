@@ -39,7 +39,6 @@ def conditional_correlation_grf_bootstrap(X, Y, W, x_test, n_bootstrap_samples, 
             random_state=Config.RANDOM_SEED + i # Vary seed for different trees in bootstrap
         )
         forest_y_w.fit(x_selected, y_selected, w_selected)
-        pred_y_w, _, _ = forest_y_w.predict(x_test, interval=False) # Only need point estimate for bootstrap
 
         # Fit CausalForest for W on Y conditional on X
         forest_w_y = CausalForest(
@@ -49,7 +48,12 @@ def conditional_correlation_grf_bootstrap(X, Y, W, x_test, n_bootstrap_samples, 
             random_state=Config.RANDOM_SEED + i # Use same seed variation for consistency if desired, or different
         )
         forest_w_y.fit(x_selected, w_selected, y_selected)
-        pred_w_y, _, _ = forest_w_y.predict(x_test, interval=False)
+
+        # Predict point estimates
+        # Corrected line: Unpack only one value as interval=False
+        pred_y_w = forest_y_w.predict(x_test, interval=False)
+        # Corrected line: Unpack only one value as interval=False
+        pred_w_y = forest_w_y.predict(x_test, interval=False)
 
         # Calculate conditional correlation
         corr_est = np.sign(pred_y_w) * np.sqrt(np.abs(pred_y_w * pred_w_y))
@@ -57,7 +61,6 @@ def conditional_correlation_grf_bootstrap(X, Y, W, x_test, n_bootstrap_samples, 
 
     all_bootstrap_correlations = np.array(all_bootstrap_correlations)
     return all_bootstrap_correlations
-
 
 def analyze_hedge_fund_correlation(hf_name):
     """

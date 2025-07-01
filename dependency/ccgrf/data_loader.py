@@ -1,21 +1,26 @@
 # data_loader.py
 
-import yfinance as yf
 import pandas as pd
 import os
+from fredapi import Fred
 from config import Config
 
-def get_yahoo_finance_data(ticker_symbol, start_date, end_date):
+def get_fred_data(series_id, start_date, end_date, api_key):
     """
-    Downloads historical data for a given ticker symbol from Yahoo Finance.
+    Downloads historical data for a given FRED series ID.
     """
+    fred = Fred(api_key=api_key)
     try:
-        ticker = yf.Ticker(ticker_symbol)
-        data = ticker.history(start=start_date, end=end_date)
-        data.index = data.index.tz_localize(None).date # Remove timezone and convert to date
+        data = fred.get_series(series_id, observation_start=start_date, observation_end=end_date)
+        if data is None or data.empty:
+            print(f"Warning: No data returned for FRED series {series_id} within {start_date} to {end_date}.")
+            return None
+        # Ensure index is datetime and has no timezone, then convert to date
+        data.index = pd.to_datetime(data.index).tz_localize(None).date
+        data.name = series_id # Name the series for easier processing later
         return data
     except Exception as e:
-        print(f"Error downloading data for {ticker_symbol}: {e}")
+        print(f"Error downloading FRED data for series {series_id}: {e}")
         return None
 
 def load_hfrx_data(name, hfrx_data_path):

@@ -1,11 +1,12 @@
 # preprocessing.py
 
 import pandas as pd
-from statsmodels.tsa.stattool import adfuller, kpss
-from data_loader import get_yahoo_finance_data, load_hfrx_data
+from statsmodels.tsa.stattools import adfuller, kpss
+from data_loader import get_fred_data, load_hfrx_data
 from config import Config
+import numpy as np
 
-def get_daily_returns(data_series):
+def get_daily_log_returns(data_series):
     """Calculates daily logarithmic returns for a given price series."""
     # Using .pct_change() then log1p for log returns, as commonly done for financial series
     return np.log1p(data_series.pct_change()).dropna()
@@ -20,19 +21,18 @@ def prepare_hedgefund_and_sp500(hf_name, start_date, end_date, hfrx_data_path):
     if hfrx_df is None:
         return None
 
-    # Get S&P 500 data and calculate log returns
-    sp500_data = get_yahoo_finance_data('^GSPC', start_date, end_date)
-    if sp500_data is None:
+    # Get S&P 500 data from FRED and calculate log returns
+    sp500_levels = get_fred_data(Config.FRED_SP500_SERIES_ID, start_date, end_date, Config.FRED_API_KEY)
+    if sp500_levels is None:
         return None
-    sp500_returns = get_daily_returns(sp500_data['Close'])
-    sp500_returns.name = 'S&P500_returns' # Ensure the name matches for consistency
+    sp500_returns = get_daily_log_returns(sp500_levels)
+    sp500_returns.name = 'S&P500_returns'
     sp500_returns.index = pd.to_datetime(sp500_returns.index)
 
-    # Get VIX data (levels)
-    vix_levels = get_yahoo_finance_data('^VIX', start_date, end_date)
+    # Get VIX data (levels) from FRED
+    vix_levels = get_fred_data(Config.FRED_VIX_SERIES_ID, start_date, end_date, Config.FRED_API_KEY)
     if vix_levels is None:
         return None
-    vix_levels = vix_levels['Close'] # We need the VIX levels, not returns, as per your paper
     vix_levels.name = 'VIX'
     vix_levels.index = pd.to_datetime(vix_levels.index)
 
