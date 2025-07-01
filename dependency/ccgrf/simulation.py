@@ -21,7 +21,6 @@ def run_gaussian_simulation(case_type, n_samples):
         sigma = np.array([[1, 0.5, 0.5],
                           [0.5, 1, 0.5],
                           [0.5, 0.5, 1]])
-        exact_corr_value = (0.5 - 0.5*0.5) / (np.sqrt(1-0.5**2) * np.sqrt(1-0.5**2)) # Formula for partial correlation
         exact_corr_value = 0.3333 # As stated in your paper
         y_range = [0.15, 0.75]
         filename = Config.GAUSSIAN_FIG_NAMES['case1']
@@ -30,8 +29,8 @@ def run_gaussian_simulation(case_type, n_samples):
         sigma = np.array([[1, 0.0, 0.0],
                           [0.0, 1, 0.5],
                           [0.0, 0.5, 1]])
-        exact_corr_value = 0.5 # As stated in your paper (rho_YW directly if X is uncorrelated)
-        y_range = [-0.15, 0.5]
+        exact_corr_value = 0.5 # As stated in your paper
+        y_range = [-0.15, 0.75] # Adjusted for better visualization
         filename = Config.GAUSSIAN_FIG_NAMES['case2']
         title = 'Conditional Correlation for Gaussian Case 2'
     else:
@@ -93,6 +92,7 @@ def run_nonlinear_simulation_eq14():
         random_state=Config.RANDOM_SEED
     )
     forest_yw.fit(x, y, w)
+    # When interval=False, predict returns only the prediction.
     pred_yw = forest_yw.predict(x_test_values, interval=False)
 
     # Run GRF for beta_WY(x)
@@ -103,6 +103,7 @@ def run_nonlinear_simulation_eq14():
         random_state=Config.RANDOM_SEED
     )
     forest_wy.fit(x, w, y)
+    # When interval=False, predict returns only the prediction.
     pred_wy = forest_wy.predict(x_test_values, interval=False)
 
     # Calculate conditional correlation using the derived formula
@@ -111,7 +112,6 @@ def run_nonlinear_simulation_eq14():
     # For confidence intervals, we need to run bootstrap for this specific case
     # This simulation has unit conditional variances, so a single GRF prediction's CI could be used
     # or follow the paper's explicit CI for beta_YW, then apply continuous mapping.
-    # The paper's Table 1 uses a 95% CI computed using Section 2.2 (which means using GRF's own CI for beta if V=1).
     # Since V(Y|X)=V(W|X)=1, then rho_YW|X=x = beta_YW(x) here.
     # So we can use the CI directly from forest_yw.predict
     pred_yw_ci, lb_yw, ub_yw = forest_yw.predict(x_test_values, interval=True, alpha=0.05)
@@ -221,8 +221,8 @@ def run_nonlinear_simulation_eq16():
         forest_sim_wy.fit(sim_x, sim_w, sim_y)
 
         x_test_sim = np.arange(Config.TEST_RANGE_NON_LINEAR[0], Config.TEST_RANGE_NON_LINEAR[1], Config.TEST_RANGE_NON_LINEAR[2]).reshape(-1, 1)
-        pred_sim_yw, _, _ = forest_sim_yw.predict(x_test_sim, interval=False)
-        pred_sim_wy, _, _ = forest_sim_wy.predict(x_test_sim, interval=False)
+        pred_sim_yw = forest_sim_yw.predict(x_test_sim, interval=False)
+        pred_sim_wy = forest_sim_wy.predict(x_test_sim, interval=False)
 
         current_corr = np.sign(pred_sim_yw) * np.sqrt(np.abs(pred_sim_yw * pred_sim_wy))
         all_sim_correlations.append(np.squeeze(current_corr))
@@ -248,9 +248,9 @@ def run_nonlinear_simulation_eq16():
     # --- Percentile Bootstrap CI (as per your original code's "final_bootstrap" array) ---
     print("\nRunning Bootstrap-based CI for Equation 16...")
     all_bootstrap_correlations = []
-    bootstrap_sample_size = Config.NON_LINEAR_NON_UNIT_VARIANCE_N_SAMPLES # Using the same N for the base dataset
+    bootstrap_sample_size = n # Use original N for bootstrap sampling, or define a specific sample size like 5000
     for i in range(Config.NON_LINEAR_NON_UNIT_VARIANCE_BOOTSTRAP_SAMPLES):
-        if i % 20 == 0:
+        if (i + 1) % 20 == 0:
             print(f"  Bootstrap sample {i+1}/{Config.NON_LINEAR_NON_UNIT_VARIANCE_BOOTSTRAP_SAMPLES}")
         indices = np.random.choice(n, bootstrap_sample_size, replace=True)
         boot_x = X_t[indices].reshape(-1, 1)
@@ -264,8 +264,8 @@ def run_nonlinear_simulation_eq16():
         forest_boot_wy.fit(boot_x, boot_w, boot_y)
 
         x_test_boot = np.arange(Config.TEST_RANGE_NON_LINEAR[0], Config.TEST_RANGE_NON_LINEAR[1], Config.TEST_RANGE_NON_LINEAR[2]).reshape(-1, 1)
-        pred_boot_yw, _, _ = forest_boot_yw.predict(x_test_boot, interval=False)
-        pred_boot_wy, _, _ = forest_boot_wy.predict(x_test_boot, interval=False)
+        pred_boot_yw = forest_boot_yw.predict(x_test_boot, interval=False)
+        pred_boot_wy = forest_boot_wy.predict(x_test_boot, interval=False)
 
         current_corr = np.sign(pred_boot_yw) * np.sqrt(np.abs(pred_boot_yw * pred_boot_wy))
         all_bootstrap_correlations.append(np.squeeze(current_corr))
@@ -299,11 +299,11 @@ def run_nonlinear_simulation_eq16():
 
     forest_yw_single = CausalForest(n_estimators=Config.N_ESTIMATORS, criterion="mse", min_samples_leaf=100, random_state=Config.RANDOM_SEED)
     forest_yw_single.fit(x_full, y_full, w_full)
-    pred_yw_single, _, _ = forest_yw_single.predict(x_test_range_plot.reshape(-1,1), interval=False)
+    pred_yw_single = forest_yw_single.predict(x_test_range_plot.reshape(-1,1), interval=False)
 
     forest_wy_single = CausalForest(n_estimators=Config.N_ESTIMATORS, criterion="mse", min_samples_leaf=100, random_state=Config.RANDOM_SEED)
     forest_wy_single.fit(x_full, w_full, y_full)
-    pred_wy_single, _, _ = forest_wy_single.predict(x_test_range_plot.reshape(-1,1), interval=False)
+    pred_wy_single = forest_wy_single.predict(x_test_range_plot.reshape(-1,1), interval=False)
 
     estimated_rho_single = np.sign(pred_yw_single) * np.sqrt(np.abs(pred_yw_single * pred_wy_single))
 
@@ -318,7 +318,7 @@ def run_nonlinear_simulation_eq16():
     })
     plot_conditional_correlation(
         df_all_params,
-        'Conditional Correlation and Betas for Nonlinear case in Equation (16)',
+        'Conditional Correlation for a non-Gaussian case as per equation (16)',
         Config.NON_LINEAR_FIG_NAMES['nonlinear_eq16_all_params'],
-        y_range=[-0.2, 1]
+        y_range=[-0.2, 1.05]
     )

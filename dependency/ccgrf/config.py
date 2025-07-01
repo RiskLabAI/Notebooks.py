@@ -30,26 +30,33 @@ class Config:
     ]
     HFRX_DATA_PATH = 'data/' # Relative path where HFRX CSVs are stored
 
+    # FRED API Settings
+    FRED_API_KEY = '0f1652f52e42658ccc5b3f9c44d3d389' # <<<--- IMPORTANT: Replace with your actual FRED API Key
+    FRED_VIX_SERIES_ID = 'VIXCLS' # CBOE Volatility Index: VIX
+    FRED_SP500_SERIES_ID = 'SP500' # S&P 500
+    # Note: For S&P 500 *returns*, FRED's SP500 series might be price levels.
+    # We will compute returns in preprocessing.py from these levels.
+
     # Plotting settings
     FIG_DIR = 'figs/'
     FONT_SIZE = 12
     FONT_FAMILY = 'Times New Roman'
     DPI = 300 # High quality figures
     GAUSSIAN_FIG_NAMES = {
-        'case1': 'Fig1a_Gaussian_Case1.png', # Original Fig1a
-        'case2': 'Fig1b_Gaussian_Case2.png'  # Original Fig1b
+        'case1': 'Fig1a_Gaussian_Case1.png',
+        'case2': 'Fig1b_Gaussian_Case2.png'
     }
     NON_LINEAR_FIG_NAMES = {
-        'nonlinear_eq14': 'Fig_NL_Eq14_Table.png', # This is table output, no fig
-        'nonlinear_eq15': 'Fig2_Nonlinear_Eq15.png', # Original Fig2
-        'nonlinear_eq16_sim_ci': 'Fig3a_Nonlinear_Eq16_SimCI.png', # Original Fig3a
-        'nonlinear_eq16_boot_ci': 'Fig3b_Nonlinear_Eq16_BootCI.png', # Original Fig3b
-        'nonlinear_eq16_all_params': 'Fig4_Nonlinear_Eq16_AllParams.png' # Original Fig4
+        'nonlinear_eq14': 'Fig_NL_Eq14_Table.png',
+        'nonlinear_eq15': 'Fig2_Nonlinear_Eq15.png',
+        'nonlinear_eq16_sim_ci': 'Fig3a_Nonlinear_Eq16_SimCI.png',
+        'nonlinear_eq16_boot_ci': 'Fig3b_Nonlinear_Eq16_BootCI.png',
+        'nonlinear_eq16_all_params': 'Fig4_Nonlinear_Eq16_AllParams.png'
     }
     REAL_DATA_FIG_NAMES = {
-        'HFRXM': 'Fig5a_HFRXM.png', # Original Fig5a
-        'HFRXSDV': 'Fig5b_HFRXSDV.png', # Original Fig5b
-        'HFRXMA': 'Fig6_HFRXMA.png', # Original Fig6
-        'HFRXMD': 'Fig7a_HFRXMD.png', # Original Fig7a
-        'HFRXEMN': 'Fig7b_HFRXEMN.png' # Original Fig7b
+        'HFRXM': 'Fig5a_HFRXM.png',
+        'HFRXSDV': 'Fig5b_HFRXSDV.png',
+        'HFRXMA': 'Fig6_HFRXMA.png',
+        'HFRXMD': 'Fig7a_HFRXMD.png',
+        'HFRXEMN': 'Fig7b_HFRXEMN.png'
     }
