@@ -19,7 +19,7 @@ def setup_plotting_style(font_size, font_family):
         'legend.fontsize': font_size,
         'axes.titlesize': font_size,
     })
-    # Ensure Times New Roman is available or fallback
+
     if font_family == 'Times New Roman':
         plt.rcParams['font.serif'] = ['Times New Roman'] + plt.rcParams['font.serif']
         plt.rcParams['font.sans-serif'] = ['Times New Roman'] + plt.rcParams['font.sans-serif']
@@ -39,9 +39,8 @@ def plot_conditional_correlation(df, title, filename, y_label='Conditional Corre
     Generates and saves a conditional correlation plot using Matplotlib.
     Handles 'exact correlation' and confidence bounds.
     """
-    fig, ax = plt.subplots(figsize=(10, 6)) # Adjust size for journal quality
+    fig, ax = plt.subplots(figsize=(10, 6)) 
 
-    # Map column names to desired labels
     labels = {
         'estimated correlation': 'Estimated Correlation',
         'lower bound': 'Lower Bound',
