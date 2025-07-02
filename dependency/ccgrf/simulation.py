@@ -29,8 +29,8 @@ def run_gaussian_simulation(case_type, n_samples):
         sigma = np.array([[1, 0.0, 0.0],
                           [0.0, 1, 0.5],
                           [0.0, 0.5, 1]])
-        exact_corr_value = 0.5 # As stated in your paper
-        y_range = [-0.15, 0.75] # Adjusted for better visualization
+        exact_corr_value = 0.5 
+        y_range = [-0.15, 0.75] 
         filename = Config.GAUSSIAN_FIG_NAMES['case2']
         title = 'Conditional Correlation for Gaussian Case 2'
     else:
@@ -73,18 +73,14 @@ def run_nonlinear_simulation_eq14():
     W_t = np.random.normal(size=n) # i.i.d. standard normal r.v.
     X_t = np.random.binomial(1, 0.5, size=n) # i.i.d. Bernoulli r.v. with p=0.5
 
-    # Equation 14: Y_t = W_t * (2*X_t - 1)
     Y_t = W_t * (2 * X_t - 1)
 
-    # Prepare data for GRF
     x = X_t.reshape(-1, 1)
     w = W_t
     y = Y_t
 
-    # Define test points for X=0 and X=1
     x_test_values = np.array([[0], [1]])
 
-    # Run GRF for beta_YW(x)
     forest_yw = CausalForest(
         n_estimators=Config.N_ESTIMATORS,
         criterion="mse",
@@ -92,10 +88,10 @@ def run_nonlinear_simulation_eq14():
         random_state=Config.RANDOM_SEED
     )
     forest_yw.fit(x, y, w)
-    # When interval=False, predict returns only the prediction.
+
     pred_yw = forest_yw.predict(x_test_values, interval=False)
 
-    # Run GRF for beta_WY(x)
+
     forest_wy = CausalForest(
         n_estimators=Config.N_ESTIMATORS,
         criterion="mse",
@@ -103,17 +99,12 @@ def run_nonlinear_simulation_eq14():
         random_state=Config.RANDOM_SEED
     )
     forest_wy.fit(x, w, y)
-    # When interval=False, predict returns only the prediction.
+
     pred_wy = forest_wy.predict(x_test_values, interval=False)
 
-    # Calculate conditional correlation using the derived formula
+
     estimated_rho = np.sign(pred_yw) * np.sqrt(np.abs(pred_yw * pred_wy))
 
-    # For confidence intervals, we need to run bootstrap for this specific case
-    # This simulation has unit conditional variances, so a single GRF prediction's CI could be used
-    # or follow the paper's explicit CI for beta_YW, then apply continuous mapping.
-    # Since V(Y|X)=V(W|X)=1, then rho_YW|X=x = beta_YW(x) here.
-    # So we can use the CI directly from forest_yw.predict
     pred_yw_ci, lb_yw, ub_yw = forest_yw.predict(x_test_values, interval=True, alpha=0.05)
 
     results = {
@@ -136,14 +127,13 @@ def run_nonlinear_simulation_eq15():
     Plots estimated vs exact conditional correlation with CI.
     """
     n = Config.NON_LINEAR_N_SAMPLES
-    W_t = np.random.normal(size=n) # i.i.d. standard normal random sequence
-    X_t = np.random.uniform(low=0, high=10, size=n) # i.i.d. uniform [0,10] sequence
-    epsilon_t = np.random.normal(size=n) # independent standard normal random sequence
+    W_t = np.random.normal(size=n) 
+    X_t = np.random.uniform(low=0, high=10, size=n)
+    epsilon_t = np.random.normal(size=n) 
 
-    # Equation 15: Y_t = W_t * e^(-X_t) + sqrt(1 - e^(-2*X_t)) * epsilon_t
+
     Y_t = W_t * np.exp(-X_t) + np.sqrt(1 - np.exp(-2 * X_t)) * epsilon_t
 
-    # In this case, V(Y_t | X_t) = V(W_t | X_t) = 1, hence rho_YW|X=x = beta_YW(x)
     x = X_t.reshape(-1, 1)
     w = W_t
     y = Y_t
@@ -164,7 +154,7 @@ def run_nonlinear_simulation_eq15():
         'estimated correlation': np.squeeze(pred),
         'lower bound': np.squeeze(lb),
         'upper bound': np.squeeze(ub),
-        'exact correlation': np.exp(-np.squeeze(x_test)) # Exact correlation is e^(-X_t)
+        'exact correlation': np.exp(-np.squeeze(x_test)) 
     }
     df = pd.DataFrame(data)
 
@@ -189,22 +179,18 @@ def run_nonlinear_simulation_eq16():
     X_t = np.random.uniform(low=0, high=10, size=n)
     epsilon_t = np.random.normal(size=n)
 
-    # Equation 16: Y_t = W_t * e^(-X_t) + epsilon_t
     Y_t = W_t * np.exp(-X_t) + epsilon_t
 
-    # Define exact theoretical values for plotting
     x_test_range_plot = np.arange(Config.TEST_RANGE_NON_LINEAR[0], Config.TEST_RANGE_NON_LINEAR[1], Config.TEST_RANGE_NON_LINEAR[2])
     exact_rho = np.exp(-x_test_range_plot) / np.sqrt(np.exp(-2*x_test_range_plot) + 1)
     exact_beta_yw = np.exp(-x_test_range_plot)
     exact_beta_wy = np.exp(-x_test_range_plot) / (np.exp(-2*x_test_range_plot) + 1)
 
-    # --- Simulation-based CI (as per your original code's "final" array) ---
     print("\nRunning Simulation-based CI for Equation 16...")
     all_sim_correlations = []
-    for i in range(Config.N_BOOTSTRAP_SIMULATION): # Using N_BOOTSTRAP_SIMULATION as number of re-estimations
+    for i in range(Config.N_BOOTSTRAP_SIMULATION): 
         if i % 10 == 0:
             print(f"  Simulation {i+1}/{Config.N_BOOTSTRAP_SIMULATION}")
-        # Generate new sample for each simulation run
         sim_W_t = np.random.normal(size=n)
         sim_X_t = np.random.uniform(low=0, high=10, size=n)
         sim_epsilon_t = np.random.normal(size=n)
@@ -229,7 +215,7 @@ def run_nonlinear_simulation_eq16():
 
     all_sim_correlations = np.array(all_sim_correlations)
     mean_sim_corr = np.mean(all_sim_correlations, axis=0)
-    lower_sim_ci, upper_sim_ci = calculate_confidence_interval_percentile(all_sim_correlations, 2.5, 97.5) # For 95% CI
+    lower_sim_ci, upper_sim_ci = calculate_confidence_interval_percentile(all_sim_correlations, 2.5, 97.5) 
 
     df_sim_ci = pd.DataFrame({
         'X': x_test_range_plot,
@@ -245,10 +231,9 @@ def run_nonlinear_simulation_eq16():
         y_range=[-0.2, 1]
     )
 
-    # --- Percentile Bootstrap CI (as per your original code's "final_bootstrap" array) ---
     print("\nRunning Bootstrap-based CI for Equation 16...")
     all_bootstrap_correlations = []
-    bootstrap_sample_size = n # Use original N for bootstrap sampling, or define a specific sample size like 5000
+    bootstrap_sample_size = n 
     for i in range(Config.NON_LINEAR_NON_UNIT_VARIANCE_BOOTSTRAP_SAMPLES):
         if (i + 1) % 20 == 0:
             print(f"  Bootstrap sample {i+1}/{Config.NON_LINEAR_NON_UNIT_VARIANCE_BOOTSTRAP_SAMPLES}")
@@ -287,11 +272,6 @@ def run_nonlinear_simulation_eq16():
         Config.NON_LINEAR_FIG_NAMES['nonlinear_eq16_boot_ci'],
         y_range=[-0.2, 1]
     )
-
-    # --- Plotting all parameters (rho, beta_YW, beta_WY) ---
-    # Here, we run GRF once on the full dataset 'n' to get estimates of betas
-    # and then calculate estimated rho from those single estimates.
-    # This is for a single run to show the curves, not for CI calculation.
 
     x_full = X_t.reshape(-1, 1)
     w_full = W_t
