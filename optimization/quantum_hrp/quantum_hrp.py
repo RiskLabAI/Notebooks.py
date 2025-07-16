@@ -225,7 +225,6 @@ def simulate_asset_features_regimes(N=10, T=1000, P=6, seed=42):
             z = stats.t.rvs(df=4, size=N) * np.random.choice([-1, 1], size=N)
         asset_returns[t] = mu_t + L @ z
 
-    # # Generate nonlinear asset features for each asset.
     # data = np.zeros((N, T, P))
     # for i in range(N):
     #     for t in range(T):
