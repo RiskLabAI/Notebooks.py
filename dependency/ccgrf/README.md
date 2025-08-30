@@ -62,7 +62,7 @@ In the first case, we sampled 10,000 data points from a 3-dimensional multivaria
 
 The model's mean correlation observed was 0.33 and independent of X, consistent with the partial correlation.
 <p align="center">
-  <img src="figs\cov_05.png"  width="79%" />
+  <img src="figs\Fig1a_Gaussian_Case1.png"  width="79%" />
 </p>
 
 ### Case 2:
@@ -76,7 +76,7 @@ In the second case, another set of 10,000 data points was sampled with the same 
 \end{matrix} \right\rbrack
 ```
 <p align="center">
-  <img src="figs\cov0.png"  width="79%" />
+  <img src="figs\Fig1b_Gaussian_Case2.png"  width="79%" />
 </p>
 
 ## Non-Linear Simulations
@@ -93,7 +93,7 @@ where $W_t$, and $\epsilon_t$ are i.i.d. standard normal sequences, and $X_t$ is
 We simulate $(X_t, W_t, \epsilon_t)$ for $t = 1, \ldots, 10,000$. The true conditional correlations, estimates, and 95% confidence intervals confirm the effectiveness of our methodology for capturing $\rho_{YW \mid X=x}$ over $x \in [0,10]$.
 
 <p align="center">
-  <img src="figs\cc_without_var.png"  width="79%" />
+  <img src="figs\Fig2_Nonlinear_Eq15.png"  width="79%" />
 </p>
 
 ### Example 2:
@@ -121,7 +121,7 @@ This leads to the equations for conditional correlation and GRF parameters:
 ```
 
 <p align="center">
-  <img src="figs\ccsim.png"  width="79%" />
+  <img src="figs\Fig4_Nonlinear_Eq16_AllParams.png"  width="79%" />
 </p>
 
 
@@ -137,7 +137,7 @@ The analysis uses daily data over the past twenty years, applying Generalized Ra
 
 <p align="center">
   <div style="display:block; text-align:center; margin:auto;">
-    <img src="figs/HFRXM.png" style="width:79%; display:block; margin:auto;" alt="hfrxm" />
+    <img src="figs/Fig5a_HFRXM.png" style="width:79%; display:block; margin:auto;" alt="hfrxm" />
     <p style="text-align:center;">Correlation trends between the S&P 500 and Macro Hedge Funds (HFRXM) under varying market conditions.</figcaption>
   </div>
 </p>
@@ -145,7 +145,7 @@ The analysis uses daily data over the past twenty years, applying Generalized Ra
 
 <p align="center">
   <div style="display:block; text-align:center; margin:auto;">
-    <img src="figs/HFRXSDV.png" style="width:79%; display:block; margin:auto;" alt="hfrxsdv" />
+    <img src="figs/Fig5b_HFRXSDV.png" style="width:79%; display:block; margin:auto;" alt="hfrxsdv" />
     <p style="text-align:center;">Correlation trends between the S&P 500 and Systematic Diversified Macro Hedge Funds (HFRXSDV) under varying market conditions.</figcaption>
   </div>
 </p>
@@ -155,7 +155,7 @@ The analysis uses daily data over the past twenty years, applying Generalized Ra
 **HFRXMA:** Shows an increase in correlation during times of high variance, opposite to what would be ideal for protection.
 <p align="center">
   <div style="display:block; text-align:center; margin:auto;">
-    <img src="figs/HFRXMA.png" style="width:79%; display:block; margin:auto;" alt="hfrxma" />
+    <img src="figs/Fig6_HFRXMA.png" style="width:79%; display:block; margin:auto;" alt="hfrxma" />
     <p style="text-align:center;">Correlation trends between the S&P 500 and Event-driven merger arbitrage (HFRXMA) under varying market conditions.</figcaption>
   </div>
 </p>
@@ -164,13 +164,13 @@ The analysis uses daily data over the past twenty years, applying Generalized Ra
 
 <p align="center">
   <div style="display:block; text-align:center; margin:auto;">
-    <img src="figs/HFRXMD.png" style="width:79%; display:block; margin:auto;" alt="Market Directional Hedge Fund" />
+    <img src="figs/Fig7a_HFRXMD.png" style="width:79%; display:block; margin:auto;" alt="Market Directional Hedge Fund" />
     <p style="text-align:center;">Correlation trends between the S&P 500 and Market Directional Hedge Fund (HFRXMD) under varying market conditions.</p>
   </div>
 </p>
 <p align="center">
   <div style="display:block; text-align:center; margin:auto;">
-    <img src="figs/HFRXMN.png" style="width:79%; display:block; margin:auto;" alt="hfrxemn" />
+    <img src="figs/Fig7b_HFRXEMN.png" style="width:79%; display:block; margin:auto;" alt="hfrxemn" />
     <p style="text-align:center;">Correlation trends between the S&P 500 and Equity Market Neutral Strategy (HFRXEMN) under varying market conditions.</figcaption>
   </div>
 </p>
