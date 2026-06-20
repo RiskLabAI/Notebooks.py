@@ -1,0 +1,7 @@
+# Extra dependencies for the Deep-BSDE PDE solver notebook (pde/deep_bsde.ipynb) only.
+# Heavy deep-learning stack kept out of the core requirements.txt.
+#
+#   pip install -r requirements.txt          # core (run first)
+#   pip install -r requirements-pde.txt      # then this, only for the PDE notebook
+
+torch==2.8.0

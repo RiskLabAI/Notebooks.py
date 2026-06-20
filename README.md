@@ -22,21 +22,30 @@ pinned environment**, and mirrors the matching Julia tutorial in
 | 6 | [`features/feature_importance/feature_importance.ipynb`](features/feature_importance/feature_importance.ipynb) | **Feature importance** — MDI, MDA, SFI, orthogonal (PCA) features, and weighted Kendall-τ |
 | 7 | [`pde/deep_bsde.ipynb`](pde/deep_bsde.ipynb) | **Deep-BSDE** PDE solver (Han, Jentzen & E 2018) — four financial PDEs, checked vs Monte-Carlo / closed-form references |
 
-## Running the notebooks
+## Setup
 
-The pinned environment (`requirements.txt`) installs the local package editable from
-a relative path. From this folder:
+`RiskLabAI` installs straight from PyPI — no clone of the library needed.
 
 ```bash
+git clone https://github.com/RiskLabAI/Notebooks.py.git
+cd Notebooks.py
 python -m venv .venv
-source .venv/Scripts/activate     # Windows; use .venv/bin/activate on macOS/Linux
-pip install -r requirements.txt
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+pip install -r requirements.txt    # RiskLabAI (PyPI) + notebook deps
+jupyter notebook                   # launch, then open any tutorial
 ```
 
-Then open any notebook with Jupyter, or run it headless:
+Run a notebook headless:
 
 ```bash
 jupyter nbconvert --to notebook --execute --inplace <path-to-notebook>
+```
+
+**Optional — Deep-BSDE PDE notebook only.** Tutorial 7 (`pde/deep_bsde.ipynb`) needs
+PyTorch, kept out of the light core environment:
+
+```bash
+pip install -r requirements-pde.txt
 ```
 
 Tutorials 3–4 read the S&P 500 from **FRED**; set the `FRED_API_KEY` environment

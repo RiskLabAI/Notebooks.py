@@ -1,21 +1,21 @@
-# Pinned environment for the RiskLabAI Python tutorial notebooks.
-# Mirrors Notebooks.jl/Project.toml: the local package is installed editable
-# from a relative path, scientific deps are pinned for reproducibility.
+# Core environment for the RiskLabAI Python tutorial notebooks.
 #
-#   python -m venv .venv && . .venv/Scripts/activate   # (Windows: .venv\Scripts\activate)
+#   python -m venv .venv && .venv\Scripts\activate      # (macOS/Linux: source .venv/bin/activate)
 #   pip install -r requirements.txt
 #
+# RiskLabAI is installed from PyPI (the published package) — no local clone needed.
 # FRED-backed notebooks read the FRED_API_KEY environment variable (fredapi).
+# The Deep-BSDE PDE notebook additionally needs PyTorch: pip install -r requirements-pde.txt
 
--e ../RiskLabAI.py
+RiskLabAI==2.0.1
 
 numpy==1.26.4
 pandas==2.2.3
 scipy==1.11.4
 scikit-learn==1.2.2
 matplotlib==3.7.5
+seaborn==0.13.2
 statsmodels==0.14.5
 fredapi==0.5.2
-torch==2.8.0
 jupyter
 nbconvert
