@@ -10,6 +10,60 @@ Each notebook is **exhaustive over its module**, runs **top-to-bottom against a
 pinned environment**, and mirrors the matching Julia tutorial in
 [`Notebooks.jl`](https://github.com/RiskLabAI/Notebooks.jl).
 
+## Getting started
+
+New to this? This gets you from a fresh computer to running any tutorial. You only do
+**Step 1** once.
+
+### Step 1 — install the tools (once)
+
+**1a. VS Code.** Download and install [Visual Studio Code](https://code.visualstudio.com/Download)
+(Windows or macOS) and open it once. Then install these **extensions** (left sidebar →
+Extensions icon → search → Install):
+- **Python** (publisher: Microsoft)
+- **Jupyter** (publisher: Microsoft)
+
+**1b. Anaconda (Python + Jupyter).** Download and install
+[Anaconda](https://www.anaconda.com/download) (Windows: run the installer with defaults;
+macOS: run the `.pkg`). This gives you Python and Jupyter ready to go.
+
+### Step 2 — run a notebook
+
+1. **Get the notebooks.** Go to <https://github.com/RiskLabAI/Notebooks.py> → green
+   **Code** button → **Download ZIP** → unzip somewhere easy. (Or, with git:
+   `git clone https://github.com/RiskLabAI/Notebooks.py`.)
+2. **Open the folder in VS Code:** File → Open Folder → choose the `Notebooks.py` folder.
+3. **Install the packages.** Open a terminal in VS Code (Terminal → New Terminal) and run:
+   ```bash
+   pip install -r requirements.txt
+   ```
+   This installs **RiskLabAI** (from PyPI) plus Jupyter, pandas, matplotlib, and the data
+   tools. (First time takes a few minutes.)
+4. **Open a notebook** (e.g. `optimization/portfolio_construction.ipynb`), click
+   **Select Kernel** (top-right) → **Python Environments** → choose the Anaconda/`base`
+   Python, then click **Run All**.
+
+### The FRED API key (two notebooks)
+
+The **fractional differentiation** and **triple-barrier labeling** tutorials pull real
+data from FRED (the Federal Reserve's free database). To run them:
+
+1. Get a free API key (instant): <https://fredaccount.stlouisfed.org/apikey>
+2. Set it as an environment variable, then **open a new terminal** so it takes effect:
+   - **Windows:** `setx FRED_API_KEY "your_key_here"`
+   - **macOS:** add `export FRED_API_KEY="your_key_here"` to `~/.zshrc`, then `source ~/.zshrc`
+3. Verify in a new terminal: `echo %FRED_API_KEY%` (Windows) or `echo $FRED_API_KEY` (macOS).
+
+All other tutorials run fully offline and need no key.
+
+### Optional — the PDE notebook only
+
+The Deep-BSDE notebook (`pde/deep_bsde.ipynb`) needs PyTorch (a large download). Only if
+you want to run it:
+```bash
+pip install -r requirements-pde.txt
+```
+
 ## Flagship tutorials
 
 | # | Notebook | Topic |
