@@ -76,6 +76,28 @@ pip install -r requirements-pde.txt
 | 6 | [`features/feature_importance/feature_importance.ipynb`](features/feature_importance/feature_importance.ipynb) | **Feature importance** — MDI, MDA, SFI, orthogonal (PCA) features, and weighted Kendall-τ |
 | 7 | [`pde/deep_bsde.ipynb`](pde/deep_bsde.ipynb) | **Deep-BSDE** PDE solver (Han, Jentzen & E 2018) — four financial PDEs, checked vs Monte-Carlo / closed-form references |
 
+## Stage-1 method tutorials (advanced)
+
+These follow the **baseline → where it breaks → admitted method → when to use / when
+NOT** structure and demonstrate the methods admitted to the RiskLabAI library since the
+flagship set. Each takeaway is the method's "preferred-when" regime tag. They load the
+RiskLabAI source automatically while these methods await a PyPI release (see the note in
+`requirements.txt`).
+
+| Notebook | Method vs baseline |
+|----------|--------------------|
+| [`features/structural breaks/structural_breaks_gsadf.ipynb`](features/structural%20breaks/structural_breaks_gsadf.ipynb) | **GSADF / BSADF** vs single-window SADF — recover multiple explosive bubbles |
+| [`features/entropy feature/entropy_estimation.ipynb`](features/entropy%20feature/entropy_estimation.ipynb) | **Bias-corrected entropy** (Miller-Madow / Grassberger / NSB) vs plug-in under undersampling |
+| [`data/distance/codependence.ipynb`](data/distance/codependence.ipynb) | **KSG mutual information + distance correlation** vs binned MI on nonlinear samples |
+| [`backtest/backtest_statistics.ipynb`](backtest/backtest_statistics.ipynb) | **CED** vs max-drawdown; **Ledoit-Wolf bootstrap** Sharpe-difference test vs naive |
+| [`backtest/multiple_testing_and_sharpe_inference.ipynb`](backtest/multiple_testing_and_sharpe_inference.ipynb) | **Holm + BHY** Sharpe haircuts; **LPLZ HAC** Sharpe inference vs PSR |
+| [`backtest/bet_sizing_ou.ipynb`](backtest/bet_sizing_ou.ipynb) | **Closed-form OU trading rules** vs the Monte-Carlo PT/SL grid |
+| [`features/microstructural_features/edge_spread_estimation.ipynb`](features/microstructural_features/edge_spread_estimation.ipynb) | **EDGE** spread estimator vs Roll / Corwin-Schultz (needs the EDGE method merged to the library) |
+
+Flagship tutorials **3** (fractional differentiation), **5** (cross-validation), and
+**6** (feature importance) are also extended with the matching Stage-1 methods (AFD;
+Bagged/Adaptive CPCV + leakage-aware HPO; MDI+ and CPI).
+
 ## Setup
 
 `RiskLabAI` installs straight from PyPI — no clone of the library needed.

@@ -4,6 +4,10 @@
 #   pip install -r requirements.txt
 #
 # RiskLabAI is installed from PyPI (the published package) — no local clone needed.
+# NOTE: the advanced "Stage-1 method" notebooks demonstrate methods that are merged in
+# the RiskLabAI.py source tree but not yet in the 2.0.1 PyPI release; those notebooks
+# load the local source automatically (a documented bootstrap cell). Once a release
+# ships them, the pinned PyPI package alone is enough.
 # FRED-backed notebooks read the FRED_API_KEY environment variable (fredapi).
 # The Deep-BSDE PDE notebook additionally needs PyTorch: pip install -r requirements-pde.txt
 
@@ -17,5 +21,6 @@ matplotlib==3.7.5
 seaborn==0.13.2
 statsmodels==0.14.5
 fredapi==0.5.2
+optuna           # leakage-aware HPO (backtest/cross_validation_and_pbo.ipynb)
 jupyter
 nbconvert
